@@ -6,10 +6,10 @@ export function middleware(request: NextRequest) {
   let redirectURL = request.nextUrl
   switch (pathname) {
     case '/': {
+      const acceptLanguage = request.headers.get('accept-language') || ''
+      const preferredLanguage = getPreferredLanguageByAcceptLanguage(acceptLanguage).toLowerCase()
       const DEFAULT_LANGUAGE = 'zh-tw'
-      const acceptLanguage = request.headers.get('accept-language')
-      const preferredLanguage = acceptLanguage ? getPreferredLanguageByAcceptLanguage(acceptLanguage).toLowerCase() : DEFAULT_LANGUAGE
-      redirectURL.pathname += preferredLanguage
+      redirectURL.pathname += preferredLanguage || DEFAULT_LANGUAGE
       break
     }
   }
