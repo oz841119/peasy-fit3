@@ -1,20 +1,7 @@
-import { NextRequest, NextResponse } from "next/server"
-import { getPreferredLanguageByAcceptLanguage } from "./lib/utils";
+import { routing } from './i18n/routing';
+import createMiddleware from "next-intl/middleware";
 
-export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
-  const redirectURL = request.nextUrl
-  const projectLocales = ['zh-TW', 'en-US']
-  const hasLocaleOnPathname = projectLocales.some(locale => pathname.startsWith('/' + locale))
-  if(hasLocaleOnPathname) return
-  if(!hasLocaleOnPathname) {
-    const acceptLanguage = request.headers.get('accept-language') || ''
-    const preferredLanguage = getPreferredLanguageByAcceptLanguage(acceptLanguage)
-    const defaultLanguage = projectLocales[0]
-    redirectURL.pathname = (preferredLanguage || defaultLanguage) + `/${pathname}`
-  }
-  return NextResponse.redirect(request.nextUrl)
-}
+export default createMiddleware(routing);
  
 export const config = {
   matcher: ['/((?!_next).*)'],

@@ -10,7 +10,7 @@ export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function getPreferredLanguageByAcceptLanguage(acceptLanguage: string) {
+export function getPreferredLocaleByAcceptLanguage(acceptLanguage: string) {
   const languages = acceptLanguage.split(',')
   const preferredLanguage = languages[0]
   return preferredLanguage
