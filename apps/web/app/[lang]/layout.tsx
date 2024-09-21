@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html lang="zh-tw">
       <body className="dark">
-        <NextIntlClientProvider { ...messages }>
+        <NextIntlClientProvider messages={messages}>
           { children }
         </NextIntlClientProvider>
       </body>

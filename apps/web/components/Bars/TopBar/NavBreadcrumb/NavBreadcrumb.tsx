@@ -28,7 +28,8 @@ function IntermediateBreadcrumbItem({ children, href }: { children: ReactNode, h
 }
 export function NavBreadcrumb() {
   const pathname = usePathname()
-  const breadcrumbList = pathname.split('/').slice(1)
+  const START_PATH_INDEX = 2 // Index 1 is locale
+  const breadcrumbList = pathname.split('/').slice(START_PATH_INDEX)
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -39,9 +40,9 @@ export function NavBreadcrumb() {
             const isCurrPage = index === breadcrumbList.length - 1
             if(!isCurrPage) {
               const path = getPath(breadcrumbList.slice(0, index + 1))
-              return <IntermediateBreadcrumbItem href={path}>{ text } </IntermediateBreadcrumbItem>
+              return <IntermediateBreadcrumbItem href={path} key={text}>{ text } </IntermediateBreadcrumbItem>
             } else {
-              return <BreadcrumbPage>{ text }</BreadcrumbPage>
+              return <BreadcrumbPage key={text}>{ text }</BreadcrumbPage>
             }
           }))
         }

@@ -1,9 +1,10 @@
 import { NavBreadcrumb } from "./NavBreadcrumb/NavBreadcrumb";
-
+import { User } from "./User/User";
 export function TopBar() {
   return (
-    <div className="p-2">
+    <div className="py-2 px-6 flex items-center">
       <NavBreadcrumb></NavBreadcrumb>
+      <User></User>
     </div>
   )
 }
