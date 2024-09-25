@@ -1,23 +1,26 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { cookies } from "next/headers";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 export const metadata: Metadata = {
-  title: "Peast Fit",
-  description: "Peast fit",
+  title: "Peasy Fit",
+  description: "Peasy fit",
 };
 
-export default function RootLayout({
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies()
-  const theme = cookieStore.get('theme')
+  const messages = await getMessages();
   return (
     <html lang="zh-tw">
       <body className="dark">
-        { children }
+        <NextIntlClientProvider messages={messages}>
+          { children }
+        </NextIntlClientProvider>
       </body>
     </html>
   );
