@@ -1,35 +1,38 @@
 'use client'
-import { Table, TableHead, TableHeader, TableRow } from "../shadcnUI/table"
+import { useTranslations } from "next-intl"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../shadcnUI/table"
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import { useMemo } from "react"
 interface Exercise {
   name: string
   reps: number
   weight: number
 }
 
-interface Reocrd {
+interface Record {
   date: string | number | Date
-  trainingFocus: string
+  type: string
   comment?: string
-  exercises: Exercise[]
+  exercise: Exercise[]
 }
 
-const mock: () => Reocrd[] = () => ([
-  { date: '2024-09-22', trainingFocus: '腿', comment: '棒', exercises: [] }
+const mock: () => Record[] = () => ([
+  { date: '2024-09-22', type: '腿', comment: '棒', exercise: [] }
 ])
 
-const columns: ColumnDef<Reocrd>[] = [
-  { accessorKey: 'date', header: 'date' },
-  { accessorKey: 'trainingFocus', header: 'trainingFocus' },
-  { accessorKey: 'comment', header: 'comment' },
-  { accessorKey: 'exercises', header: 'exercises' },
-]
 export const RecordTable = () => {
+  const t = useTranslations()
+  const columns: ColumnDef<Record>[] = useMemo(() => [
+    { accessorKey: 'date', header: t('table.date') },
+    { accessorKey: 'type', header: t('table.type') },
+    { accessorKey: 'comment', header: t('table.comment') },
+    { accessorKey: 'exercise', header: t('table.exercise') },
+  ], [])
   const table = useReactTable({
     columns,
     data: mock(),
@@ -39,12 +42,53 @@ export const RecordTable = () => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>123</TableHead>
-          <TableHead>123</TableHead>
-          <TableHead>123</TableHead>
-          <TableHead>123</TableHead>
+          {
+            table.getHeaderGroups().map(headerGroup => {
+              return headerGroup.headers.map(header => {
+                return (
+                  <TableHead key={header.id}>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                )
+              })
+            })
+          }
         </TableRow>
       </TableHeader>
+      <TableBody>
+        {
+          table.getRowModel().rows?.length
+            ?
+            (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            )
+            :
+            (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  { t('table.noResults')}
+                </TableCell>
+              </TableRow>
+            )}
+      </TableBody>
+
     </Table>
   )
 }

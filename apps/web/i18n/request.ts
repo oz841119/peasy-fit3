@@ -7,7 +7,8 @@ export default getRequestConfig(async ({ locale }) => {
   return {
     messages: {
       common: { ...(await import(`../../../dictionaries/${locale}/common.json`)).default },
-      msg: { ...(await import(`../../../dictionaries/${locale}/msg.json`)).default }
+      msg: { ...(await import(`../../../dictionaries/${locale}/msg.json`)).default },
+      table: { ...(await import(`../../../dictionaries/${locale}/table.json`)).default },
     },
   };
 });
