@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { ReactQueryProvider } from "@/provider/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Peasy Fit",
@@ -19,7 +20,9 @@ export default async function RootLayout({
     <html lang="zh-tw">
       <body className="dark">
         <NextIntlClientProvider messages={messages}>
-          { children }
+          <ReactQueryProvider>
+            { children }
+          </ReactQueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
