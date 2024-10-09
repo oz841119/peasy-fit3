@@ -1,10 +1,9 @@
-import { RecordTable } from "@/components/RecordTable/RecordTable";
-
+import { TrainingRecordTableCard } from "@/components/Cards/TrainingRecordTableCard/TrainingRecordTableCard";
 export default function TrainingRecordPage() {
   return (
     <div>
-      <div className="px-6">
-        <RecordTable></RecordTable>
+      <div className="flex">
+        <TrainingRecordTableCard></TrainingRecordTableCard>
       </div>
     </div>
   )
