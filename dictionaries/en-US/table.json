@@ -1,7 +1,8 @@
 {
   "noResults": "No results",
   "date": "Date",
-  "type": "Type",
+  "reps": "Reps",
   "comment": "Comment",
-  "exercise": "Exercise"
+  "exercise": "Exercise",
+  "weight": "Weight"
 }

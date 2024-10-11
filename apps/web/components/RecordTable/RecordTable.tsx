@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "../shadcnUI/skeleton"
 import { Checkbox } from "../shadcnUI/checkbox"
 import { Trash2 } from "lucide-react"
+import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
 
 interface Record {
   id: string
@@ -34,7 +35,8 @@ export const RecordTable = () => {
     { accessorKey: 'comment', header: t('table.comment'), size: 200 },
     { accessorKey: 'action', header: 'Actions', size: 60, cell: () => (
       <div className="flex justify-end">
-        <Trash2 className="text-destructive cursor-pointer hover:opacity-70"/>
+        <DeleteDialog></DeleteDialog>
+        {/* TODO: If multiple dialogs cause rendering performance issues, consider using context with a single dialog to replace rendering multiple dialogs.*/}
       </div>
     )},
   ], [])

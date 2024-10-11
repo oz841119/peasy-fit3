@@ -1,5 +1,5 @@
 import { RecordTable } from "@/components/RecordTable/RecordTable"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcnUI/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/shadcnUI/card"
 import { ScrollArea } from "@/components/shadcnUI/scroll-area"
 import { PropsWithClassName } from "@/types"
 export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
@@ -14,6 +14,7 @@ export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
           <RecordTable/>
         </ScrollArea>
       </CardContent>
+      {/* <CardFooter>123</CardFooter> */}
     </Card>
   )
 }

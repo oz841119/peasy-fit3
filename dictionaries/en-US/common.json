@@ -1,5 +1,8 @@
 {
     "dashboard": "Dashboard",
     "myAccount": "My Account",
-    "selectLanguage": "Select Language"
+    "selectLanguage": "Select Language",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "continue": "Continue"
 }
