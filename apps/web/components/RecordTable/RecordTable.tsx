@@ -8,11 +8,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { Fragment, useMemo } from "react"
-import { postTrainingRecord } from "@/services/trainingRecord"
+import { getTrainingRecordList } from "@/services/trainingRecord"
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "../shadcnUI/skeleton"
 import { Checkbox } from "../shadcnUI/checkbox"
-import { Trash2 } from "lucide-react"
 import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
 
 interface Record {
@@ -40,10 +39,11 @@ export const RecordTable = () => {
       </div>
     )},
   ], [])
-  const { data, isLoading } = useQuery({
-    queryKey: ['postTrainingRecord'],
-    queryFn: () => postTrainingRecord({ exercise: 'push' })
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getTrainingRecordList'],
+    queryFn: () => getTrainingRecordList({ exercise: 'push' })
   })
+  
   const table = useReactTable({
     columns,
     data: data || [],
