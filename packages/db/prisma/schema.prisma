@@ -13,10 +13,11 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  salt     String
+  id           Int        @id @default(autoincrement())
+  email        String     @unique
+  password     String
+  salt         String
+  exerciseList Exercise[] @relation("UserItems")
 }
 
 model Training {
@@ -26,4 +27,10 @@ model Training {
   weight   Float
   comment  String   @default("")
   exercise String
+}
+
+model Exercise {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[] @relation("UserItems")
 }
