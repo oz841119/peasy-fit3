@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "w-dev": "pnpm --filter web dev"
+    "w-dev": "pnpm --filter web dev",
+    "migrate": "pnpm --filter db migrate"
   },
   "keywords": [],
   "author": "",
