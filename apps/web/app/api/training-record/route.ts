@@ -3,7 +3,13 @@ import { NextRequest } from "next/server"
 
 export const GET = async (request: NextRequest) => {
   const exercise = request.nextUrl.searchParams.get('exercise')
-  return Response.json([])
+  const trainingList = await prisma.training.findMany({
+    where: {
+      exercise: exercise || ''
+    }
+  })
+  console.log(trainingList);
+  return Response.json(trainingList)
 }
 
 export const POST = async (request: NextRequest) => {

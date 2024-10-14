@@ -24,6 +24,6 @@ model Training {
   date     DateTime
   reps     Int
   weight   Float
-  comment  String @default("")
+  comment  String   @default("")
   exercise String
 }

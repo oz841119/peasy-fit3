@@ -1,5 +1,5 @@
 import { IconLink } from "@/components/Widgets/IconLink/IconLink"
-import { Dice6, House, SquarePlus, Baby } from "lucide-react"
+import { Dice6, House, SquarePlus, Baby, BicepsFlexed } from "lucide-react"
 
 export const SideBar = () => {
   return (
@@ -16,6 +16,10 @@ export const SideBar = () => {
         <IconLink
           href="/dashboard/add-record"
           icon={<SquarePlus width="20"/>}
+        />
+        <IconLink
+          href="/dashboard/exercise"
+          icon={<BicepsFlexed width="20"/>}
         />
         <IconLink
           href="/dashboard/dev-cards"
