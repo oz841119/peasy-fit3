@@ -4,12 +4,26 @@ import { NextRequest } from "next/server";
 export const POST = async (request: NextRequest) => {
   const body = await request.json()
   const targetExercise = body['exercise'] || ''
-  if(typeof targetExercise === 'string' && targetExercise) {
-    const isExistExercise = await prisma.exercise.findUnique({
-      where: {
-        name: targetExercise // todo
+  let exercise = await prisma.exercise.findUnique({
+    where: {
+      name: targetExercise
+    }
+  })
+  if(!exercise) {
+    exercise = await prisma.exercise.create({
+      data: {
+        name: targetExercise
       }
     })
   }
-  return Response.json([])
+  const d = await prisma.user.update({
+    where: { id: 9 },
+    data: {
+      exerciseList: {
+        connect: exercise
+      }
+    }
+  })
+  console.log(d);
+  return Response.json(exercise)
 }

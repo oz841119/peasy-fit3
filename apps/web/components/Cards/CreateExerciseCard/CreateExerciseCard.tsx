@@ -3,11 +3,14 @@ import { Button } from "@/components/shadcnUI/button"
 import { BaseCard } from "../BaseCard"
 import { Input } from "@/components/shadcnUI/input"
 import { FormEventHandler, useState } from "react"
+import { addExercise } from "@/services/exercise"
 export const CreateExerciseCard = () => {
   const [exercise, setExercise] = useState('')
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
     console.log(exercise);
+    const addExerciseResult = await addExercise({ exercise })
+    console.log(addExerciseResult);
   }
   return (
     <BaseCard

@@ -17,7 +17,13 @@ model User {
   email        String     @unique
   password     String
   salt         String
-  exerciseList Exercise[] @relation("UserItems")
+  exerciseList Exercise[] @relation("UserExerciseList")
+}
+
+model Exercise {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[] @relation("UserExerciseList")
 }
 
 model Training {
@@ -29,8 +35,3 @@ model Training {
   exercise String
 }
 
-model Exercise {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[] @relation("UserItems")
-}
