@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "w-dev": "pnpm --filter web dev",
-    "migrate": "pnpm --filter db migrate"
+    "migrate": "pnpm --filter db migrate && pnpm --filter db seed"
   },
   "keywords": [],
   "author": "",

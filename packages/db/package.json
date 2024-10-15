@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "pnpm dlx prisma migrate dev --name init"
+    "migrate": "pnpm dlx prisma migrate dev --name init",
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

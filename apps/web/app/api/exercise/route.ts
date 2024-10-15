@@ -24,6 +24,5 @@ export const POST = async (request: NextRequest) => {
       }
     }
   })
-  console.log(d);
   return Response.json(exercise)
 }
