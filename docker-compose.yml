@@ -1,0 +1,28 @@
+version: "3.1"
+services:
+  db:
+    image: postgres:latest # TODO: Lock image version
+    container_name: peasy_fit_postgres
+    environment:
+      POSTGRES_DB: peasy_fit
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgresql_volume:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: peasy-fit-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: test
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    volumes:
+      - ./configs/pgAdmin_server.json:/pgadmin4/servers.json

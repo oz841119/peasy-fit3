@@ -1,5 +1,9 @@
 {
     "dashboard": "儀錶板",
     "myAccount": "我的帳戶",
-    "selectLanguage": "選擇語言"
+    "selectLanguage": "選擇語言",
+    "cancel": "取消",
+    "delete": "刪除",
+    "continue": "繼續",
+    "signOut": "登出"
 }

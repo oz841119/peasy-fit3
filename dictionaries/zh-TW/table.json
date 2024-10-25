@@ -1,7 +1,8 @@
 {
   "noResults": "沒有結果",
   "date": "日期",
-  "type": "類型",
+  "reps": "次數",
   "comment": "評論",
-  "exercise": "動作"
+  "exercise": "訓練",
+  "weight": "重量"
 }

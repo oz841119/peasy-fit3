@@ -5,55 +5,59 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  getExpandedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { Fragment, useMemo, useState } from "react"
-import useSWR from "swr"
-import { getTrainingRecord } from "@/services/trainingRecord"
-interface Exercise {
-  name: string
-  reps: number
-  weight: number
-  id: string
-}
+import { Fragment, useMemo } from "react"
+import { getTrainingRecordList } from "@/services/trainingRecord"
+import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "../shadcnUI/skeleton"
+import { Checkbox } from "../shadcnUI/checkbox"
+import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
 
 interface Record {
   id: string
   date: string | number | Date
-  type: string
+  reps: number
+  weight: number
+  exercise: string
   comment?: string
-  exercise: Exercise[]
 }
 
 export const RecordTable = () => {
   const t = useTranslations()
   const columns: ColumnDef<Record>[] = useMemo(() => [
-    { accessorKey: 'date', header: t('table.date') },
-    { accessorKey: 'type', header: t('table.type') },
-    { accessorKey: 'comment', header: t('table.comment') },
-    {
-      header: 'Exercise',
-      cell: ({ row }) => <button onClick={row.getToggleExpandedHandler()}>{row.getIsExpanded() ? '👇' : '👉'} </button>
-    },
+    { accessorKey: 'select', header: '', size: 20, cell: () => <Checkbox/>},
+    { accessorKey: 'date', header: t('table.date'), size: 100 },
+    { accessorKey: 'exercise', header: t('table.exercise'), size: 100 },
+    { accessorKey: 'weight', header: t('table.weight'), size: 100 },
+    { accessorKey: 'reps', header: t('table.reps'), size: 100 },
+    { accessorKey: 'comment', header: t('table.comment'), size: 200 },
+    { accessorKey: 'action', header: 'Actions', size: 60, cell: () => (
+      <div className="flex justify-end">
+        <DeleteDialog></DeleteDialog>
+        {/* TODO: If multiple dialogs cause rendering performance issues, consider using context with a single dialog to replace rendering multiple dialogs.*/}
+      </div>
+    )},
   ], [])
-  const { data, error, isLoading } = useSWR('/api/training-record', getTrainingRecord)
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getTrainingRecordList'],
+    queryFn: () => getTrainingRecordList({ exercise: 'push' })
+  })
+  
   const table = useReactTable({
     columns,
-    data,
+    data: data || [],
     getCoreRowModel: getCoreRowModel(),
-    getExpandedRowModel: getExpandedRowModel(),
-    getRowCanExpand: () => true
   })
   return (
-    <Table>
-      <TableHeader>
+    <Table className="break-words table-fixed">
+      <TableHeader className="top-0 sticky">
         <TableRow>
           {
             table.getHeaderGroups().map(headerGroup => {
-              return headerGroup.headers.map(header => {
+              return headerGroup.headers.map((header, index) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} style={{ width: header.column.columnDef.size, textAlign: index > 1 ? 'end' : 'start' }}>
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 )
@@ -62,46 +66,56 @@ export const RecordTable = () => {
           }
         </TableRow>
       </TableHeader>
-      {
-        !isLoading && data &&
-        <TableBody>
-          {
-            table.getRowModel().rows?.length
-              ?
+      <TableBody>
+        {
+          table.getRowModel().rows?.length 
+            ?
               (
                 table.getRowModel().rows.map((row) => (
                   <Fragment key={row.id}>
                     <TableRow data-state={row.getIsSelected() && "selected"}>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
+                      {row.getVisibleCells().map((cell, index) => (
+                        <TableCell key={cell.id} style={{ textAlign: index > 1 ? 'end' : 'start' }}>
+                          <div>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </div>
                         </TableCell>
                       ))}
                     </TableRow>
-                    {
-                      row.getIsExpanded() && (
-                        <TableRow>Test</TableRow>
-                      )
-                    }
                   </Fragment>
                 ))
               )
-              :
+            :
               (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    {t('table.noResults')}
-                  </TableCell>
-                </TableRow>
-              )}
-        </TableBody>
-      }
+                isLoading 
+                  ?
+                  Array.from({ length: 4 }).map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell
+                        colSpan={columns.length}
+                        className="h-20 text-center text-muted-foreground"
+                      >
+                        <Skeleton className="rounded-lg h-3/4"/> 
+                      </TableCell>
+                  </TableRow>
+                  ))
+                  :
+                  (
+                    <TableRow>
+                      <TableCell
+                        colSpan={columns.length}
+                        className="h-24 text-center text-muted-foreground"
+                      >
+                        <span>{ t('table.noResults') }</span>
+                      </TableCell>
+                    </TableRow>
+                  )
+              )
+        }
+      </TableBody>
 
     </Table>
   )
