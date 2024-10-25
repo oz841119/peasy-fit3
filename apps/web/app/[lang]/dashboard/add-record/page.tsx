@@ -18,13 +18,14 @@ export default function AddRecordPage() {
   });
   const onSubmit = handleSubmit((form) => {
     if(form.exerciseId) {
-      addTrainingRecord([{
+      const record = Array(Number(form.sets)).fill({
         date: form.date,
         exerciseId: Number(form.exerciseId),
         weight: Number(form.weight),
         reps: Number(form.reps),
-        comment: form.comment
-      }])
+        comment: form.comment,
+      })
+      addTrainingRecord(record)
     }
   })
   return (
