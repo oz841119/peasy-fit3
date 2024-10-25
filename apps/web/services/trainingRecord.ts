@@ -17,7 +17,10 @@ export const getTrainingRecordList = async (params: {
   }).then((res) => res.json());
 };
 
-export const addTrainingRecord = async (params: Array<Omit<TrainingRecord, 'id'>>) => {
+interface Params {
+  date: Date; exerciseId: number; weight: number; reps: number; comment: string
+}
+export const addTrainingRecord = async (params: Params[]) => {
   return fetch("/api/training-record", {
     method: "POST",
     body: JSON.stringify(params),
