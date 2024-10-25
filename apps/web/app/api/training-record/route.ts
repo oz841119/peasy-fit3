@@ -1,12 +1,13 @@
 import { prisma } from "@/packages/Prisma"
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { handleAuth } from "../auth/[...nextauth]/auth"
 
 export const GET = async (request: NextRequest) => {
-  const exercise = request.nextUrl.searchParams.get('exercise')
+  const exerciseId = request.nextUrl.searchParams.get('exerciseId')
+  if(exerciseId === null) return new NextResponse(null, { status: 400 })
   const trainingList = await prisma.training.findMany({
     where: {
-      exercise: exercise || ''
+      exerciseId: Number(exerciseId)
     }
   })
   return Response.json(trainingList)
