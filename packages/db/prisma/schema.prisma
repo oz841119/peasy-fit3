@@ -13,7 +13,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
+  id           String     @id @default(uuid()) @db.Uuid
   email        String     @unique
   password     String
   salt         String
@@ -28,10 +28,10 @@ model Exercise {
 
 model Training {
   id       Int      @id @default(autoincrement())
+  userId   String
   date     DateTime
   reps     Int
   weight   Float
   comment  String   @default("")
-  exercise String
+  exerciseId Int
 }
-

@@ -3,6 +3,7 @@ import "./globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ReactQueryProvider } from "@/provider/ReactQueryProvider";
+import { SessionProvider } from "@/provider/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Peasy Fit",
@@ -19,11 +20,13 @@ export default async function RootLayout({
   return (
     <html lang="zh-tw">
       <body className="dark">
-        <NextIntlClientProvider messages={messages}>
-          <ReactQueryProvider>
-            { children }
-          </ReactQueryProvider>
-        </NextIntlClientProvider>
+        <SessionProvider>
+          <NextIntlClientProvider messages={messages}>
+            <ReactQueryProvider>
+              { children }
+            </ReactQueryProvider>
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

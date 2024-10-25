@@ -1,4 +1,5 @@
 'use client'
+import { signOut } from "next-auth/react"
 import { Avatar, AvatarFallback } from "@/components/shadcnUI/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/shadcnUI/dropdown-menu";
 import { PersonIcon } from "@radix-ui/react-icons";
@@ -42,6 +43,9 @@ export function User() {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
+        <DropdownMenuItem className=" justify-end font-bold" onClick={() => signOut()}>
+          {t('common.signOut')}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

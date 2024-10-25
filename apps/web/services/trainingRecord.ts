@@ -1,5 +1,5 @@
 interface TrainingRecord {
-  date: Date; exercise: string; weight: number; reps: number; id: string; comment: string
+  date: Date; exerciseId: number; weight: number; reps: number; id: string; comment: string
 }
 
 export const getTrainingRecordList = async (params: {

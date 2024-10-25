@@ -1,8 +1,10 @@
-'use client'
-import { SessionProvider } from "next-auth/react";
+import { Metadata } from "next";
 import { PropsWithChildren } from "react";
+
+export const metadata: Metadata = {
+  title: '...',
+  description: '...',
+}
 export default ({ children }: PropsWithChildren) => {
-  return (
-    <SessionProvider>{ children }</SessionProvider>
-  )
+  return children
 }

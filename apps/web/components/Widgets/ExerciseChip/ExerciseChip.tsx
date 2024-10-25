@@ -1,10 +1,18 @@
 import { cn } from "@/lib/utils";
+import { MouseEventHandler, ReactNode } from "react";
 interface Props {
   text: string
   className?: string;
+  onClick: MouseEventHandler<HTMLDivElement>
+  Icon?: ReactNode
 }
-export const ExerciseChip = ({ className, text }: Props) => {
+export const ExerciseChip = ({ className, text, onClick, Icon }: Props) => {
   return (
-    <div className={cn('px-3 py-2 text-sm inline-block border rounded-xl cursor-pointer select-none', className)}>{ text }</div>
+    <div
+      onClick={onClick}
+      className={cn('px-3 py-2 text-sm border rounded-xl cursor-pointer select-none flex gap-2 items-center w-fit', className)}
+    >
+      {text}{Icon}
+    </div>
   )
 }
