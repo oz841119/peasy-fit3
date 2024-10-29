@@ -5,7 +5,9 @@ import { BaseCard } from "@/components/Cards/BaseCard";
 import { Input } from "@/components/shadcnUI/input";
 import { Button } from "@/components/shadcnUI/button";
 import { addTrainingRecord } from "@/services/trainingRecord";
+import { useToast } from "@/hooks/use-toast"
 export default function AddRecordPage() {
+  const { toast } = useToast()
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
       "date": new Date(),
@@ -26,6 +28,13 @@ export default function AddRecordPage() {
         comment: form.comment,
       })
       addTrainingRecord(record)
+    } else {
+      console.log(123);
+      toast({
+        title: "Error",
+        description: 'Please select a exercise.',
+        variant: "destructive"
+      })
     }
   })
   return (
