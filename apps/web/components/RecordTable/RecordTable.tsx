@@ -7,28 +7,34 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { Fragment, useMemo } from "react"
+import { Fragment, useEffect, useMemo } from "react"
 import { getTrainingRecordList } from "@/services/trainingRecord"
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "../shadcnUI/skeleton"
 import { Checkbox } from "../shadcnUI/checkbox"
 import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
+import { useToast } from "@/hooks/use-toast"
 
 interface Record {
   id: string
   date: string | number | Date
   reps: number
   weight: number
-  exercise: string
+  exerciseName: string
   comment?: string
 }
 
-export const RecordTable = () => {
+interface Props {
+  exerciseId: number
+}
+
+export const RecordTable = ({ exerciseId }: Props) => {
   const t = useTranslations()
+  const { toast } = useToast()
   const columns: ColumnDef<Record>[] = useMemo(() => [
     { accessorKey: 'select', header: '', size: 20, cell: () => <Checkbox/>},
     { accessorKey: 'date', header: t('table.date'), size: 100 },
-    { accessorKey: 'exercise', header: t('table.exercise'), size: 100 },
+    { accessorKey: 'exerciseName', header: t('table.exercise'), size: 100 },
     { accessorKey: 'weight', header: t('table.weight'), size: 100 },
     { accessorKey: 'reps', header: t('table.reps'), size: 100 },
     { accessorKey: 'comment', header: t('table.comment'), size: 200 },
@@ -39,11 +45,17 @@ export const RecordTable = () => {
       </div>
     )},
   ], [])
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, isError } = useQuery({
     queryKey: ['getTrainingRecordList'],
-    queryFn: () => getTrainingRecordList({ exercise: 'push' })
+    queryFn: () => getTrainingRecordList({ exerciseId: 1 }),
   })
-  
+  useEffect(() => {
+    error && toast({
+      title: "Error",
+      description: error?.message,
+      variant: "destructive"
+    })
+  }, [isError])
   const table = useReactTable({
     columns,
     data: data || [],

@@ -1,20 +1,23 @@
 interface TrainingRecord {
-  date: Date; exerciseId: number; weight: number; reps: number; id: string; comment: string
+  date: Date; exerciseId: number; weight: number; reps: number; id: string; comment: string; exerciseName: string
 }
 
 export const getTrainingRecordList = async (params: {
-  exercise: string;
+  exerciseId: number;
 }): Promise<
   Array<TrainingRecord>
 > => {
   const searchParams = new URLSearchParams()
   const keyValuePairs = Object.entries(params)
   keyValuePairs.forEach(pair => {
-    searchParams.append(...pair)
+    searchParams.append(pair[0], pair[1].toString())
   })
   return fetch('/api/training-record?' + searchParams, {
     method: "GET",
-  }).then((res) => res.json());
+  }).then(async (res) => {
+    if(res.ok) return res.json()
+    throw new Error(await res.json())
+  });
 };
 
 interface Params {

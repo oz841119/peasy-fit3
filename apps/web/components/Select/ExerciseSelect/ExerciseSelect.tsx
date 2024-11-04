@@ -1,7 +1,15 @@
+'use client'
+
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/shadcnUI/select"
+import { getExerciseList } from "@/services/exercise"
+import { useQuery } from "@tanstack/react-query"
 export const ExerciseSelect = () => {
+  const { data } = useQuery({
+    queryKey: ['getExerciseList'],
+    queryFn: () => getExerciseList()
+  })
   return (
-    <Select>
+    <Select value="">
       <SelectTrigger className="w-48">
         <SelectValue placeholder="Select exercise" />
       </SelectTrigger>
