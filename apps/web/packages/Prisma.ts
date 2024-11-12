@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../../packages/db/src/client/index'
+import { PrismaClient } from '@peasy-fit/db'
 const createPrisma = () => {
   return new PrismaClient()
 }

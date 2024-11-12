@@ -1,0 +1,9 @@
+{
+    "errors": {
+        "systemError": "System error"
+    },
+    "dialog": {
+        "confirmIfdelete": "Please confirm if you want to delete?",
+        "deletionCannotBeUndone": "Deletion cannot be undone."
+    }
+}

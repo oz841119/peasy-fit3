@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@peasy-fit/db": "workspace:*",
+    "@peasy-fit/locales": "workspace:*",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.2",
