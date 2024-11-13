@@ -3,14 +3,16 @@ interface TrainingRecord {
 }
 
 export const getTrainingRecordList = async (params: {
-  exercise: string;
+  exerciseId?: number;
 }): Promise<
   Array<TrainingRecord>
 > => {
   const searchParams = new URLSearchParams()
   const keyValuePairs = Object.entries(params)
   keyValuePairs.forEach(pair => {
-    searchParams.append(...pair)
+    if(pair[1] !== undefined) {
+      searchParams.append(pair[0], pair[1].toString())
+    }
   })
   return fetch('/api/training-record?' + searchParams, {
     method: "GET",

@@ -26,6 +26,7 @@
     "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "framer-motion": "^11.11.4",
     "immer": "^10.1.1",
     "lucide-react": "^0.441.0",

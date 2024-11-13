@@ -1,17 +1,23 @@
+"use client";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/shadcnUI/select"
+import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 export const ExerciseSelect = () => {
+  const { filter, updateFilter, exerciseList } = useTrainingRecordContext()
   return (
-    <Select>
+    <Select
+      value={filter.exerciseId?.toString() || ''}
+      onValueChange={(value) => updateFilter(draft => {
+        draft.exerciseId = Number(value)
+      })}
+    >
       <SelectTrigger className="w-48">
         <SelectValue placeholder="Select exercise" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          {exerciseList.current?.map((exercise) => (
+            <SelectItem key={exercise.id} value={exercise.id.toString()}>{exercise.name}</SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>

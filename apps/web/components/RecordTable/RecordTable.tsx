@@ -8,12 +8,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { Fragment, useMemo } from "react"
-import { getTrainingRecordList } from "@/services/trainingRecord"
-import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "../shadcnUI/skeleton"
 import { Checkbox } from "../shadcnUI/checkbox"
 import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
-
+import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
+import dayjs from "dayjs"
 interface Record {
   id: string
   date: string | number | Date
@@ -25,28 +24,35 @@ interface Record {
 
 export const RecordTable = () => {
   const t = useTranslations()
+  const { trainingRecordList, getExerciseNameById } = useTrainingRecordContext()
   const columns: ColumnDef<Record>[] = useMemo(() => [
     { accessorKey: 'select', header: '', size: 20, cell: () => <Checkbox/>},
     { accessorKey: 'date', header: t('table.date'), size: 100 },
     { accessorKey: 'exercise', header: t('table.exercise'), size: 100 },
     { accessorKey: 'weight', header: t('table.weight'), size: 100 },
     { accessorKey: 'reps', header: t('table.reps'), size: 100 },
-    { accessorKey: 'comment', header: t('table.comment'), size: 200 },
-    { accessorKey: 'action', header: 'Actions', size: 60, cell: () => (
+    { accessorKey: 'comment', header: t('table.comment'), size: 'auto' },
+    { accessorKey: 'action', header: 'Actions', size: 70, cell: () => (
       <div className="flex justify-end">
         <DeleteDialog></DeleteDialog>
         {/* TODO: If multiple dialogs cause rendering performance issues, consider using context with a single dialog to replace rendering multiple dialogs.*/}
       </div>
     )},
   ], [])
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['getTrainingRecordList'],
-    queryFn: () => getTrainingRecordList({ exercise: 'push' })
-  })
+  const rows = useMemo(() => {
+    return trainingRecordList.current?.map((record) => ({
+      id: record.id,
+      date: dayjs(record.date).format('YYYY-MM-DD'),
+      exercise: getExerciseNameById(record.exerciseId) || '',
+      weight: record.weight,
+      reps: record.reps,
+      comment: record.comment
+    })) || []
+  }, [trainingRecordList])
   
   const table = useReactTable({
     columns,
-    data: data || [],
+    data: rows || [],
     getCoreRowModel: getCoreRowModel(),
   })
   return (
@@ -90,7 +96,7 @@ export const RecordTable = () => {
               )
             :
               (
-                isLoading 
+                trainingRecordList.isLoading 
                   ?
                   Array.from({ length: 4 }).map((_, index) => (
                     <TableRow key={index}>

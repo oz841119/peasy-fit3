@@ -8,9 +8,9 @@ export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
       title="Training Record TableCard" 
       description="Training Record TableCard"
     >
-      <ScrollArea className="h-64 pr-2">
+      {/* <ScrollArea className="h-64 pr-2 w-full"> */}
         <RecordTable/>
-      </ScrollArea>
+      {/* </ScrollArea> */}
     </BaseCard>
   )
 }
