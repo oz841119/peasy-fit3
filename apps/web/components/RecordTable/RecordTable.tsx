@@ -5,6 +5,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  RowData,
   useReactTable,
 } from "@tanstack/react-table"
 import { Fragment, useMemo } from "react"
@@ -13,6 +14,11 @@ import { Checkbox } from "../shadcnUI/checkbox"
 import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
 import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 import dayjs from "dayjs"
+declare module '@tanstack/react-table' {
+  interface ColumnMeta<TData extends RowData, TValue> {
+    size?: number;
+  }
+}
 interface Record {
   id: string
   date: string | number | Date
@@ -21,18 +27,20 @@ interface Record {
   exercise: string
   comment?: string
 }
-
+interface ColumnMeta {
+  size?: number
+}
 export const RecordTable = () => {
   const t = useTranslations()
   const { trainingRecordList, getExerciseNameById } = useTrainingRecordContext()
   const columns: ColumnDef<Record>[] = useMemo(() => [
-    { accessorKey: 'select', header: '', size: 20, cell: () => <Checkbox/>},
-    { accessorKey: 'date', header: t('table.date'), size: 100 },
-    { accessorKey: 'exercise', header: t('table.exercise'), size: 100 },
-    { accessorKey: 'weight', header: t('table.weight'), size: 100 },
-    { accessorKey: 'reps', header: t('table.reps'), size: 100 },
-    { accessorKey: 'comment', header: t('table.comment'), size: 'auto' },
-    { accessorKey: 'action', header: 'Actions', size: 70, cell: () => (
+    { accessorKey: 'select', header: '', meta: { size: 20 }, cell: () => <Checkbox/>},
+    { accessorKey: 'date', header: t('table.date'), meta: { size: 100 } },
+    { accessorKey: 'exercise', header: t('table.exercise'), meta: { size: 100 } },
+    { accessorKey: 'weight', header: t('table.weight'), meta: { size: 100 } },
+    { accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 } },
+    { accessorKey: 'comment', header: t('table.comment')},
+    { accessorKey: 'action', header: 'Actions', meta: { size: 70 }, cell: () => (
       <div className="flex justify-end">
         <DeleteDialog></DeleteDialog>
         {/* TODO: If multiple dialogs cause rendering performance issues, consider using context with a single dialog to replace rendering multiple dialogs.*/}
@@ -53,7 +61,7 @@ export const RecordTable = () => {
   const table = useReactTable({
     columns,
     data: rows || [],
-    getCoreRowModel: getCoreRowModel(),
+    getCoreRowModel: getCoreRowModel()
   })
   return (
     <Table className="break-words table-fixed">
@@ -63,7 +71,13 @@ export const RecordTable = () => {
             table.getHeaderGroups().map(headerGroup => {
               return headerGroup.headers.map((header, index) => {
                 return (
-                  <TableHead key={header.id} style={{ width: header.column.columnDef.size, textAlign: index > 1 ? 'end' : 'start' }}>
+                  <TableHead 
+                    key={header.id} 
+                    style={{ 
+                      width: header.column.columnDef?.meta?.size, 
+                      textAlign: index > 1 ? 'end' : 'start' 
+                    }}
+                  >
                     {flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 )

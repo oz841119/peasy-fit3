@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@peasy-fit/db": "workspace:*",
     "@peasy-fit/locales": "workspace:*",
     "@radix-ui/react-alert-dialog": "^1.1.2",

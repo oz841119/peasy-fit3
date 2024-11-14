@@ -19,6 +19,5 @@ export const POST = async (request: NextRequest) => {
   const addTrainingRecord = await prisma.training.createMany({
     data: body.map((item: any) => ({...item, userId: user.sub}))
   })
-  console.log(addTrainingRecord);
   return Response.json([])
 }

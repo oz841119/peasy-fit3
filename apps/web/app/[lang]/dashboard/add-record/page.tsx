@@ -5,18 +5,24 @@ import { BaseCard } from "@/components/Cards/BaseCard";
 import { Input } from "@/components/shadcnUI/input";
 import { Button } from "@/components/shadcnUI/button";
 import { addTrainingRecord } from "@/services/trainingRecord";
+import { addTrainingRecordFormSchema, AddTrainingRecordFormSchema } from "@/schemas/addTrainingRecord.form.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+
 export default function AddRecordPage() {
-  const { control, register, handleSubmit } = useForm({
+  const { control, register, handleSubmit } = useForm<AddTrainingRecordFormSchema>({
+    resolver: zodResolver(addTrainingRecordFormSchema),
     defaultValues: {
       "date": new Date(),
-      "exerciseId": null,
-      "weight": '',
-      "reps": '',
-      "sets": '',
+      "exerciseId": 0,
+      "weight": 0,
+      "reps": 0,
+      "sets": 0,
       "comment": ''
     }
   });
-  const onSubmit = handleSubmit((form) => {
+  
+  const onSubmit = handleSubmit(async (form) => {
     if(form.exerciseId) {
       const record = Array(Number(form.sets)).fill({
         date: form.date,
@@ -25,8 +31,10 @@ export default function AddRecordPage() {
         reps: Number(form.reps),
         comment: form.comment,
       })
-      addTrainingRecord(record)
+      await addTrainingRecord(record)
     }
+  }, (errors) => {
+    console.log(errors);
   })
   return (
     <div>
@@ -37,15 +45,15 @@ export default function AddRecordPage() {
           render={({ field: { value, onChange } }) => (
             <SelectableExerciseListCard
               selectId={value}
-              onSelect={(exericse) => onChange(exericse.id)}
+              onSelect={(exercise) => onChange(exercise.id)}
             />
           )}
         />
         <BaseCard title="Content" description="Your Content">
           <div className="flex flex-col gap-4">
-            <Input type="number" placeholder="Weight" {...register('weight', { required: true })}/>
-            <Input type="number" placeholder="Reps" {...register('reps', { required: true })}/>
-            <Input type="number" placeholder="Sets" {...register('sets', { required: true })}/>
+            <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })}/>
+            <Input type="number" placeholder="Reps" {...register('reps', { required: true, valueAsNumber: true })}/>
+            <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })}/>
             <Input type="text" placeholder="Comment" {...register('comment')}/>
             <Button type="submit" variant="secondary">Submit</Button>
             <Button type="reset" variant="ghost">Reset</Button>
