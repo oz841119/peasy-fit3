@@ -26,7 +26,14 @@ export default function AddRecordPage() {
         reps: Number(form.reps),
         comment: form.comment,
       })
-      await addTrainingRecord(record)
+      const a = await addTrainingRecord(record)
+      if(a.count > 0) {
+        toast({
+          title: 'Success',
+          description: 'Record added successfully',
+        })
+      }
+      
     } else {
       toast({
         title: 'Please select an exercise',

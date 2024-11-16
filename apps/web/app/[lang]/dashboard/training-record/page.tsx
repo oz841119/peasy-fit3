@@ -9,8 +9,8 @@ export default function TrainingRecordPage() {
         <div className="mb-2">
           <ExerciseSelect />
         </div>
-        <div className="grid grid-cols-2 gap-8">
-          <TrainingRecordTableCard />
+        <div className="h-96">
+          <TrainingRecordTableCard className="h-full"/>
           {/* <TrainingRecordLineChartCard /> */}
         </div>
       </TrainingRecordContextProvider>

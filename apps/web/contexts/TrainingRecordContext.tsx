@@ -48,8 +48,8 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
   const [filter, updateFilter] = useImmer<ITrainingRecordContext['filter']>(defaultValues.filter)
 
   const { data: trainingRecordList, error: trainingRecordListError, isLoading: trainingRecordListIsLoading } = useQuery({
-    queryKey: ['getTrainingRecordList'],
-    queryFn: () => getTrainingRecordList({ exerciseId: filter.exerciseId || undefined}),
+    queryKey: ['getTrainingRecordList', filter.exerciseId],
+    queryFn: () => getTrainingRecordList({ exerciseId: filter.exerciseId || undefined, skip: 0, take: 10}),
     enabled: !!filter.exerciseId
   })
   const { data: exerciseList, error: exerciseListError, isLoading: exerciseListIsLoading } = useQuery({
@@ -80,6 +80,8 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
     }
     return null
   }, [exerciseList])
+  console.log(exerciseList);
+  
   return (
     <TrainingRecordContext.Provider
       value={{

@@ -4,6 +4,8 @@ interface TrainingRecord {
 
 export const getTrainingRecordList = async (params: {
   exerciseId?: number;
+  skip?: number;
+  take?: number;
 }): Promise<
   Array<TrainingRecord>
 > => {

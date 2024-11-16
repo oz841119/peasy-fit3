@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { CircleX } from "lucide-react"
 
 // Todo: Refactoring
-const StatuStrategy = (strategy?: 'loading' | 'empty' | 'error') => {
+const StatusStrategy = (strategy?: 'loading' | 'empty' | 'error') => {
   switch (strategy) {
     case 'loading': {
       return (
@@ -54,7 +54,7 @@ export function ExerciseListCard(
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['exerciseList'] }),
     onError: (error) => console.error(error)
   })
-  const StatuStrategyCmp = StatuStrategy((() => {
+  const StatusStrategyCmp = StatusStrategy((() => {
     if(isLoading) {
       return 'loading'
     } else {
@@ -92,7 +92,7 @@ export function ExerciseListCard(
                     }}
                   />
                 ))
-              : StatuStrategyCmp
+              : StatusStrategyCmp
           }
         </div>
       </CardContent>
