@@ -3,9 +3,9 @@ import { z } from "zod";
 export const addTrainingRecordFormSchema = z.object({
   date: z.date(),
   exerciseId: z.number().min(1).nullable(),
-  weight: z.number().min(1).nullable(),
-  reps: z.number().min(1).nullable(),
-  sets: z.number().min(1).max(10).nullable(),
+  weight: z.number().min(1),
+  reps: z.number().min(1),
+  sets: z.number().min(1),
   comment: z.string()
 })
 

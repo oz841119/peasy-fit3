@@ -7,18 +7,13 @@ import { Button } from "@/components/shadcnUI/button";
 import { addTrainingRecord } from "@/services/trainingRecord";
 import { addTrainingRecordFormSchema, AddTrainingRecordFormSchema } from "@/schemas/addTrainingRecord.form.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { toast } from "@/hooks/use-toast";
 
 export default function AddRecordPage() {
   const { control, register, handleSubmit } = useForm<AddTrainingRecordFormSchema>({
     resolver: zodResolver(addTrainingRecordFormSchema),
     defaultValues: {
       "date": new Date(),
-      "exerciseId": 0,
-      "weight": 0,
-      "reps": 0,
-      "sets": 0,
-      "comment": ''
     }
   });
   
@@ -32,9 +27,26 @@ export default function AddRecordPage() {
         comment: form.comment,
       })
       await addTrainingRecord(record)
+    } else {
+      toast({
+        title: 'Please select an exercise',
+        variant: 'destructive'
+      })
     }
   }, (errors) => {
-    console.log(errors);
+    const errorKeys = Object.keys(errors)
+    if(errorKeys.length > 0) {
+      toast({
+        title: 'Please fill in all the fields',
+        variant: 'destructive',
+        description: errorKeys.join(', ')
+      })
+    } else {
+      toast({
+        title: 'error',
+        variant: 'destructive',
+      })
+    }
   })
   return (
     <div>
