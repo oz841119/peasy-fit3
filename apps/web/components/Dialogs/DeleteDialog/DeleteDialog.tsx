@@ -12,7 +12,7 @@ export const DeleteDialog = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{ t('msg.dialog.confirmIfdelete') }</AlertDialogTitle>
+          <AlertDialogTitle>{ t('msg.dialog.confirmIfDelete') }</AlertDialogTitle>
           <AlertDialogDescription>{ t('msg.dialog.deletionCannotBeUndone') }</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

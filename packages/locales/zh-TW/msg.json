@@ -3,7 +3,7 @@
         "systemError": "系統錯誤"
     },
     "dialog": {
-        "confirmIfdelete": "請確認是否要刪除?",
+        "confirmIfDelete": "請確認是否要刪除?",
         "deletionCannotBeUndone": "刪除後無法還原。"
     }
 }

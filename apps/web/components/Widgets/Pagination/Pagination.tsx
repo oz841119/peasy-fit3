@@ -12,19 +12,31 @@ interface Props {
   size: number;
   currPage: number;
   total: number;
+  LIMIT: number;
+  onChange: (page: number) => void;
 }
-export function Pagination({size, currPage, total}: Props) {
-  const pages = Math.ceil(total / size);
+export function Pagination({ size, currPage, total, LIMIT = 5, onChange }: Props) {
+  let startPage = Math.max(1, currPage - Math.floor(LIMIT / 2));
+  let endPage = Math.min(total, startPage + LIMIT - 1);
+  if (endPage - startPage + 1 < LIMIT) {
+    startPage = Math.max(1, endPage - LIMIT + 1);
+  }
+  const pageList = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   return (
     <_Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious href="#" onClick={() => onChange(currPage - 1)} />
         </PaginationItem>
         {
-          Array.from({ length: pages }).map((_, index) => (
+          pageList.map((page) => (
             <PaginationItem>
-              <PaginationLink href="#" isActive={currPage === index + 1}>{ index + 1}</PaginationLink>
+              <PaginationLink
+                isActive={currPage === page}
+                onClick={() => onChange(page)}
+              >
+                {page}
+              </PaginationLink>
             </PaginationItem>
           ))
         }
@@ -32,7 +44,7 @@ export function Pagination({size, currPage, total}: Props) {
           <PaginationEllipsis />
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext href="#" />
+          <PaginationNext href="#" onClick={() => onChange(currPage + 1)} />
         </PaginationItem>
       </PaginationContent>
     </_Pagination>

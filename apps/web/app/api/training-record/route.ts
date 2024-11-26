@@ -25,3 +25,11 @@ export const POST = async (request: NextRequest) => {
   })
   return Response.json(addTrainingRecord)
 }
+
+export const DELETE = async (request: NextRequest) => {
+  const body = await request.json()
+  const deleteTrainingRecord = await prisma.training.deleteMany({
+    where: { id: { in: body.ids } }
+  })
+  return Response.json(deleteTrainingRecord)
+}

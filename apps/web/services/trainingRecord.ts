@@ -30,3 +30,10 @@ export const addTrainingRecord = async (params: Params[]) => {
     body: JSON.stringify(params),
   }).then((res) => res.json());
 }
+
+export const deleteTrainingRecord = async (ids: string[]) => {
+  return fetch("/api/training-record", {
+    method: "DELETE",
+    body: JSON.stringify({ ids }),
+  }).then((res) => res.json());
+}
