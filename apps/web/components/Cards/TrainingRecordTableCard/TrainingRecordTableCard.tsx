@@ -1,16 +1,18 @@
+'use client'
 import { RecordTable } from "@/components/RecordTable/RecordTable"
-import { ScrollArea } from "@/components/shadcnUI/scroll-area"
 import { PropsWithClassName } from "@/types"
 import { BaseCard } from "../BaseCard"
+import { Pagination } from "@/components/Widgets/Pagination/Pagination"
+import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
+  const { filter } = useTrainingRecordContext()
   return (
     <BaseCard 
       title="Training Record TableCard" 
       description="Training Record TableCard"
     >
-      {/* <ScrollArea className="h-64 pr-2 w-full"> */}
-        <RecordTable/>
-      {/* </ScrollArea> */}
+      <RecordTable/>
+      <Pagination size={filter.take} total={999} currPage={Math.floor(filter.skip/filter.take)}/>
     </BaseCard>
   )
 }

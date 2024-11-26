@@ -7,7 +7,9 @@ import { Updater, useImmer } from "use-immer";
 
 interface ITrainingRecordContext {
   filter: {
-    exerciseId: number | null
+    exerciseId: number | null,
+    take: number,
+    skip: number,
   }
   updateFilter: Updater<ITrainingRecordContext['filter']>
   exerciseList: {
@@ -25,7 +27,9 @@ interface ITrainingRecordContext {
 
 const defaultValues = {
   filter: {
-    exerciseId: null
+    exerciseId: null,
+    take: 10,
+    skip: 0,
   },
   updateFilter: () => {},
   exerciseList: {
@@ -49,7 +53,7 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
 
   const { data: trainingRecordList, error: trainingRecordListError, isLoading: trainingRecordListIsLoading } = useQuery({
     queryKey: ['getTrainingRecordList', filter.exerciseId],
-    queryFn: () => getTrainingRecordList({ exerciseId: filter.exerciseId || undefined, skip: 0, take: 10}),
+    queryFn: () => getTrainingRecordList({ exerciseId: filter.exerciseId || undefined, skip: filter.skip, take: filter.take}),
     enabled: !!filter.exerciseId
   })
   const { data: exerciseList, error: exerciseListError, isLoading: exerciseListIsLoading } = useQuery({
