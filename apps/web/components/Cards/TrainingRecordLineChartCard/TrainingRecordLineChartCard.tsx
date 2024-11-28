@@ -1,4 +1,4 @@
-import { TrainingRecordLineChart } from "@/components/Charts/TraningRecordLineChart/TrainingRecordLineChart"
+import { TrainingRecordLineChart } from "@/components/Charts/TrainingRecordLineChart/TrainingRecordLineChart"
 import { BaseCard } from "../BaseCard"
 
 export const TrainingRecordLineChartCard = () => {

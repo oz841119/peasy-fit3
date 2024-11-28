@@ -11,7 +11,7 @@ export default function TrainingRecordPage() {
         </div>
         <div className="h-96">
           <TrainingRecordTableCard className="h-full"/>
-          {/* <TrainingRecordLineChartCard /> */}
+          <TrainingRecordLineChartCard />
         </div>
       </TrainingRecordContextProvider>
     </div>

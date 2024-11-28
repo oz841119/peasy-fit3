@@ -51,7 +51,6 @@ export const useTrainingRecordContext = () => {
   return useContext(TrainingRecordContext)
 }
 export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) => {
-  const queryClient = useQueryClient();
   const [filter, updateFilter] = useImmer<ITrainingRecordContext['filter']>(defaultValues.filter)
 
   const {
