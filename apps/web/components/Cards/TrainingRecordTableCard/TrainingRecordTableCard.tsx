@@ -5,7 +5,7 @@ import { BaseCard } from "../BaseCard"
 import { Pagination } from "@/components/Widgets/Pagination/Pagination"
 import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
-  const { filter, updateFilter } = useTrainingRecordContext()
+  const { filter, updateFilter, trainingRecordListQuery } = useTrainingRecordContext()
   return (
     <BaseCard 
       title="Training Record TableCard" 
@@ -14,8 +14,8 @@ export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
       <RecordTable/>
       <Pagination 
         size={filter.take} 
-        total={999} 
-        currPage={Math.floor(filter.skip/filter.take)} 
+        total={trainingRecordListQuery.current?.total || 0} 
+        currPage={Math.floor(filter.skip/filter.take) + 1} 
         LIMIT={5} 
         onChange={(page) => {
           updateFilter(draft => { draft.skip = (page - 1) * filter.take })

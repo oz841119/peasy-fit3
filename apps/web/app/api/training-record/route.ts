@@ -7,14 +7,20 @@ export const GET = async (request: NextRequest) => {
   const skip = request.nextUrl.searchParams.get('skip')
   const take = request.nextUrl.searchParams.get('take')
   if(exerciseId === null) return new NextResponse(null, { status: 400 })
-  const trainingList = await prisma.training.findMany({
+
+  const total = await prisma.training.count({
+    where: {
+      exerciseId: Number(exerciseId)
+    }
+  })
+  const trainingRecordList = await prisma.training.findMany({
     where: {
       exerciseId: Number(exerciseId)
     },
     skip: Number(skip),
     take: Number(take),
   })
-  return Response.json(trainingList)
+  return Response.json({ trainingRecordList, total })
 }
 
 export const POST = async (request: NextRequest) => {
@@ -28,8 +34,8 @@ export const POST = async (request: NextRequest) => {
 
 export const DELETE = async (request: NextRequest) => {
   const body = await request.json()
-  const deleteTrainingRecord = await prisma.training.deleteMany({
+  const deleteTrainingRecordResult = await prisma.training.deleteMany({
     where: { id: { in: body.ids } }
   })
-  return Response.json(deleteTrainingRecord)
+  return Response.json(deleteTrainingRecordResult)
 }

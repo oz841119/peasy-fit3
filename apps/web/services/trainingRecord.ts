@@ -1,14 +1,15 @@
 interface TrainingRecord {
   date: Date; exerciseId: number; weight: number; reps: number; id: string; comment: string
 }
-
+interface GetTrainingRecordListResp {
+  trainingRecordList: Array<TrainingRecord>
+  total: number
+}
 export const getTrainingRecordList = async (params: {
   exerciseId?: number;
   skip?: number;
   take?: number;
-}): Promise<
-  Array<TrainingRecord>
-> => {
+}): Promise<GetTrainingRecordListResp> => {
   const searchParams = new URLSearchParams()
   const keyValuePairs = Object.entries(params)
   keyValuePairs.forEach(pair => {
@@ -31,7 +32,7 @@ export const addTrainingRecord = async (params: Params[]) => {
   }).then((res) => res.json());
 }
 
-export const deleteTrainingRecord = async (ids: string[]) => {
+export const deleteTrainingRecord = async (ids: number[]) => {
   return fetch("/api/training-record", {
     method: "DELETE",
     body: JSON.stringify({ ids }),

@@ -8,13 +8,13 @@ import {
   RowData,
   useReactTable,
 } from "@tanstack/react-table"
-import { Fragment, useMemo } from "react"
+import { Fragment, useMemo, useState } from "react"
 import { Skeleton } from "../shadcnUI/skeleton"
 import { Checkbox } from "../shadcnUI/checkbox"
 import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
 import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 import dayjs from "dayjs"
-import { ScrollArea } from "../shadcnUI/scroll-area"
+import { Trash2 } from "lucide-react"
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
     size?: number;
@@ -30,7 +30,7 @@ interface Record {
 }
 export const RecordTable = () => {
   const t = useTranslations()
-  const { trainingRecordList, getExerciseNameById } = useTrainingRecordContext()
+  const { trainingRecordListQuery, getExerciseNameById, deleteTrainingRecordMutation } = useTrainingRecordContext()
   const columns: ColumnDef<Record>[] = useMemo(() => [
     { accessorKey: 'select', header: '', meta: { size: 30 }, cell: () => <Checkbox /> },
     { accessorKey: 'date', header: t('table.date'), meta: { size: 100 } },
@@ -39,16 +39,21 @@ export const RecordTable = () => {
     { accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 } },
     { accessorKey: 'comment', header: t('table.comment') },
     {
-      accessorKey: 'action', header: 'Actions', meta: { size: 70 }, cell: () => (
+      accessorKey: 'action', header: 'Actions', meta: { size: 70 }, cell: (c) => (
         <div className="flex justify-end">
-          <DeleteDialog></DeleteDialog>
-          {/* TODO: If multiple dialogs cause rendering performance issues, consider using context with a single dialog to replace rendering multiple dialogs.*/}
+          <Trash2
+            className="cursor-pointer text-muted-foreground hover:text-foreground"
+            onClick={() => {
+              setDeleteDialogOpen(true)
+              setSelectdTraininRecordIds([Number(c.row.original.id)])
+            }}
+          />
         </div>
       )
     },
   ], [])
   const rows = useMemo(() => {
-    return trainingRecordList.current?.map((record) => ({
+    return trainingRecordListQuery.current?.trainingRecordList.map((record) => ({
       id: record.id,
       date: dayjs(record.date).format('YYYY-MM-DD HH:mm:ss'),
       exercise: getExerciseNameById(record.exerciseId) || '',
@@ -56,17 +61,27 @@ export const RecordTable = () => {
       reps: record.reps,
       comment: record.comment
     })) || []
-  }, [trainingRecordList])
+  }, [trainingRecordListQuery])
 
   const table = useReactTable({
     columns,
     data: rows || [],
     getCoreRowModel: getCoreRowModel()
   })
+  const [selectdTraininRecordIds, setSelectdTraininRecordIds] = useState<number[]>([])
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const handleDelete = () => {
+    deleteTrainingRecordMutation.mutate(selectdTraininRecordIds, {
+      onSuccess: () => {
+        console.log(123);
+      }
+    })
+    setDeleteDialogOpen(false)
+  }
   return (
-    <ScrollArea className="h-72">
+    <>
       <Table className="break-words table-fixed">
-        <TableHeader className="top-0 sticky">
+        <TableHeader>
           <TableRow>
             {
               table.getHeaderGroups().map(headerGroup => {
@@ -87,7 +102,7 @@ export const RecordTable = () => {
             }
           </TableRow>
         </TableHeader>
-        <TableBody className="overflow-y-auto h-52">
+        <TableBody>
           {
             table.getRowModel().rows?.length
               ?
@@ -111,7 +126,7 @@ export const RecordTable = () => {
               )
               :
               (
-                trainingRecordList.isLoading
+                trainingRecordListQuery.isLoading
                   ?
                   Array.from({ length: 4 }).map((_, index) => (
                     <TableRow key={index}>
@@ -138,6 +153,16 @@ export const RecordTable = () => {
           }
         </TableBody>
       </Table>
-    </ScrollArea>
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onOpenChange={(source: "cancel" | "delete") => {
+          console.log(source);
+          if(source === 'cancel') {
+            setDeleteDialogOpen(false)
+          } else {
+            handleDelete()
+          }
+        }} />
+    </>
   )
 }
