@@ -2,7 +2,7 @@
 import { Button } from "@/components/shadcnUI/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcnUI/card"
 import { ExerciseChip } from "@/components/Widgets/ExerciseChip/ExerciseChip"
-import { deleteExercise, getExerciseList } from "@/services/exercise"
+import { deleteUserExercise, getUserExerciseList } from "@/services/userExercise"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { CircleX } from "lucide-react"
 
@@ -47,10 +47,10 @@ export function ExerciseListCard(
   const queryClient = useQueryClient();
   const { data: exerciseList, error, isLoading, isSuccess } = useQuery({
     queryKey: ['exerciseList'],
-    queryFn: () => getExerciseList()
+    queryFn: () => getUserExerciseList()
   })
   const mutaion = useMutation({
-    mutationFn: (id: number) => deleteExercise({ id }),
+    mutationFn: (id: number) => deleteUserExercise({ id }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['exerciseList'] }),
     onError: (error) => console.error(error)
   })

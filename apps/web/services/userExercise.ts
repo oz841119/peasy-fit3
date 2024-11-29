@@ -1,7 +1,7 @@
 type AddExercise = (body: {
-  exercise: string
+  exerciseList: string[]
 }) => Promise<{ isSuccess: boolean }>
-export const addExercise: AddExercise = async (body) => {
+export const addUserExercise: AddExercise = async (body) => {
   return fetch('/api/exercise', {
     method: 'POST',
     body: JSON.stringify(body)
@@ -14,7 +14,7 @@ export const addExercise: AddExercise = async (body) => {
   })
 }
 
-export const getExerciseList: () => Promise<Array<{id: number, name: string}>> = async () => {
+export const getUserExerciseList: () => Promise<Array<{id: number, name: string}>> = async () => {
   return fetch('/api/exercise', {
     method: 'GET',
   }).then(res => {
@@ -26,7 +26,7 @@ export const getExerciseList: () => Promise<Array<{id: number, name: string}>> =
   })
 }
 
-export const deleteExercise: ({ id }: { id: number }) => Promise<any> = ({ id }) => {
+export const deleteUserExercise: ({ id }: { id: number }) => Promise<any> = ({ id }) => {
   return fetch('/api/exercise', {
     method: 'DELETE',
     body: JSON.stringify({ id })

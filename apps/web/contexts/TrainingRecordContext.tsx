@@ -1,5 +1,5 @@
 'use client'
-import { getExerciseList } from "@/services/exercise";
+import { getUserExerciseList } from "@/services/userExercise";
 import { deleteTrainingRecord, getTrainingRecordList } from "@/services/trainingRecord";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef } from "react"
@@ -13,7 +13,7 @@ interface ITrainingRecordContext {
   }
   updateFilter: Updater<ITrainingRecordContext['filter']>
   exerciseList: {
-    current: Awaited<ReturnType<typeof getExerciseList>> | undefined,
+    current: Awaited<ReturnType<typeof getUserExerciseList>> | undefined,
     error: Error | null,
     isLoading: boolean
   }
@@ -70,8 +70,8 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
     }
   })
   const { data: exerciseList, error: exerciseListError, isLoading: exerciseListIsLoading } = useQuery({
-    queryKey: ['getExerciseList'],
-    queryFn: () => getExerciseList()
+    queryKey: ['getUserExerciseList'],
+    queryFn: () => getUserExerciseList()
   })
   useEffect(() => {
     if (!filter.exerciseId) {

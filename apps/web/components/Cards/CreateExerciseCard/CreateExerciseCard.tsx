@@ -3,7 +3,7 @@ import { Button } from "@/components/shadcnUI/button"
 import { BaseCard } from "../BaseCard"
 import { Input } from "@/components/shadcnUI/input"
 import { FormEventHandler, useState } from "react"
-import { addExercise } from "@/services/exercise"
+import { addUserExercise } from "@/services/userExercise"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
 import { PropsWithClassName } from "@/types"
@@ -13,7 +13,7 @@ export const CreateExerciseCard = ({ className }: PropsWithClassName) => {
   const [exercise, setExercise] = useState('')
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: ({ exercise }: { exercise: string }) => addExercise({ exercise }),
+    mutationFn: ({ exercise }: { exercise: string }) => addUserExercise({ exerciseList: [exercise] }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['exerciseList'] }),
     onError: (error) => {
       toast({

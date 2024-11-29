@@ -24,12 +24,16 @@ export const GET = async (request: NextRequest) => {
 }
 
 export const POST = async (request: NextRequest) => {
-  const body = await request.json()
-  const user = await handleAuth(request)
-  const addTrainingRecord = await prisma.training.createMany({
-    data: body.map((item: any) => ({...item, userId: user.sub}))
-  })
-  return Response.json(addTrainingRecord)
+  try {
+    const body = await request.json()
+    const user = await handleAuth(request)
+    const addTrainingRecord = await prisma.training.createMany({
+      data: body.map((item: any) => ({...item, userId: user.sub}))
+    })
+    return Response.json(addTrainingRecord)
+  } catch (error) {
+    return Response.json({ error: error instanceof Error ? error.message : 'Unknown error' }, { status: 400 })
+  }
 }
 
 export const DELETE = async (request: NextRequest) => {
