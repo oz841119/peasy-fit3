@@ -4,10 +4,11 @@ import { PropsWithClassName } from "@/types"
 import { BaseCard } from "../BaseCard"
 import { Pagination } from "@/components/Widgets/Pagination/Pagination"
 import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
+import { cn } from "@/lib/utils"
 export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
   const { filter, updateFilter, trainingRecordListQuery } = useTrainingRecordContext()
   return (
-    <BaseCard 
+    <BaseCard
       title="Training Record TableCard" 
       description="Training Record TableCard"
     >

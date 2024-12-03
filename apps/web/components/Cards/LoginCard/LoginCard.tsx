@@ -7,6 +7,7 @@ import { ChangeEvent, FormEventHandler } from "react";
 import { useImmer } from "use-immer";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 export const LoginCard = () => {
   const [credential, updateCredential] = useImmer({ email: 'test@test.com', password: 'test'})
   const router = useRouter()
@@ -21,8 +22,15 @@ export const LoginCard = () => {
   const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const loginResult = await signIn('credentials', { redirect: false, ...credential })
-    loginResult && router.push('/dashboard')
-    
+    if(loginResult && loginResult.error === null && loginResult.status === 200) {
+      router.push('/dashboard')
+    } else {
+      toast({
+        title: 'Invalid email or password',
+        description: 'Please try again.',
+        variant: 'destructive',
+      })  
+    }
   }
   return (
     <Card className="max-w-96 w-11/12">

@@ -12,6 +12,7 @@ export const POST = async (request: NextRequest) => {
     skipDuplicates: true,
     data: targetExerciseList.map((name: string) => ({ name }))
   })
+  console.log(createManyResult);
   const user = await getToken({req: request, secret: 'test'})
   if(user === null) {
     return NextResponse.json('Unauthorized', { status: 401 })
@@ -31,7 +32,9 @@ export const POST = async (request: NextRequest) => {
         }
       }
     })
-    return NextResponse.json('')
+    return NextResponse.json({
+      createdCount: createManyResult.count
+    })
   }
 }
 

@@ -1,6 +1,6 @@
 type AddExercise = (body: {
   exerciseList: string[]
-}) => Promise<{ isSuccess: boolean }>
+}) => Promise<{ createdCount: number }>
 export const addUserExercise: AddExercise = async (body) => {
   return fetch('/api/exercise', {
     method: 'POST',

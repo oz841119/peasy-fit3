@@ -13,6 +13,7 @@ import { useState } from "react";
 import { UploadRecordPreviewTable } from "@/components/Tables/UploadRecordPreviewTable";
 import { getExerciseByNames } from "@/services/public/exericse";
 import { addUserExercise } from "@/services/userExercise";
+import { useQueryClient } from "@tanstack/react-query";
 export default function AddRecordPage() {
   const { control, register, handleSubmit } = useForm<AddTrainingRecordFormSchema>({
     resolver: zodResolver(addTrainingRecordFormSchema),
@@ -98,12 +99,25 @@ export default function AddRecordPage() {
     }
     reader.readAsText(file)
   }
+  const queryClient = useQueryClient();
   const onUploadCSVSubmit = async () => {
     const exerciseNames = Array.from(new Set(uploadCSVRecord.map(record => record.name)))
-    const createExerciseResult = await addUserExercise({ exerciseList: exerciseNames })
-    console.log(createExerciseResult);
-    const exerciseIds = await getExerciseByNames(exerciseNames)
-    console.log(exerciseIds); // TODO
+    await addUserExercise({ exerciseList: exerciseNames })
+    const exerciseList = await getExerciseByNames(exerciseNames)
+    const recordList = uploadCSVRecord.map(record => {
+      const exerciseId = exerciseList.find(exercise => exercise.name === record.name)?.id
+      if(exerciseId === undefined) throw new Error('Exercise not found')
+      return {
+        date: new Date(record.date),
+        exerciseId: exerciseId,
+        weight: record.weight,
+        reps: record.reps,
+        comment: record.comment
+      }
+    })
+    const addTrainingRecordResult = await addTrainingRecord(recordList)
+    console.log(addTrainingRecordResult);
+    queryClient.invalidateQueries({ queryKey: ['exerciseList'] })
   }
   return (
     <div>

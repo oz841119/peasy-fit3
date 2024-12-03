@@ -13,12 +13,15 @@ export const GET = async (request: NextRequest) => {
       exerciseId: Number(exerciseId)
     }
   })
-  const trainingRecordList = await prisma.training.findMany({
+  const trainingRecordList = await prisma.training.findMany({ // TODO: 性能, 索引
     where: {
       exerciseId: Number(exerciseId)
     },
     skip: Number(skip),
     take: Number(take),
+    orderBy: {
+      date: 'desc'
+    }
   })
   return Response.json({ trainingRecordList, total })
 }

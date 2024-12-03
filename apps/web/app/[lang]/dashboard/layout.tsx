@@ -1,7 +1,6 @@
 'use client'
 import { SideBar } from "@/components/Bars/SideBar/SideBar";
 import { TopBar } from "@/components/Bars/TopBar/TopBar";
-import { Toaster } from "@/components/ui/toaster";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useEffect } from "react";
@@ -23,7 +22,6 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
         </div>
         { children }
       </main>
-      <Toaster />
     </div>
   )
 }
