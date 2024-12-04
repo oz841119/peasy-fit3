@@ -4,7 +4,7 @@ import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 export const ExerciseSelect = () => {
   const { filter, updateFilter, exerciseList } = useTrainingRecordContext()
   return (
-    <Select
+    <Select // TODO: purify the component
       value={filter.exerciseId?.toString() || ''}
       onValueChange={(value) => updateFilter(draft => {
         draft.exerciseId = Number(value)

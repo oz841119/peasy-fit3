@@ -73,7 +73,7 @@ export const RecordTable = () => {
   const handleDelete = () => {
     deleteTrainingRecordMutation.mutate(selectdTraininRecordIds, {
       onSuccess: () => {
-        console.log(123);
+        console.log('delete success');
       }
     })
     setDeleteDialogOpen(false)
