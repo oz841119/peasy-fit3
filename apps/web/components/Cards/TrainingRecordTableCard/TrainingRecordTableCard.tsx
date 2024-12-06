@@ -1,27 +1,37 @@
 'use client'
 import { RecordTable } from "@/components/RecordTable/RecordTable"
-import { PropsWithClassName } from "@/types"
 import { BaseCard } from "../BaseCard"
-import { Pagination } from "@/components/Widgets/Pagination/Pagination"
 import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
-import { cn } from "@/lib/utils"
-export const TrainingRecordTableCard = ({ className }: PropsWithClassName) => {
-  const { filter, updateFilter, trainingRecordListQuery } = useTrainingRecordContext()
+import { ScrollArea } from "@/components/shadcnUI/scroll-area"
+import { useTranslations } from "next-intl"
+export const TrainingRecordTableCard = () => {
+  const t = useTranslations()
+  const { filter } = useTrainingRecordContext()
   return (
     <BaseCard
-      title="Training Record TableCard" 
-      description="Training Record TableCard"
+      title={t('table.trainingRecordTableCard.title')} 
+      description={t('table.trainingRecordTableCard.description')}
     >
-      <RecordTable/>
-      <Pagination 
+      <ScrollArea className="h-[400px]">
+        {
+          filter.exerciseId !== null ? (
+            <RecordTable/>
+          ) : (
+            <div className="h-full flex items-center justify-center">
+              {t('msg.hint.pleaseChooseExercise')}
+            </div>
+          )
+        }
+      </ScrollArea>
+      {/* <Pagination 
         size={filter.take} 
         total={trainingRecordListQuery.current?.total || 0} 
-        currPage={Math.floor(filter.skip/filter.take) + 1} 
+        currPage={Math.floor((filter.skip || 0) / (filter.take || 0)) + 1} 
         LIMIT={5} 
         onChange={(page) => {
-          updateFilter(draft => { draft.skip = (page - 1) * filter.take })
+          updateFilter(draft => { draft.skip = (page - 1) * (filter.take || 0) })
         }}
-      />
+      /> */}
     </BaseCard>
   )
 }

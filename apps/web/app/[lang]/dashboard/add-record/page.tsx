@@ -121,7 +121,7 @@ export default function AddRecordPage() {
   }
   return (
     <div>
-      <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+      <form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
         <Controller
           name="exerciseId"
           control={control}

@@ -9,7 +9,7 @@ import {
 } from "@/components/shadcnUI/pagination";
 
 interface Props {
-  size: number;
+  size: number | null;
   currPage: number;
   total: number;
   LIMIT: number;
@@ -17,7 +17,7 @@ interface Props {
 }
 export function Pagination({ size, currPage, total, onChange }: Props) {
   const LIMIT = 5
-  const totalPages = Math.ceil(total / size);
+  const totalPages = size === null ? 1 : Math.ceil(total / size);
   let startPage = Math.max(1, currPage - Math.floor(LIMIT / 2));
   let endPage = Math.min(totalPages, startPage + LIMIT - 1);
   if (endPage - startPage + 1 < LIMIT) {

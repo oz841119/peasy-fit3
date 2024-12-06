@@ -4,5 +4,25 @@
   "reps": "Reps",
   "comment": "Comment",
   "exercise": "Exercise",
-  "weight": "Weight"
+  "weight": "Weight",
+  "maxWeight": "Max \nWeight",
+  "avgWeight": "Avg \nWeight",
+  "maxReps": "Max \nReps",
+  "avgReps": "Avg \nReps",
+  "maxVolume": "Max \nVolume",
+  "avgVolume": "Avg \nVolume",
+  "totalDays": "Total \nDays",
+  "totalSets": "Total \nSets",
+  "action": "Action",
+  "trainingRecordTableCard": {
+    "title": "Training Record Table",
+    "description": "View detailed information of each set of training"
+  },
+  "trainingRecordChartCard": {
+    "title": "Training Record Chart",
+    "description": "More intuitive comparison of weight, reps and volume of each set of training"
+  },
+  "latestRecords": "Latest {count} records",
+  "allRecords": "ll records",
+  "selectExercise": "Select exercise"
 }

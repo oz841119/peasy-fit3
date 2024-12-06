@@ -1,5 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcnUI/card"
-import { ScrollArea } from "@/components/shadcnUI/scroll-area"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/shadcnUI/card"
 import { PropsWithCrCn } from "@/types"
 interface Props extends PropsWithCrCn {
   title: string
@@ -15,6 +14,7 @@ export const BaseCard = ({ className, children, title, description }: Props) => 
       <CardContent>
         { children }
       </CardContent>
+      <CardFooter></CardFooter>
     </Card>
   )
 }

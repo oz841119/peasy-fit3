@@ -4,5 +4,25 @@
   "reps": "次數",
   "comment": "評論",
   "exercise": "訓練",
-  "weight": "重量"
+  "weight": "重量",
+  "maxWeight": "最大重量",
+  "avgWeight": "平均重量",
+  "maxReps": "最大次數",
+  "avgReps": "平均次數",
+  "maxVolume": "最大容量",
+  "avgVolume": "平均容量",
+  "totalDays": "總天數",
+  "totalSets": "總組數",
+  "action": "操作",
+  "trainingRecordTableCard": {
+    "title": "訓練紀錄表格",
+    "description": "檢視每一組訓練的詳細資料"
+  },
+  "trainingRecordChartCard": {
+    "title": "訓練紀錄圖表",
+    "description": "更直觀的比較每一組訓練的重量、次數及容量"
+  },
+  "latestRecords": "最近 {count} 筆紀錄",
+  "allRecords": "所有紀錄",
+  "selectExercise": "選擇訓練動作"
 }

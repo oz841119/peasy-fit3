@@ -18,7 +18,7 @@ export const GET = async (request: NextRequest) => {
       exerciseId: Number(exerciseId)
     },
     skip: Number(skip),
-    take: Number(take),
+    take: Number(take) || undefined,
     orderBy: {
       date: 'desc'
     }

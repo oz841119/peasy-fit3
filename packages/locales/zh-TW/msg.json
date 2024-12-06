@@ -5,5 +5,8 @@
     "dialog": {
         "confirmIfDelete": "請確認是否要刪除?",
         "deletionCannotBeUndone": "刪除後無法還原。"
+    },
+    "hint": {
+        "pleaseChooseExercise": "請選擇訓練項目"
     }
 }

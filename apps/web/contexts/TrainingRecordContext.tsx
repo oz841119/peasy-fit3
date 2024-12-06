@@ -8,8 +8,8 @@ import { Updater, useImmer } from "use-immer";
 interface ITrainingRecordContext {
   filter: {
     exerciseId: number | null,
-    take: number,
-    skip: number,
+    take: number | null,
+    skip: number | null,
   }
   updateFilter: Updater<ITrainingRecordContext['filter']>
   exerciseList: {
@@ -59,8 +59,12 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
     isLoading: trainingRecordListIsLoading,
     refetch: trainingRecordListRefetch
   } = useQuery({
-    queryKey: ['getTrainingRecordList', filter.exerciseId, filter.skip],
-    queryFn: () => getTrainingRecordList({ exerciseId: filter.exerciseId || undefined, skip: filter.skip, take: filter.take }),
+    queryKey: ['getTrainingRecordList', filter.exerciseId, filter.skip, filter.take],
+    queryFn: () => getTrainingRecordList({
+      exerciseId: filter.exerciseId ?? undefined,
+      skip: filter.skip ?? undefined,
+      take: filter.take ?? undefined
+    }),
     enabled: !!filter.exerciseId
   })
   const deleteTrainingRecordMutation = useMutation<void, Error, number[]>({
@@ -73,15 +77,6 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
     queryKey: ['getUserExerciseList'],
     queryFn: () => getUserExerciseList()
   })
-  useEffect(() => {
-    if (!filter.exerciseId) {
-      updateFilter(draft => {
-        if (exerciseList && exerciseList?.length > 0) {
-          draft.exerciseId = exerciseList[0].id
-        }
-      })
-    }
-  }, [exerciseList])
   const exerciseNameMapRef = useRef(new Map<number, string | null>())
   const getExerciseNameById = useCallback((id: number) => {
     if (exerciseNameMapRef.current.has(id)) {

@@ -39,7 +39,7 @@ export const RecordTable = () => {
     { accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 } },
     { accessorKey: 'comment', header: t('table.comment') },
     {
-      accessorKey: 'action', header: 'Actions', meta: { size: 70 }, cell: (c) => (
+      accessorKey: 'action', header: t('table.action'), meta: { size: 70 }, cell: (c) => (
         <div className="flex justify-end">
           <Trash2
             className="cursor-pointer text-muted-foreground hover:text-foreground"
