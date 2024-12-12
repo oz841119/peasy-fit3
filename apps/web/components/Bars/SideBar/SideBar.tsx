@@ -21,10 +21,6 @@ export const SideBar = () => {
           href="/dashboard/exercise"
           icon={<BicepsFlexed width="20"/>}
         />
-        <IconLink
-          href="/dashboard/dev-cards"
-          icon={<Baby width="20"/>}
-        />
       </nav>
     </aside>
   )
