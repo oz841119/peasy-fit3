@@ -8,7 +8,8 @@
     "w-dev": "pnpm --filter web dev",
     "dev": "docker-compose up -d && pnpm w-dev",
     "down": "docker-compose down",
-    "migrate": "pnpm --filter db migrate && pnpm --filter db seed"
+    "migrate": "pnpm --filter db migrate && pnpm --filter db seed",
+    "vercel-build": "pnpm --filter db migrate && pnpm --filter web build"
   },
   "keywords": [],
   "author": "",
