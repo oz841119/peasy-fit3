@@ -1,12 +1,13 @@
 version: "3.1"
 services:
   db:
+    env_file: .env.dev
     image: postgres:latest # TODO: Lock image version
     container_name: peasy_fit_postgres
     environment:
       POSTGRES_DB: peasy_fit
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: test
+      POSTGRES_USER: ${DOCKER_COMPOST_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DOCKER_COMPOST_POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:

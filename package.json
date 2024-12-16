@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "w-dev": "pnpm --filter web dev",
+    "w-dev": "dotenv -e .env.dev -- pnpm --filter web dev",
     "dev": "docker-compose up -d && pnpm w-dev",
     "down": "docker-compose down",
-    "migrate": "pnpm --filter db migrate && pnpm --filter db seed",
-    "vercel-build": "pnpm --filter db migrate && pnpm --filter web build"
+    "migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
+    "generate": "pnpm --filter db generate",
+    "seed": "dotenv -e .env.dev -- pnpm --filter db seed"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv-cli": "^7.4.4"
+  }
 }

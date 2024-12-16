@@ -32,7 +32,9 @@ CREATE TABLE "Training" (
 -- CreateTable
 CREATE TABLE "_UserExerciseList" (
     "A" INTEGER NOT NULL,
-    "B" UUID NOT NULL
+    "B" UUID NOT NULL,
+
+    CONSTRAINT "_UserExerciseList_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -40,9 +42,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Exercise_name_key" ON "Exercise"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_UserExerciseList_AB_unique" ON "_UserExerciseList"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_UserExerciseList_B_index" ON "_UserExerciseList"("B");

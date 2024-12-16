@@ -14,18 +14,22 @@ export const authOptions: NextAuthOptions = {
       name: 'credentials',
       credentials: { email: {}, password: {} },
       async authorize(credentials) {
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials?.email,
-            password: credentials?.password
-          },
-          select: {
-            id: true,
-            email: true
-          }
-        })
-        console.log(user);
-        return user
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials?.email,
+              password: credentials?.password
+            },
+            select: {
+              id: true,
+              email: true
+            }
+          })
+          return user
+        } catch(err) {
+          console.log(err);
+          return null
+        }
       },
     })
   ],
