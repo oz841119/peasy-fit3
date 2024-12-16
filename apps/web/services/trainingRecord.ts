@@ -43,7 +43,7 @@ export const addTrainingRecord = async (params: Params[]) => {
     return fetch("/api/training-record", {
       method: "POST",
       body: JSON.stringify(params),
-    }).then((res) => res.json());
+    }).then((res) => res.json() as unknown as { count: number });
   } catch (err) {
     throw err;
   }

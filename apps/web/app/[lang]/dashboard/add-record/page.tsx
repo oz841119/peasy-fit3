@@ -101,23 +101,36 @@ export default function AddRecordPage() {
   }
   const queryClient = useQueryClient();
   const onUploadCSVSubmit = async () => {
-    const exerciseNames = Array.from(new Set(uploadCSVRecord.map(record => record.name)))
-    await addUserExercise({ exerciseList: exerciseNames })
-    const exerciseList = await getExerciseByNames(exerciseNames)
-    const recordList = uploadCSVRecord.map(record => {
-      const exerciseId = exerciseList.find(exercise => exercise.name === record.name)?.id
-      if(exerciseId === undefined) throw new Error('Exercise not found')
-      return {
-        date: new Date(record.date),
-        exerciseId: exerciseId,
-        weight: record.weight,
-        reps: record.reps,
-        comment: record.comment
-      }
-    })
-    const addTrainingRecordResult = await addTrainingRecord(recordList)
-    console.log(addTrainingRecordResult);
-    queryClient.invalidateQueries({ queryKey: ['exerciseList'] })
+    try {
+      const exerciseNames = Array.from(new Set(uploadCSVRecord.map(record => record.name)))
+      await addUserExercise({ exerciseList: exerciseNames })
+      const exerciseList = await getExerciseByNames(exerciseNames)
+      const recordList = uploadCSVRecord.map(record => {
+        const exerciseId = exerciseList.find(exercise => exercise.name === record.name)?.id
+        if (exerciseId === undefined) throw new Error('Exercise not found')
+        return {
+          date: new Date(record.date),
+          exerciseId: exerciseId,
+          weight: record.weight,
+          reps: record.reps,
+          comment: record.comment
+        }
+      })
+      const addTrainingRecordResult = await addTrainingRecord(recordList)
+      queryClient.invalidateQueries({ queryKey: ['exerciseList'] })
+      toast({
+        title: '訓練紀錄上傳成功',
+        description: `已上傳 ${addTrainingRecordResult.count} 筆記錄`,
+        variant: 'default'
+      })
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: '訓練紀錄上傳失敗',
+        description: `發生異常`,
+        variant: 'destructive'
+      })
+    }
   }
   return (
     <div>
@@ -152,9 +165,9 @@ export default function AddRecordPage() {
             accept=".csv"
             onChange={onUploadCSV}
           />
-          { uploadCSVRecord.length > 0 && <Button variant="secondary" onClick={onUploadCSVSubmit}>Submit</Button> }
+          {uploadCSVRecord.length > 0 && <Button variant="secondary" onClick={onUploadCSVSubmit}>Submit</Button>}
         </div>
-        { uploadCSVRecord.length > 0 && <UploadRecordPreviewTable records={uploadCSVRecord} /> }
+        {uploadCSVRecord.length > 0 && <UploadRecordPreviewTable records={uploadCSVRecord} />}
       </BaseCard>
     </div>
   )
