@@ -4,9 +4,12 @@ import { TrainingRecordLineChartCard } from "@/components/Cards/TrainingRecordLi
 import { TrainingRecordTableCard } from "@/components/Cards/TrainingRecordTableCard/TrainingRecordTableCard";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/shadcnUI/select";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 export default function TrainingRecordPage() {
   const t = useTranslations()
   const { filter, updateFilter, exerciseList } = useTrainingRecordContext()
+  const [isSelectPrompt, setIsSelectPrompt] = useState<boolean>(true)
   return (
     <div>
       <div className="mb-2 flex gap-2">
@@ -15,8 +18,11 @@ export default function TrainingRecordPage() {
           onValueChange={(value) => updateFilter(draft => {
             draft.exerciseId = Number(value)
           })}
+          onOpenChange={() => {
+            isSelectPrompt && setIsSelectPrompt(false)
+          }}
         >
-          <SelectTrigger className="w-48">
+          <SelectTrigger className={cn('w-48', isSelectPrompt && 'border-red-500 border-2')}>
             <SelectValue placeholder={t('table.selectExercise')} />
           </SelectTrigger>
           <SelectContent>
