@@ -8,6 +8,7 @@ import { useImmer } from "use-immer";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import { GoogleLoginButton } from "@/components/Buttons/GoogleLoginButton";
 export const LoginCard = () => {
   const [credential, updateCredential] = useImmer({ email: 'test@test.com', password: 'test'})
   const router = useRouter()
@@ -32,6 +33,12 @@ export const LoginCard = () => {
       })  
     }
   }
+  const loginWithGoogle = async () => {
+    await signIn("google", {
+      callbackUrl: '/',
+      popup: true
+    });
+  }
   return (
     <Card className="max-w-96 w-11/12">
       <CardHeader>
@@ -52,7 +59,10 @@ export const LoginCard = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="mt-2 w-full" type="submit">LOGIN</Button>
+          <div className="flex flex-col w-full gap-4">
+            <Button className="mt-2 w-full" type="submit">LOGIN</Button>
+            <GoogleLoginButton onLogin={loginWithGoogle}/>
+          </div>
         </CardFooter>
       </form>
     </Card>

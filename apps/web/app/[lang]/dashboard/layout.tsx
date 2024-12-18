@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
       router.push('/login')
     }
   }, [status, data, router])
-  return (
+    return (
     <div className="min-h-screen bg-muted/50 flex text-muted-foreground">
       <SideBar/>
       <main className="flex-1 px-6">
