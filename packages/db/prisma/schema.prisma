@@ -18,6 +18,7 @@ model User {
   password     String
   salt         String
   exerciseList Exercise[] @relation("UserExerciseList")
+  googleId     String?     @unique
 }
 
 model Exercise {
@@ -27,11 +28,11 @@ model Exercise {
 }
 
 model Training {
-  id       Int      @id @default(autoincrement())
-  userId   String
-  date     DateTime
-  reps     Int
-  weight   Float
-  comment  String   @default("")
+  id         Int      @id @default(autoincrement())
+  userId     String
+  date       DateTime
+  reps       Int
+  weight     Float
+  comment    String   @default("")
   exerciseId Int
 }
