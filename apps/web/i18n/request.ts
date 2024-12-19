@@ -10,6 +10,7 @@ export default getRequestConfig(async ({ locale }) => {
       common: { ...(await importLocaleFile(_locale, 'common')).default },
       msg: { ...(await importLocaleFile(_locale, 'msg')).default },
       table: { ...(await importLocaleFile(_locale, 'table')).default },
+      card: { ...(await importLocaleFile(_locale, 'card')).default },
     },
   };
 });

@@ -1,10 +1,11 @@
 'use client'
-import { Button } from "@/components/shadcnUI/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcnUI/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcnUI/card"
 import { ExerciseChip } from "@/components/Widgets/ExerciseChip/ExerciseChip"
 import { deleteUserExercise, getUserExerciseList } from "@/services/userExercise"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { CircleX } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useMemo } from "react"
 
 // Todo: Refactoring
 const StatusStrategy = (strategy?: 'loading' | 'empty' | 'error') => {
@@ -35,8 +36,14 @@ interface ExerciseInfo {
   name: string
 }
 export function ExerciseListCard({}): JSX.Element
-export function ExerciseListCard({ operable }: { operable: {remove: boolean}}): JSX.Element
-export function ExerciseListCard({ operable, onSelect, selectId }: { operable: { select: boolean }, onSelect: (exerisceInfo: ExerciseInfo) => void, selectId?: number | null }): JSX.Element
+export function ExerciseListCard({ operable }: { operable: {remove: boolean }}): JSX.Element
+export function ExerciseListCard(
+  { operable, onSelect, selectId }:
+  { 
+    operable: { select: boolean },
+    onSelect: (exerisceInfo: ExerciseInfo) => void, selectId?: number | null
+   }):
+  JSX.Element
 export function ExerciseListCard(
   { operable, onSelect, selectId }:
   {
@@ -44,6 +51,7 @@ export function ExerciseListCard(
     onSelect?: (exercise: ExerciseInfo) => void,
     selectId?: number | null
   }) {
+  const t = useTranslations()
   const queryClient = useQueryClient();
   const { data: exerciseList, error, isLoading, isSuccess } = useQuery({
     queryKey: ['exerciseList'],
@@ -66,10 +74,24 @@ export function ExerciseListCard(
       }
     }
   })())
+  const headerText = useMemo(() => {
+    let title = 'Exericse List'
+    let description = ''
+    if(operable?.select) {
+      title = t('card.chooseExercise.title')
+      description = t('card.chooseExercise.description')
+    } else if (operable?.remove) {
+      title = t('card.removeExercise.title')
+      description = t('card.removeExercise.description')
+    }
+    console.log(1);
+    return { title, description }
+  }, [operable])
   return (
     <Card className="min-h-32">
       <CardHeader>
-        <CardTitle>Current Exercise List</CardTitle>
+        <CardTitle> { headerText.title} </CardTitle>
+        <CardDescription>{ headerText.description }</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex gap-3 flex-wrap">

@@ -1,9 +1,0 @@
-{
-    "errors": {
-        "systemError": "系統錯誤"
-    },
-    "dialog": {
-        "confirmIfDelete": "請確認是否要刪除?",
-        "deletionCannotBeUndone": "刪除後無法還原。"
-    }
-}

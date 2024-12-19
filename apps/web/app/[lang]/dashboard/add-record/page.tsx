@@ -14,7 +14,9 @@ import { UploadRecordPreviewTable } from "@/components/Tables/UploadRecordPrevie
 import { getExerciseByNames } from "@/services/public/exericse";
 import { addUserExercise } from "@/services/userExercise";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 export default function AddRecordPage() {
+  const t = useTranslations()
   const { control, register, handleSubmit } = useForm<AddTrainingRecordFormSchema>({
     resolver: zodResolver(addTrainingRecordFormSchema),
     defaultValues: {
@@ -145,18 +147,18 @@ export default function AddRecordPage() {
             />
           )}
         />
-        <BaseCard title="Content" description="Your Content">
+        <BaseCard title={t('card.trainingContent.title')} description={t('card.trainingContent.description')}>
           <div className="flex flex-col gap-4">
             <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })} />
             <Input type="number" placeholder="Reps" {...register('reps', { required: true, valueAsNumber: true })} />
             <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })} />
             <Input type="text" placeholder="Comment" {...register('comment')} />
-            <Button type="submit" variant="secondary">Submit</Button>
-            <Button type="reset" variant="ghost">Reset</Button>
+            <Button type="submit" variant="secondary">{t('common.submit')}</Button>
+            <Button type="reset" variant="ghost">{t('common.reset')}</Button>
           </div>
         </BaseCard>
       </form>
-      <BaseCard title="Upload CSV" description="Upload a CSV file to add records">
+      <BaseCard title={t('card.uploadCSV.title')} description={t('card.uploadCSV.description')}>
         <div className="flex gap-4">
           <Input
             id="csv"

@@ -8,7 +8,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useToast } from "@/hooks/use-toast"
 import { PropsWithClassName } from "@/types"
 import { z } from "zod";
+import { useTranslations } from "next-intl"
 export const CreateExerciseCard = ({ className }: PropsWithClassName) => {
+  const t = useTranslations()
   const { toast } = useToast()
   const [exercise, setExercise] = useState('')
   const queryClient = useQueryClient();
@@ -41,13 +43,13 @@ export const CreateExerciseCard = ({ className }: PropsWithClassName) => {
   }
   return (
     <BaseCard
-      title="Create Exercise"
-      description="Create Exercise"
+      title={t('card.existingExercise.title')}
+      description={t('card.existingExercise.description')}
       className={className}
     >
       <form className="flex gap-4" onSubmit={handleSubmit}>
-        <Input placeholder="Exercise" value={exercise} onChange={(e) => setExercise(e.target.value)}/>
-        <Button type="submit" disabled={!exercise || mutation.isPending}>Create</Button>
+        <Input placeholder={t('table.exercise')} value={exercise} onChange={(e) => setExercise(e.target.value)}/>
+        <Button type="submit" disabled={!exercise || mutation.isPending}>{ t('common.create') }</Button>
       </form>
     </BaseCard>
   )

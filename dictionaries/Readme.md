@@ -1,1 +1,0 @@
-tolgee/tolgee-platform may better accelerate the translation process.

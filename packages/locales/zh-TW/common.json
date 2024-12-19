@@ -5,5 +5,8 @@
     "cancel": "取消",
     "delete": "刪除",
     "continue": "繼續",
-    "signOut": "登出"
+    "signOut": "登出",
+    "submit": "提交",
+    "reset": "重設",
+    "create": "創建"
 }
