@@ -1,5 +1,6 @@
 'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcnUI/card"
+import { Skeleton } from "@/components/shadcnUI/skeleton"
 import { ExerciseChip } from "@/components/Widgets/ExerciseChip/ExerciseChip"
 import { deleteUserExercise, getUserExerciseList } from "@/services/userExercise"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -12,7 +13,7 @@ const StatusStrategy = (strategy?: 'loading' | 'empty' | 'error') => {
   switch (strategy) {
     case 'loading': {
       return (
-        <div>Loading...</div>
+        <div className="w-full"><Skeleton className="h-10 w-full"/></div>
       )
     }
     case 'empty': {

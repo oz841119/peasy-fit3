@@ -6,6 +6,7 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { Languages } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { routing, useRouter, usePathname } from '../../../../i18n/routing'
+import { Badge } from "@/components/shadcnUI/badge";
 export function User() {
   const t = useTranslations()
   const currLocale = useLocale();
@@ -21,7 +22,7 @@ export function User() {
         <Avatar className="ml-auto cursor-pointer"><AvatarFallback><PersonIcon /></AvatarFallback></Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="text-end">{t('common.myAccount')}</DropdownMenuLabel>
+        <DropdownMenuItem className="justify-end cursor-pointer">{t('common.myAccount')}</DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger arrowPosition="start">
             <span>{t('common.selectLanguage')}</span>
@@ -31,19 +32,24 @@ export function User() {
             <DropdownMenuSubContent>
               {
                 locales.map((locale => (
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
+                    className="cursor-pointer flex justify-between"
                     key={locale}
                     disabled={currLocale === locale}
                     onSelect={() => toggleLocale(locale)}
                   >
                     <span>{locale}</span>
+                    {
+                      currLocale === locale &&
+                    <Badge variant="secondary" className="scale-75 origin-right">current</Badge>
+                    }
                   </DropdownMenuItem>
                 )))
               }
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <DropdownMenuItem className=" justify-end font-bold" onClick={() => signOut()}>
+        <DropdownMenuItem className="cursor-pointer justify-end font-bold" onClick={() => signOut()}>
           {t('common.signOut')}
         </DropdownMenuItem>
       </DropdownMenuContent>
