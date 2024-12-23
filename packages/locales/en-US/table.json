@@ -23,6 +23,6 @@
     "description": "More intuitive comparison of weight, reps and volume of each set of training"
   },
   "latestRecords": "Latest {count} records",
-  "allRecords": "ll records",
+  "allRecords": "All records",
   "selectExercise": "Select exercise"
 }
