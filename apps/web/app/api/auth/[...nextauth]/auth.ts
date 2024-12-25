@@ -70,6 +70,7 @@ export const authOptions: NextAuthOptions = {
         params.account?.type === "oauth"
       ) {
         const userGoogleId = params.account?.providerAccountId;
+        const userName = params.profile?.name;
         try {
           const user = await prisma.user.findUnique({
             where: {
@@ -84,6 +85,7 @@ export const authOptions: NextAuthOptions = {
             await prisma.user.create({
               data: {
                 googleId: userGoogleId,
+                name: userName,
               },
             });
           }
@@ -113,6 +115,7 @@ export const authOptions: NextAuthOptions = {
         } else {
           params.user && (params.token.userId = params.user.userId);
         }
+        params.user && (params.token.name = params.user.name);
         return params.token;
       } catch (err) {
         throw err
@@ -120,6 +123,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session(params) {
       params.session.user && (params.session.user.userId = params.token.userId);
+      params.session.user && (params.session.user.name = params.token.name || '');
       return params.session;
     },
   },

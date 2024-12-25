@@ -1,5 +1,5 @@
 'use client'
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarFallback } from "@/components/shadcnUI/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/shadcnUI/dropdown-menu";
 import { PersonIcon } from "@radix-ui/react-icons";
@@ -7,6 +7,7 @@ import { Languages } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { routing, useRouter, usePathname } from '../../../../i18n/routing'
 import { Badge } from "@/components/shadcnUI/badge";
+import { Skeleton } from "@/components/shadcnUI/skeleton";
 export function User() {
   const t = useTranslations()
   const currLocale = useLocale();
@@ -16,10 +17,15 @@ export function User() {
   const toggleLocale = (locale: typeof locales[number] ) => {
     router.push(pathname, { locale })
   }
+  const { data, status } = useSession()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="ml-auto cursor-pointer"><AvatarFallback><PersonIcon /></AvatarFallback></Avatar>
+        { 
+          <div className="ml-auto cursor-pointer self-stretch text-sm">
+            { status === 'authenticated' ? data?.user.name || 'User' : <Skeleton className="w-16 h-full"/>}
+          </div>
+        }
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem className="justify-end cursor-pointer">{t('common.myAccount')}</DropdownMenuItem>
