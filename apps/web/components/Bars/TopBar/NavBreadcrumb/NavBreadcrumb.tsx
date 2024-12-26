@@ -30,6 +30,7 @@ export function NavBreadcrumb() {
   const pathname = usePathname()
   const START_PATH_INDEX = 2 // Index 1 is locale
   const breadcrumbList = pathname.split('/').slice(START_PATH_INDEX)
+  console.log(breadcrumbList);
   return (
     <Breadcrumb>
       <BreadcrumbList>

@@ -20,7 +20,7 @@ export default async function RootLayout({
   return (
     <html lang="zh-tw">
       {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async></script> */}
-      <body className="dark">
+      <body className="dark min-w-screen">
         <SessionProvider>
           <NextIntlClientProvider messages={messages}>
             <ReactQueryProvider>

@@ -85,7 +85,6 @@ export function ExerciseListCard(
       title = t('card.removeExercise.title')
       description = t('card.removeExercise.description')
     }
-    console.log(1);
     return { title, description }
   }, [operable])
   return (

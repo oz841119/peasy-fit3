@@ -8,5 +8,15 @@
     "signOut": "Sign Out",
     "submit": "Submit",
     "reset": "Reset",
-    "create": "Create"
+    "create": "Create",
+    "menu": {
+        "label": {
+            "index": "Index",
+            "trainingRecord": "Training Record",
+            "addRecord": "Add Record",
+            "exercise": "Exercise"
+        }
+    },
+    "setLanguage": "Set language",
+    "pages": "Pages"
 }

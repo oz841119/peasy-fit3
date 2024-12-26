@@ -1,26 +1,34 @@
-import { IconLink } from "@/components/Widgets/IconLink/IconLink"
-import { Dice6, House, SquarePlus, Baby, BicepsFlexed } from "lucide-react"
+'use client'
+import { menu } from "@/constants/menu"
+import { usePathname } from "@/i18n/routing"
+import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
+import Link from "next/link"
 
 export const SideBar = () => {
+  const t = useTranslations()
+  const pathname = usePathname()
   return (
-    <aside className="px-2 py-5 bg-background">
+    <aside className="py-5 bg-background px-2">
+      <div className="mb-6 text-xl font-bold text-foreground px-3">Peasy Fit</div>
       <nav className="gap-4 flex flex-col">
-        <IconLink
-          href="/"
-          icon={<House width="20"/>}
-        />
-        <IconLink
-          href="/dashboard/training-record"
-          icon={<Dice6 width="20"/>}
-        />
-        <IconLink
-          href="/dashboard/add-record"
-          icon={<SquarePlus width="20"/>}
-        />
-        <IconLink
-          href="/dashboard/exercise"
-          icon={<BicepsFlexed width="20"/>}
-        />
+
+        {
+          menu.map(item => (
+            <Link
+              href={item.route}
+              className={cn(
+                'flex gap-2 px-4 py-2',
+                pathname === item.route && 'text-foreground',
+                'hover:bg-sidebar-accent rounded-xl'
+              )}
+              key={item.name}
+            >
+              { <item.icon width="20"/> }
+              { t(item.label) }
+            </Link>
+          ))
+        }
       </nav>
     </aside>
   )

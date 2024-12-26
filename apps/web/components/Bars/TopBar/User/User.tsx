@@ -5,24 +5,25 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { PersonIcon } from "@radix-ui/react-icons";
 import { Languages } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { routing, useRouter, usePathname } from '../../../../i18n/routing'
+import { routing, useRouter, usePathname } from '@/i18n/routing'
 import { Badge } from "@/components/shadcnUI/badge";
 import { Skeleton } from "@/components/shadcnUI/skeleton";
-export function User() {
+import { cn } from "@/lib/utils";
+import { useLangToggler } from "@/hooks/useLangToggler";
+interface Props {
+  triggerClassName?: string
+}
+export function User({ triggerClassName = '' }: Props) {
   const t = useTranslations()
   const currLocale = useLocale();
   const { locales } = routing
-  const router = useRouter()
-  const pathname = usePathname()
-  const toggleLocale = (locale: typeof locales[number] ) => {
-    router.push(pathname, { locale })
-  }
+  const { toggleLocale }= useLangToggler()
   const { data, status } = useSession()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         { 
-          <div className="ml-auto cursor-pointer self-stretch text-sm">
+          <div className={cn('cursor-pointer self-stretch text-sm', triggerClassName)}>
             { status === 'authenticated' ? data?.user.name || 'User' : <Skeleton className="w-16 h-full"/>}
           </div>
         }
