@@ -12,7 +12,7 @@ export default function TrainingRecordPage() {
   const [isSelectPrompt, setIsSelectPrompt] = useState<boolean>(true)
   return (
     <div>
-      <div className="mb-2 flex gap-2">
+      <div className="mb-2 flex flex-col gap-2 flex-wrap max-w-md sm:flex-row">
         <Select
           defaultValue={filter.exerciseId?.toString()}
           onValueChange={(value) => updateFilter(draft => {
@@ -22,7 +22,7 @@ export default function TrainingRecordPage() {
             isSelectPrompt && setIsSelectPrompt(false)
           }}
         >
-          <SelectTrigger className={cn('w-48', isSelectPrompt && 'border-red-500 border-2')}>
+          <SelectTrigger className={cn('flex-1', isSelectPrompt && 'border-red-500 border-2')}>
             <SelectValue placeholder={t('table.selectExercise')} />
           </SelectTrigger>
           <SelectContent>
@@ -44,7 +44,7 @@ export default function TrainingRecordPage() {
             })
           }}
         >
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="flex-1">
             <SelectValue placeholder="Select exercise" />
           </SelectTrigger>
           <SelectContent>
