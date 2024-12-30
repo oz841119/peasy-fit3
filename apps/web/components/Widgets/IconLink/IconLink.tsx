@@ -1,5 +1,5 @@
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
-import Link from "next/link"
 import { ReactNode } from "react";
 
 interface Props {

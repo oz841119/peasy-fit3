@@ -3,12 +3,11 @@ import { Badge } from "@/components/shadcnUI/badge"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/shadcnUI/sheet"
 import { menu } from "@/constants/menu"
 import { useLangToggler } from "@/hooks/useLangToggler"
-import { getLocaleName, routing, usePathname } from "@/i18n/routing"
+import { getLocaleName, Link, routing, usePathname } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 import { EllipsisVertical, Languages, LogOut } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useLocale, useTranslations } from "next-intl"
-import Link from "next/link"
 import { HTMLAttributes, useEffect, useState } from "react"
 
 interface Props {
