@@ -1,9 +1,9 @@
 'use client'
 import { menu } from "@/constants/menu"
-import { usePathname } from "@/i18n/routing"
+import { Link, usePathname } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
-import Link from "next/link"
+// import Link from "next/link"
 
 export const SideBar = () => {
   const t = useTranslations()
@@ -12,7 +12,6 @@ export const SideBar = () => {
     <aside className="py-5 bg-background px-2">
       <div className="mb-6 text-xl font-bold text-foreground px-3">Peasy Fit</div>
       <nav className="gap-4 flex flex-col">
-
         {
           menu.map(item => (
             <Link
