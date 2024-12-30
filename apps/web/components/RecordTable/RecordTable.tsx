@@ -6,47 +6,60 @@ import {
   flexRender,
   getCoreRowModel,
   RowData,
+  RowSelectionState,
   useReactTable,
 } from "@tanstack/react-table"
-import { Fragment, useMemo, useState } from "react"
+import { Fragment, useMemo, useRef, useState } from "react"
 import { Skeleton } from "../shadcnUI/skeleton"
 import { Checkbox } from "../shadcnUI/checkbox"
 import { DeleteDialog } from "../Dialogs/DeleteDialog/DeleteDialog"
 import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext"
 import dayjs from "dayjs"
 import { Trash2 } from "lucide-react"
+import { useImmer } from "use-immer"
+import { Button } from "../shadcnUI/button"
+import { useToast } from "@/hooks/use-toast"
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
     size?: number;
   }
 }
 interface Record {
-  id: string
+  id: number
   date: string | number | Date
   reps: number
   weight: number
   exercise: string
   comment?: string
 }
+
 export const RecordTable = () => {
   const t = useTranslations()
-  const { trainingRecordListQuery, getExerciseNameById, deleteTrainingRecordMutation } = useTrainingRecordContext()
+  const { 
+    trainingRecordListQuery,
+    getExerciseNameById,
+    deleteTrainingRecordMutation
+  } = useTrainingRecordContext()
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const columns: ColumnDef<Record>[] = useMemo(() => [
-    { accessorKey: 'select', header: '', meta: { size: 30 }, cell: () => <Checkbox /> },
     { accessorKey: 'date', header: t('table.date'), meta: { size: 100 } },
     { accessorKey: 'exercise', header: t('table.exercise'), meta: { size: 100 } },
     { accessorKey: 'weight', header: t('table.weight'), meta: { size: 100 } },
     { accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 } },
     { accessorKey: 'comment', header: t('table.comment') },
     {
-      accessorKey: 'action', header: t('table.action'), meta: { size: 70 }, cell: (c) => (
-        <div className="flex justify-end">
+      accessorKey: 'action', header: t('table.action'), meta: { size: 100 }, cell: (c) => (
+        <div className="flex justify-end items-center gap-2 pr-2">
           <Trash2
             className="cursor-pointer text-muted-foreground hover:text-foreground"
             onClick={() => {
+              singleDelectId.current = c.row.original.id
               setDeleteDialogOpen(true)
-              setSelectdTraininRecordIds([Number(c.row.original.id)])
             }}
+          />
+          <Checkbox
+            checked={c.row.getIsSelected()}
+            onCheckedChange={c.row.getToggleSelectedHandler()}
           />
         </div>
       )
@@ -66,14 +79,37 @@ export const RecordTable = () => {
   const table = useReactTable({
     columns,
     data: rows || [],
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: setRowSelection,
+    getRowId: row => row.id.toString(),
+    state: {
+      rowSelection
+    }
   })
-  const [selectdTraininRecordIds, setSelectdTraininRecordIds] = useState<number[]>([])
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const singleDelectId = useRef<null | number>(null)
+  const { toast } = useToast()
   const handleDelete = () => {
-    deleteTrainingRecordMutation.mutate(selectdTraininRecordIds, {
-      onSuccess: () => {
-        console.log('delete success');
+    const ids = singleDelectId.current 
+      ? [singleDelectId.current] 
+      : Object.keys(rowSelection).map(id => Number(id))
+    deleteTrainingRecordMutation.mutate(ids, {
+      onSuccess: (result) => {
+        toast({
+          title: "Success",
+          description: `Delected ${result.count} items`,
+          variant: "default"
+        })
+        setRowSelection({})
+        singleDelectId.current = null
+      },
+      onError: (err) => {
+        toast({
+          title: "Error",
+          description: err.message,
+          variant: "destructive"
+        })
+        singleDelectId.current = null
       }
     })
     setDeleteDialogOpen(false)
@@ -156,13 +192,22 @@ export const RecordTable = () => {
       <DeleteDialog
         open={deleteDialogOpen}
         onOpenChange={(source: "cancel" | "delete") => {
-          console.log(source);
           if(source === 'cancel') {
             setDeleteDialogOpen(false)
           } else {
             handleDelete()
           }
-        }} />
+        }}
+      />
+      {
+        Object.keys(rowSelection).length && 
+          <div className=" sticky bottom-0 flex justify-center py-1">
+            <div className="py-1 px-2 border-2 rounded-md flex items-center gap-2 bg-card">
+              <div className="text-sm">{t('common.selectItems', { count: Object.keys(rowSelection).length })}</div>
+              <Button onClick={() => setDeleteDialogOpen(true)} variant="destructive" size='sm'>{t('common.delete')}</Button>
+            </div>
+          </div>
+      }
     </>
   )
 }

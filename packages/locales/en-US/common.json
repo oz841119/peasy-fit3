@@ -18,5 +18,6 @@
         }
     },
     "setLanguage": "Set language",
-    "pages": "Pages"
+    "pages": "Pages",
+    "selectItems": "Select {count} items"
 }

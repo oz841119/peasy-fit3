@@ -18,5 +18,6 @@
         }
     },
     "setLanguage": "設置語言",
-    "pages": "頁面"
+    "pages": "頁面",
+    "selectItems": "選擇 {count} 項"
 }
