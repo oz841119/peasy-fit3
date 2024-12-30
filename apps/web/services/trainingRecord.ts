@@ -3,7 +3,7 @@ interface TrainingRecord {
   exerciseId: number;
   weight: number;
   reps: number;
-  id: string;
+  id: number;
   comment: string;
 }
 interface GetTrainingRecordListResp {
@@ -49,7 +49,7 @@ export const addTrainingRecord = async (params: Params[]) => {
   }
 };
 
-export const deleteTrainingRecord = async (ids: number[]) => {
+export const deleteTrainingRecord = async (ids: number[]): Promise<{ count: number }> => {
   try {
     return fetch("/api/training-record", {
       method: "DELETE",

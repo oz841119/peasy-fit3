@@ -22,7 +22,7 @@ interface ITrainingRecordContext {
     error: Error | null,
     isLoading: boolean
   }
-  deleteTrainingRecordMutation: UseMutationResult
+  deleteTrainingRecordMutation: UseMutationResult<{ count: number }>
   getExerciseNameById: (id: number) => string | null
 }
 
@@ -44,7 +44,7 @@ const defaultValues = {
     isLoading: false
   },
   getExerciseNameById: () => null,
-  deleteTrainingRecordMutation: {} as UseMutationResult
+  deleteTrainingRecordMutation: {} as UseMutationResult<{ count: number }>
 }
 const TrainingRecordContext = createContext<ITrainingRecordContext>(defaultValues)
 export const useTrainingRecordContext = () => {
@@ -67,7 +67,7 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
     }),
     enabled: !!filter.exerciseId
   })
-  const deleteTrainingRecordMutation = useMutation<void, Error, number[]>({
+  const deleteTrainingRecordMutation = useMutation({
     mutationFn: (ids: number[]) => deleteTrainingRecord(ids),
     onSuccess: () => {
       trainingRecordListRefetch();
@@ -102,7 +102,7 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
           error: trainingRecordListError,
           isLoading: trainingRecordListIsLoading
         },
-        deleteTrainingRecordMutation: deleteTrainingRecordMutation as UseMutationResult,
+        deleteTrainingRecordMutation: deleteTrainingRecordMutation as UseMutationResult<{ count: number }>,
         exerciseList: {
           current: exerciseList,
           error: exerciseListError,
