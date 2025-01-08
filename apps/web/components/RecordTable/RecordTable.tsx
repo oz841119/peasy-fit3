@@ -200,7 +200,7 @@ export const RecordTable = () => {
         }}
       />
       {
-        Object.keys(rowSelection).length && 
+        Object.keys(rowSelection).length > 0 && 
           <div className=" sticky bottom-0 flex justify-center py-1">
             <div className="py-1 px-2 border-2 rounded-md flex items-center gap-2 bg-card">
               <div className="text-sm">{t('common.selectItems', { count: Object.keys(rowSelection).length })}</div>
