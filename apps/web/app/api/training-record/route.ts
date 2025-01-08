@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { handleAuth } from "../auth/[...nextauth]/auth"
 
 export const GET = async (request: NextRequest) => {
+  const user = await handleAuth(request)
+  const userId = user.userId
   const exerciseId = request.nextUrl.searchParams.get('exerciseId')
   const skip = request.nextUrl.searchParams.get('skip')
   const take = request.nextUrl.searchParams.get('take')
@@ -10,12 +12,14 @@ export const GET = async (request: NextRequest) => {
 
   const total = await prisma.training.count({
     where: {
-      exerciseId: Number(exerciseId)
+      exerciseId: Number(exerciseId),
+      userId: userId
     }
   })
   const trainingRecordList = await prisma.training.findMany({ // TODO: 性能, 索引
     where: {
-      exerciseId: Number(exerciseId)
+      exerciseId: Number(exerciseId),
+      userId: userId
     },
     skip: Number(skip),
     take: Number(take) || undefined,
