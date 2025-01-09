@@ -197,7 +197,7 @@ export const RecordTable = () => {
           } else {
             handleDelete()
           }
-        }}213
+        }}
       />
       {
         Object.keys(rowSelection).length > 0 && 
