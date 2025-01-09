@@ -40,9 +40,10 @@ export const POST = async (request: NextRequest) => {
 }
 
 export const DELETE = async (request: NextRequest) => {
+  const user = await handleAuth(request)
   const body = await request.json()
   const deleteTrainingRecordResult = await prisma.training.deleteMany({
-    where: { id: { in: body.ids } }
+    where: { id: { in: body.ids }, userId: user.userId }
   })
   return Response.json(deleteTrainingRecordResult)
 }
