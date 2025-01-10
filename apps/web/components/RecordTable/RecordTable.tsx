@@ -146,7 +146,7 @@ export const RecordTable = () => {
   }
   return (
     <>
-      <Table className="break-words table-fixed">
+      <Table className="break-words table-fixed text-xs sm:text-sm">
         <TableHeader>
           <TableRow>
             {

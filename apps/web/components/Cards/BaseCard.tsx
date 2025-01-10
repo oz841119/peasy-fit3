@@ -7,11 +7,11 @@ interface Props extends PropsWithCrCn {
 export const BaseCard = ({ className, children, title, description }: Props) => {
   return (
     <Card className={className}>
-      <CardHeader>
+      <CardHeader className="px-3 py-4 sm:px-6 sm:py-6">
         <CardTitle>{ title }</CardTitle>
         <CardDescription>{ description }</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-3 py-4 sm:px-6 sm:py-6">
         { children }
       </CardContent>
       <CardFooter></CardFooter>
