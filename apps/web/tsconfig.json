@@ -20,7 +20,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["jest", "node"]
+    "types": ["jest", "node", "../../types"],
     // "typeRoots": [
     //   "../../types"
     // ]

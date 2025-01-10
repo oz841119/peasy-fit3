@@ -6,7 +6,7 @@ interface Props {
   onClick: MouseEventHandler<HTMLDivElement>
   Icon?: ReactNode
 }
-export const ExerciseChip = ({ className, text, onClick, Icon }: Props) => {
+export const Chip = ({ className, text, onClick, Icon }: Props) => {
   return (
     <div
       onClick={onClick}
