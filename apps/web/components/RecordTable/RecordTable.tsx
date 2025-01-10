@@ -33,6 +33,17 @@ interface Record {
   comment?: string
 }
 
+const ClickableTile = ({ children, onClick }: { children: React.ReactNode, onClick: () => void}) => {
+  return (
+    <span
+      onClick={onClick}
+      className="hover:underline underline-offset-4 cursor-pointer inline-block"
+    >
+      { children }
+    </span>
+  )
+}
+
 export const RecordTable = () => {
   const t = useTranslations()
   const {
@@ -49,11 +60,9 @@ export const RecordTable = () => {
       accessorKey: 'weight', header: t('table.weight'), meta: { size: 100 }, cell: (c) => {
         const weight = c.row.original.weight
         return (
-          <div
-            className="hover:underline underline-offset-4 cursor-pointer"
-            onClick={() => updateFilter(draft => { draft.weight = weight })}>
+          <ClickableTile onClick={() => updateFilter(draft => { draft.weight = weight })}>
             {weight}
-          </div>
+          </ClickableTile>
         )
       }
     },
@@ -61,12 +70,9 @@ export const RecordTable = () => {
       accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 }, cell: (c) => {
         const reps = c.row.original.reps
         return (
-          <div
-            className="hover:underline underline-offset-4 cursor-pointer"
-            onClick={() => updateFilter(draft => { draft.reps = reps })}
-          >
+          <ClickableTile onClick={() => updateFilter(draft => { draft.reps = reps })}>
             {reps}
-          </div>
+          </ClickableTile>
         )
       }
     },
