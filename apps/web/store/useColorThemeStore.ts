@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { COLOR_THEME } from "../constants/index";
 import { devtools, persist } from "zustand/middleware";
+import { ValueOf } from "next/dist/shared/lib/constants";
 type Theme = ValueOf<typeof COLOR_THEME>
 interface ColorThemeState {
   theme: Theme
