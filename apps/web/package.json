@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -33,11 +33,11 @@
     "framer-motion": "^11.11.4",
     "immer": "^10.1.1",
     "lucide-react": "^0.441.0",
-    "next": "14.2.12",
+    "next": "15.1.6",
     "next-auth": "^4.24.8",
     "next-intl": "^3.19.4",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-hook-form": "^7.53.1",
     "recharts": "2.13.0-alpha.5",
     "tailwind-merge": "^2.5.2",
@@ -49,10 +49,16 @@
   "devDependencies": {
     "@prisma/nextjs-monorepo-workaround-plugin": "^6.0.1",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.8",
+      "@types/react-dom": "19.0.3"
+    }
   }
 }
