@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "w-dev": "dotenv -e .env.dev -- pnpm --filter web dev",
-    "dev": "dotenv -e .env.dev -- docker-compose up -d && pnpm w-dev",
+    "dev": "dotenv -e .env.dev -- docker compose up -d && pnpm w-dev",
     "down": "docker-compose down",
     "migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
     "generate": "pnpm --filter db generate",
