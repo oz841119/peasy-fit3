@@ -20,12 +20,16 @@ model User {
   exerciseList Exercise[] @relation("UserExerciseList")
   googleId     String?     @unique
   name         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Exercise {
   id    Int    @id @default(autoincrement())
   name  String @unique
   users User[] @relation("UserExerciseList")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Training {
@@ -36,4 +40,6 @@ model Training {
   weight     Float
   comment    String   @default("")
   exerciseId Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
