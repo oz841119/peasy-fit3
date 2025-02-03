@@ -13,33 +13,45 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(uuid()) @db.Uuid
-  email        String?     @unique
-  password     String?
-  salt         String?
-  exerciseList Exercise[] @relation("UserExerciseList")
-  googleId     String?     @unique
-  name         String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id               String            @id @default(uuid()) @db.Uuid
+  email            String?           @unique
+  password         String?
+  salt             String?
+  exerciseList     Exercise[]        @relation("UserExerciseList")
+  googleId         String?           @unique
+  name             String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  trainingSessions TrainingSession[]
 }
 
 model Exercise {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  users User[] @relation("UserExerciseList")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  users     User[]   @relation("UserExerciseList")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Training {
-  id         Int      @id @default(autoincrement())
-  userId     String
-  date       DateTime
-  reps       Int
-  weight     Float
-  comment    String   @default("")
-  exerciseId Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                Int              @id @default(autoincrement())
+  userId            String
+  date              DateTime
+  reps              Int
+  weight            Float
+  comment           String           @default("")
+  exerciseId        Int
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  TrainingSession   TrainingSession? @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId Int?
+}
+
+model TrainingSession {
+  id        Int        @id @default(autoincrement())
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String     @db.Uuid
+  trainings Training[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
