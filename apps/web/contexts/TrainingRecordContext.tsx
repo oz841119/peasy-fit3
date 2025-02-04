@@ -1,7 +1,7 @@
 'use client'
 import { getUserExerciseList } from "@/services/userExercise";
 import { deleteTrainingRecord, getTrainingRecordList } from "@/services/trainingRecord";
-import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef } from "react"
 import { Updater, useImmer } from "use-immer";
 
@@ -10,6 +10,8 @@ interface ITrainingRecordContext {
     exerciseId: number | null,
     take: number | null,
     skip: number | null,
+    weight?: number,
+    reps?: number,
   }
   updateFilter: Updater<ITrainingRecordContext['filter']>
   exerciseList: {
@@ -17,11 +19,7 @@ interface ITrainingRecordContext {
     error: Error | null,
     isLoading: boolean
   }
-  trainingRecordListQuery: {
-    current: Awaited<ReturnType<typeof getTrainingRecordList>> | undefined,
-    error: Error | null,
-    isLoading: boolean
-  }
+  trainingRecordListQuery: UseQueryResult<Awaited<ReturnType<typeof getTrainingRecordList>>, Error>
   deleteTrainingRecordMutation: UseMutationResult<{ count: number }>
   getExerciseNameById: (id: number) => string | null
 }
@@ -38,11 +36,7 @@ const defaultValues = {
     error: null,
     isLoading: false
   },
-  trainingRecordListQuery: {
-    current: undefined,
-    error: null,
-    isLoading: false
-  },
+  trainingRecordListQuery: {} as UseQueryResult<Awaited<ReturnType<typeof getTrainingRecordList>>, Error>,
   getExerciseNameById: () => null,
   deleteTrainingRecordMutation: {} as UseMutationResult<{ count: number }>
 }
@@ -53,24 +47,21 @@ export const useTrainingRecordContext = () => {
 export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) => {
   const [filter, updateFilter] = useImmer<ITrainingRecordContext['filter']>(defaultValues.filter)
 
-  const {
-    data: trainingRecordList,
-    error: trainingRecordListError,
-    isLoading: trainingRecordListIsLoading,
-    refetch: trainingRecordListRefetch
-  } = useQuery({
-    queryKey: ['getTrainingRecordList', filter.exerciseId, filter.skip, filter.take],
+  const trainingRecordListQuery = useQuery({
+    queryKey: ['getTrainingRecordList', filter],
     queryFn: () => getTrainingRecordList({
       exerciseId: filter.exerciseId ?? undefined,
       skip: filter.skip ?? undefined,
-      take: filter.take ?? undefined
+      take: filter.take ?? undefined,
+      weight: filter.weight ?? undefined,
+      reps: filter.reps ?? undefined
     }),
     enabled: !!filter.exerciseId
   })
   const deleteTrainingRecordMutation = useMutation({
     mutationFn: (ids: number[]) => deleteTrainingRecord(ids),
     onSuccess: () => {
-      trainingRecordListRefetch();
+      trainingRecordListQuery.refetch();
     }
   })
   const { data: exerciseList, error: exerciseListError, isLoading: exerciseListIsLoading } = useQuery({
@@ -97,11 +88,7 @@ export const TrainingRecordContextProvider = ({ children }: PropsWithChildren) =
       value={{
         filter: filter,
         updateFilter: updateFilter,
-        trainingRecordListQuery: {
-          current: trainingRecordList,
-          error: trainingRecordListError,
-          isLoading: trainingRecordListIsLoading
-        },
+        trainingRecordListQuery: trainingRecordListQuery,
         deleteTrainingRecordMutation: deleteTrainingRecordMutation as UseMutationResult<{ count: number }>,
         exerciseList: {
           current: exerciseList,

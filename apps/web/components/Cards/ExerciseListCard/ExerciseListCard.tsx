@@ -1,7 +1,7 @@
 'use client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/shadcnUI/card"
 import { Skeleton } from "@/components/shadcnUI/skeleton"
-import { ExerciseChip } from "@/components/Widgets/ExerciseChip/ExerciseChip"
+import { Chip } from "@/components/Widgets/Chip/Chip"
 import { deleteUserExercise, getUserExerciseList } from "@/services/userExercise"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { CircleX } from "lucide-react"
@@ -99,7 +99,7 @@ export function ExerciseListCard(
             exerciseList 
               ?
                 exerciseList.map(exercise => (
-                  <ExerciseChip
+                  <Chip
                     text={exercise.name}
                     key={exercise.id}
                     Icon={operable?.remove && <CircleX width={16}/>}

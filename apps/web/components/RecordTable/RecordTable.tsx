@@ -33,19 +33,49 @@ interface Record {
   comment?: string
 }
 
+const ClickableTile = ({ children, onClick }: { children: React.ReactNode, onClick: () => void}) => {
+  return (
+    <span
+      onClick={onClick}
+      className="hover:underline underline-offset-4 cursor-pointer inline-block"
+    >
+      { children }
+    </span>
+  )
+}
+
 export const RecordTable = () => {
   const t = useTranslations()
-  const { 
+  const {
     trainingRecordListQuery,
     getExerciseNameById,
-    deleteTrainingRecordMutation
+    deleteTrainingRecordMutation,
+    updateFilter
   } = useTrainingRecordContext()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const columns: ColumnDef<Record>[] = useMemo(() => [
     { accessorKey: 'date', header: t('table.date'), meta: { size: 100 } },
     { accessorKey: 'exercise', header: t('table.exercise'), meta: { size: 100 } },
-    { accessorKey: 'weight', header: t('table.weight'), meta: { size: 100 } },
-    { accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 } },
+    {
+      accessorKey: 'weight', header: t('table.weight'), meta: { size: 100 }, cell: (c) => {
+        const weight = c.row.original.weight
+        return (
+          <ClickableTile onClick={() => updateFilter(draft => { draft.weight = weight })}>
+            {weight}
+          </ClickableTile>
+        )
+      }
+    },
+    {
+      accessorKey: 'reps', header: t('table.reps'), meta: { size: 100 }, cell: (c) => {
+        const reps = c.row.original.reps
+        return (
+          <ClickableTile onClick={() => updateFilter(draft => { draft.reps = reps })}>
+            {reps}
+          </ClickableTile>
+        )
+      }
+    },
     { accessorKey: 'comment', header: t('table.comment') },
     {
       accessorKey: 'action', header: t('table.action'), meta: { size: 100 }, cell: (c) => (
@@ -66,7 +96,7 @@ export const RecordTable = () => {
     },
   ], [])
   const rows = useMemo(() => {
-    return trainingRecordListQuery.current?.trainingRecordList.map((record) => ({
+    return trainingRecordListQuery.data?.trainingRecordList.map((record) => ({
       id: record.id,
       date: dayjs(record.date).format('YYYY-MM-DD HH:mm:ss'),
       exercise: getExerciseNameById(record.exerciseId) || '',
@@ -90,8 +120,8 @@ export const RecordTable = () => {
   const singleDelectId = useRef<null | number>(null)
   const { toast } = useToast()
   const handleDelete = () => {
-    const ids = singleDelectId.current 
-      ? [singleDelectId.current] 
+    const ids = singleDelectId.current
+      ? [singleDelectId.current]
       : Object.keys(rowSelection).map(id => Number(id))
     deleteTrainingRecordMutation.mutate(ids, {
       onSuccess: (result) => {
@@ -116,7 +146,7 @@ export const RecordTable = () => {
   }
   return (
     <>
-      <Table className="break-words table-fixed">
+      <Table className="break-words text-xs sm:text-sm">
         <TableHeader>
           <TableRow>
             {
@@ -129,6 +159,7 @@ export const RecordTable = () => {
                         width: header.column.columnDef?.meta?.size,
                         textAlign: index > 1 ? 'end' : 'start'
                       }}
+                      className="text-nowrap"
                     >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
@@ -192,7 +223,7 @@ export const RecordTable = () => {
       <DeleteDialog
         open={deleteDialogOpen}
         onOpenChange={(source: "cancel" | "delete") => {
-          if(source === 'cancel') {
+          if (source === 'cancel') {
             setDeleteDialogOpen(false)
           } else {
             handleDelete()
@@ -200,13 +231,13 @@ export const RecordTable = () => {
         }}
       />
       {
-        Object.keys(rowSelection).length > 0 && 
-          <div className=" sticky bottom-0 flex justify-center py-1">
-            <div className="py-1 px-2 border-2 rounded-md flex items-center gap-2 bg-card">
-              <div className="text-sm">{t('common.selectItems', { count: Object.keys(rowSelection).length })}</div>
-              <Button onClick={() => setDeleteDialogOpen(true)} variant="destructive" size='sm'>{t('common.delete')}</Button>
-            </div>
+        Object.keys(rowSelection).length > 0 &&
+        <div className=" sticky bottom-0 flex justify-center py-1">
+          <div className="py-1 px-2 border-2 rounded-md flex items-center gap-2 bg-card">
+            <div className="text-sm">{t('common.selectItems', { count: Object.keys(rowSelection).length })}</div>
+            <Button onClick={() => setDeleteDialogOpen(true)} variant="destructive" size='sm'>{t('common.delete')}</Button>
           </div>
+        </div>
       }
     </>
   )

@@ -1,6 +1,7 @@
 import { prisma } from "@/packages/Prisma"
 import { NextRequest, NextResponse } from "next/server"
 import { handleAuth } from "../auth/[...nextauth]/auth"
+import { parseToNumber } from "@/lib/safelyParse"
 
 export const GET = async (request: NextRequest) => {
   const user = await handleAuth(request)
@@ -8,6 +9,8 @@ export const GET = async (request: NextRequest) => {
   const exerciseId = request.nextUrl.searchParams.get('exerciseId')
   const skip = request.nextUrl.searchParams.get('skip')
   const take = request.nextUrl.searchParams.get('take')
+  const weight = parseToNumber(request.nextUrl.searchParams.get('weight'), undefined)
+  const reps = parseToNumber(request.nextUrl.searchParams.get('reps'), undefined)
   if(exerciseId === null) return new NextResponse(null, { status: 400 })
 
   const total = await prisma.training.count({
@@ -19,7 +22,9 @@ export const GET = async (request: NextRequest) => {
   const trainingRecordList = await prisma.training.findMany({ // TODO: 性能, 索引
     where: {
       exerciseId: Number(exerciseId),
-      userId: userId
+      userId: userId,
+      weight: weight ?? undefined,
+      reps:reps ?? undefined
     },
     skip: Number(skip),
     take: Number(take) || undefined,
