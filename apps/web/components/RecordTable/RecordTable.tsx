@@ -146,7 +146,7 @@ export const RecordTable = () => {
   }
   return (
     <>
-      <Table className="break-words table-fixed text-xs sm:text-sm">
+      <Table className="break-words text-xs sm:text-sm">
         <TableHeader>
           <TableRow>
             {
@@ -159,6 +159,7 @@ export const RecordTable = () => {
                         width: header.column.columnDef?.meta?.size,
                         textAlign: index > 1 ? 'end' : 'start'
                       }}
+                      className="text-nowrap"
                     >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
