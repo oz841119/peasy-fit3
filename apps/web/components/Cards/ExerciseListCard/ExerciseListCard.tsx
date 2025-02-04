@@ -6,7 +6,7 @@ import { deleteUserExercise, getUserExerciseList } from "@/services/userExercise
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { CircleX } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useMemo } from "react"
+import { useMemo, type JSX } from "react";
 
 // Todo: Refactoring
 const StatusStrategy = (strategy?: 'loading' | 'empty' | 'error') => {
