@@ -18,7 +18,7 @@ const DataTile = ({ label, value }: { label: string, value: string}) => {
 export const TrainingRecordLineChart = () => {
   const t = useTranslations()
   const { trainingRecordListQuery } = useTrainingRecordContext();
-  const trainingRecordList = trainingRecordListQuery.current?.trainingRecordList || [];
+  const trainingRecordList = trainingRecordListQuery.data?.trainingRecordList || [];
   const chartData = useMemo(() => {
     return trainingRecordList.map(record => ({
       date: record.date,
