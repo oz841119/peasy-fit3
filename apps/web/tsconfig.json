@@ -26,9 +26,10 @@
         "./*"
       ]
     },
-    "types": ["jest", "node", "../../types"],
     "typeRoots": [
-      "../../types"
+      "../../types",
+      "jest",
+      "node"
     ],
     "target": "ES2017"
   },

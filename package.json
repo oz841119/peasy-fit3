@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "w-dev": "dotenv -e .env.dev -- pnpm --filter web dev",
-    "dev": "dotenv -e .env.dev -- docker-compose up -d && pnpm w-dev",
-    "down": "docker-compose down",
+    "dev": "dotenv -e .env.dev -- docker compose up -d && pnpm w-dev",
+    "down": "docker compose down",
     "migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
     "generate": "pnpm --filter db generate",
     "seed": "dotenv -e .env.dev -- pnpm --filter db seed"
@@ -17,7 +17,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "dotenv-cli": "^7.4.4"
+    "dotenv-cli": "^8.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
