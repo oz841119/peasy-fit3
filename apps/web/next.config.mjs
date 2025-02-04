@@ -8,9 +8,9 @@ const nextConfig = {
     if (isServer) {
       config.plugins = [...config.plugins, new PrismaPlugin()]
     }
-
     return config
   },
+  serverExternalPackages: ["@prisma/client"]
 };
 
 export default withNextIntl(nextConfig);

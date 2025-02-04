@@ -17,7 +17,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "dotenv-cli": "^7.4.4"
+    "dotenv-cli": "^8.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
