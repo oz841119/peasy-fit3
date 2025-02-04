@@ -1,18 +1,21 @@
 'use client'
-import { TrainingRecordContextProvider, useTrainingRecordContext } from "@/contexts/TrainingRecordContext";
+import { useTrainingRecordContext } from "@/contexts/TrainingRecordContext";
 import { TrainingRecordLineChartCard } from "@/components/Cards/TrainingRecordLineChartCard/TrainingRecordLineChartCard";
 import { TrainingRecordTableCard } from "@/components/Cards/TrainingRecordTableCard/TrainingRecordTableCard";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/shadcnUI/select";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Chip } from "@/components/Widgets/Chip/Chip";
+import { CircleX } from "lucide-react";
 export default function TrainingRecordPage() {
   const t = useTranslations()
   const { filter, updateFilter, exerciseList } = useTrainingRecordContext()
   const [isSelectPrompt, setIsSelectPrompt] = useState<boolean>(true)
   return (
     <div>
-      <div className="mb-2 flex flex-col gap-2 flex-wrap max-w-md sm:flex-row">
+      <div className="mb-2 flex flex-col gap-2 flex-wrap sm:flex-row w-full">
+        {/* --------- */}
         <Select
           defaultValue={filter.exerciseId?.toString()}
           onValueChange={(value) => updateFilter(draft => {
@@ -22,7 +25,7 @@ export default function TrainingRecordPage() {
             isSelectPrompt && setIsSelectPrompt(false)
           }}
         >
-          <SelectTrigger className={cn('flex-1', isSelectPrompt && 'border-red-500 border-2')}>
+          <SelectTrigger className={cn('w-full sm:w-52', isSelectPrompt && 'border-red-500 border-2')}>
             <SelectValue placeholder={t('table.selectExercise')} />
           </SelectTrigger>
           <SelectContent>
@@ -33,7 +36,7 @@ export default function TrainingRecordPage() {
             </SelectGroup>
           </SelectContent>
         </Select>
-
+        {/* --------- */}
         <Select
           defaultValue={filter.take?.toString()}
           onValueChange={(value) => {
@@ -44,7 +47,7 @@ export default function TrainingRecordPage() {
             })
           }}
         >
-          <SelectTrigger className="flex-1">
+          <SelectTrigger className="w-full sm:w-52">
             <SelectValue placeholder="Select exercise" />
           </SelectTrigger>
           <SelectContent>
@@ -56,6 +59,27 @@ export default function TrainingRecordPage() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        {/* --------- */}
+        <div className="flex gap-2">
+          {
+            filter.hasOwnProperty('weight') &&
+              <Chip
+                className="text-xs py-1 px-2 border-foreground text-foreground"
+                text={`${t('table.weight')}: ${filter.weight}`}
+                onClick={() => {updateFilter(draft => { delete draft.weight })}}
+                Icon={<CircleX width={14}/>}
+              />
+          }
+          {
+            filter.hasOwnProperty('reps') &&
+              <Chip
+                className="text-xs py-1 px-2 border-foreground text-foreground"
+                text={`${t('table.reps')}: ${filter.reps}`}
+                onClick={() => {updateFilter(draft => { delete draft.reps })}}
+                Icon={<CircleX width={14}/>}
+              />
+          }
+        </div>
       </div>
       <div className="mb-2">
         <TrainingRecordTableCard />

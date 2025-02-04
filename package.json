@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "w-dev": "dotenv -e .env.dev -- pnpm --filter web dev",
     "dev": "dotenv -e .env.dev -- docker-compose up -d && pnpm w-dev",
     "down": "docker-compose down",
@@ -15,7 +15,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "dotenv-cli": "^7.4.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
   }
 }

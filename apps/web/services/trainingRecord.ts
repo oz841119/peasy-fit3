@@ -14,6 +14,8 @@ export const getTrainingRecordList = async (params: {
   exerciseId?: number;
   skip?: number;
   take?: number;
+  weight?: number;
+  reps?: number;
 }): Promise<GetTrainingRecordListResp> => {
   try {
     const searchParams = new URLSearchParams();
