@@ -9,13 +9,15 @@ import { addTrainingRecordFormSchema, AddTrainingRecordFormSchema } from "@/sche
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/hooks/use-toast";
 import { parseWeightToKg } from "@/lib/parseWeightToKg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { UploadRecordPreviewTable } from "@/components/Tables/UploadRecordPreviewTable";
 import { getExerciseByNames } from "@/services/public/exericse";
 import { addUserExercise } from "@/services/userExercise";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import { Loader2 } from "lucide-react";
 export default function AddRecordPage() {
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const t = useTranslations()
   const { control, register, handleSubmit } = useForm<AddTrainingRecordFormSchema>({
     resolver: zodResolver(addTrainingRecordFormSchema),
@@ -33,14 +35,24 @@ export default function AddRecordPage() {
         reps: Number(form.reps),
         comment: form.comment,
       })
-      const addTrainingRecordResult = await addTrainingRecord(record)
-      if (addTrainingRecordResult.count > 0) {
+      try {
+        setIsSubmitLoading(true)
+        const addTrainingRecordResult = await addTrainingRecord(record)
+        if (addTrainingRecordResult.count > 0) {
+          toast({
+            title: 'Success',
+            description: 'Record added successfully',
+          })
+        }
+      } catch (err) {
         toast({
-          title: 'Success',
-          description: 'Record added successfully',
+          title: 'Error',
+          variant: 'destructive',
         })
+        console.error(err);
+      } finally {
+        setIsSubmitLoading(false)
       }
-
     } else {
       toast({
         title: 'Please select an exercise',
@@ -102,8 +114,10 @@ export default function AddRecordPage() {
     reader.readAsText(file)
   }
   const queryClient = useQueryClient();
+  const csvFileInputRef = useRef<null | HTMLInputElement>(null)
   const onUploadCSVSubmit = async () => {
     try {
+      setIsSubmitLoading(true)
       const exerciseNames = Array.from(new Set(uploadCSVRecord.map(record => record.name)))
       await addUserExercise({ exerciseList: exerciseNames })
       const exerciseList = await getExerciseByNames(exerciseNames)
@@ -125,6 +139,10 @@ export default function AddRecordPage() {
         description: `已上傳 ${addTrainingRecordResult.count} 筆記錄`,
         variant: 'default'
       })
+      setUploadCSVRecord([])
+      if(csvFileInputRef.current) {
+        csvFileInputRef.current.value = ''
+      }
     } catch (err) {
       console.error(err);
       toast({
@@ -132,6 +150,8 @@ export default function AddRecordPage() {
         description: `發生異常`,
         variant: 'destructive'
       })
+    } finally {
+      setIsSubmitLoading(false)
     }
   }
   return (
@@ -153,21 +173,31 @@ export default function AddRecordPage() {
             <Input type="number" placeholder="Reps" {...register('reps', { required: true, valueAsNumber: true })} />
             <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })} />
             <Input type="text" placeholder="Comment" {...register('comment')} />
-            <Button type="submit" variant="secondary">{t('common.submit')}</Button>
-            <Button type="reset" variant="ghost">{t('common.reset')}</Button>
+            <Button type="submit" variant="secondary" disabled={isSubmitLoading}>
+              { isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span> }
+            </Button>
+            <Button type="reset" variant="ghost" disabled={isSubmitLoading}>{t('common.reset')}</Button>
           </div>
         </BaseCard>
       </form>
       <BaseCard title={t('card.uploadCSV.title')} description={t('card.uploadCSV.description')}>
         <div className="flex gap-4">
           <Input
+            ref={csvFileInputRef}
             id="csv"
             type="file"
             className="w-72 mb-4"
             accept=".csv"
             onChange={onUploadCSV}
           />
-          {uploadCSVRecord.length > 0 && <Button variant="secondary" onClick={onUploadCSVSubmit}>Submit</Button>}
+          {
+            uploadCSVRecord.length > 0
+              && (
+                <Button variant="secondary" onClick={onUploadCSVSubmit} disabled={isSubmitLoading}>
+                  { isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span> }
+                </Button>
+              )
+          }
         </div>
         {uploadCSVRecord.length > 0 && <UploadRecordPreviewTable records={uploadCSVRecord} />}
       </BaseCard>
