@@ -16,7 +16,21 @@ export const CreateExerciseCard = ({ className }: PropsWithClassName) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({ exercise }: { exercise: string }) => addUserExercise({ exerciseList: [exercise] }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['exerciseList'] }),
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: ['exerciseList'] })
+      if(result.createdCount !== 0) {
+        toast({
+          title: "Success",
+          description: result.content.map(({name}) => name).join(',')
+        })
+      } else {
+        toast({
+          title: "Error",
+          description: 'No exercise was created',
+          variant: "destructive"
+        })
+      }
+    },
     onError: (error) => {
       toast({
         title: "Error",
