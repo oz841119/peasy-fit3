@@ -14,10 +14,13 @@
             "index": "Index",
             "trainingRecord": "Training Record",
             "addRecord": "Add Record",
-            "exercise": "Exercise"
+            "exercise": "Exercise",
+            "session": "Session"
         }
     },
     "setLanguage": "Set language",
     "pages": "Pages",
-    "selectItems": "Select {count} items"
+    "selectItems": "Select {count} items",
+    "inTraining": "In Training",
+    "notInTraining": "Not In Training"
 }
