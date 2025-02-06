@@ -3,38 +3,48 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { handleAuth } from "../auth/[...nextauth]/auth";
 export const POST = async (request: NextRequest) => {
-  const body = await request.json();
+  const [user, body] = await Promise.all([
+    handleAuth(request),
+    request.json(),
+  ]);
   const targetExerciseList = body["exerciseList"];
-  if (!Array.isArray(targetExerciseList) && targetExerciseList.length > 0) {
+  if (!Array.isArray(targetExerciseList)) {
     return NextResponse.json("exerciseList must be an array", { status: 400 });
   }
-  const createManyResult = await prisma.exercise.createMany({
-    skipDuplicates: true,
-    data: targetExerciseList.map((name: string) => ({ name })),
-  });
-  console.log(createManyResult);
-  const user = await getToken({ req: request, secret: "test" });
-  if (user === null) {
-    return NextResponse.json("Unauthorized", { status: 401 });
-  } else {
-    const exerciseList = await prisma.exercise.findMany({
-      where: {
-        name: {
-          in: targetExerciseList,
+  try {
+    const createdList = await prisma.$transaction(async (tx) => {
+      const upsertExerciseResult = await Promise.all(
+        targetExerciseList.map((name) => tx.exercise.upsert({
+          where: { name },
+          update: {},
+          create: { name },
+        }))
+      )
+      const oldUser = await tx.user.findUnique({
+        where: { id: user.userId as string },
+        select: { exerciseList: true }
+      })
+      if(!oldUser) {
+        throw 'No found user'
+      }
+      const { exerciseList: updateUserExerciseList} = await tx.user.update({
+        where: { id: user.userId as string },
+        data: {
+          exerciseList: {
+            connect: upsertExerciseResult.map(({ id }) => ({ id })),
+          },
         },
-      },
-    });
-    await prisma.user.update({
-      where: { id: user.userId as string },
-      data: {
-        exerciseList: {
-          connect: exerciseList.map((exercise) => ({ id: exercise.id })),
-        },
-      },
-    });
-    return NextResponse.json({
-      createdCount: createManyResult.count,
-    });
+        select: { exerciseList: true }
+      })
+      const updatedDiff = updateUserExerciseList.filter(exercise => !oldUser.exerciseList.some(({ id }) => id === exercise.id))
+      return {
+        createdCount: updatedDiff.length,
+        content: updatedDiff
+      }
+    })
+    return NextResponse.json(createdList);
+  } catch (err) {
+    return NextResponse.json(err, { status: 400 })
   }
 };
 
