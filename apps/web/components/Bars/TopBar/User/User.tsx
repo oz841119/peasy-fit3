@@ -1,15 +1,14 @@
 'use client'
 import { signOut, useSession } from "next-auth/react"
-import { Avatar, AvatarFallback } from "@/components/shadcnUI/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/shadcnUI/dropdown-menu";
-import { PersonIcon } from "@radix-ui/react-icons";
-import { Languages } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/shadcnUI/dropdown-menu";
+import { ChevronDown, Languages } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
-import { routing, useRouter, usePathname } from '@/i18n/routing'
+import { routing } from '@/i18n/routing'
 import { Badge } from "@/components/shadcnUI/badge";
 import { Skeleton } from "@/components/shadcnUI/skeleton";
 import { cn } from "@/lib/utils";
 import { useLangToggler } from "@/hooks/useLangToggler";
+import { Button } from "@/components/shadcnUI/button";
 interface Props {
   triggerClassName?: string
 }
@@ -23,9 +22,12 @@ export function User({ triggerClassName = '' }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         { 
-          <div className={cn('cursor-pointer self-stretch text-sm', triggerClassName)}>
-            { status === 'authenticated' ? data?.user.name || 'User' : <Skeleton className="w-16 h-full"/>}
-          </div>
+          <Button className="ml-auto" size="sm" variant="outline">
+            <div className={cn('text-sm flex items-center gap-1', triggerClassName)}>
+              { status === 'authenticated' ? data?.user.name || 'User' : <Skeleton className="w-16 h-full"/>}
+              <ChevronDown size="16"/>
+            </div>
+          </Button>
         }
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
