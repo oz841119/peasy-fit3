@@ -26,11 +26,6 @@
         "./*"
       ]
     },
-    "typeRoots": [
-      "../../types",
-      "jest",
-      "node"
-    ],
     "target": "ES2017"
   },
   "include": [
