@@ -1,4 +1,4 @@
-import { useUserTrainingSessionIsActiveQuery } from "@/hooks/queries/useUserTrainingSessionIsActiveQuery"
+import { useUserTrainingSessionIsActiveQuery } from "@/hooks/queries/useTrainingSession"
 import { CircleX, Dumbbell, Loader2 } from "lucide-react"
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useTranslations } from "next-intl";

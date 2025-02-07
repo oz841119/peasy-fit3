@@ -2,7 +2,6 @@
 import { SideBar } from "@/components/Bars/SideBar/SideBar";
 import { TopBar } from "@/components/Bars/TopBar/TopBar";
 import { MAX_MOBILE_SIZE } from "@/constants";
-import { useUserTrainingSessionIsActiveQuery } from "@/hooks/queries/useUserTrainingSessionIsActiveQuery";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

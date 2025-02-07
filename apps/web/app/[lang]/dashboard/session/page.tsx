@@ -1,13 +1,14 @@
 'use client'
 import { Button } from "@/components/shadcnUI/button";
-import { patchUserTrainingSessionStatusActive } from "@/services/trainingSession";
+import { useUserTrainingSessionIsActiveMutation } from "@/hooks/queries/useTrainingSession";
 
 export default function SessionPage() {
+  const {
+    mutate: patchUserTrainingSessionStatusActiveMutate
+  } = useUserTrainingSessionIsActiveMutation()
   const click = async () => {
     try {
-      const r = await patchUserTrainingSessionStatusActive(true)
-      console.log(r); // TODO: Need to trigger get status
-      
+      patchUserTrainingSessionStatusActiveMutate(true)
     } catch(err) {
       console.error(err)
     }
