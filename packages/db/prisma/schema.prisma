@@ -49,21 +49,24 @@ model Training {
 }
 
 model TrainingSession {
-  id        Int        @id @default(autoincrement())
-  user      User       @relation(fields: [userId], references: [id])
-  userId    String     @db.Uuid
-  trainings Training[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id                               Int                               @id @default(autoincrement())
+  user                             User                              @relation(fields: [userId], references: [id])
+  userId                           String                            @db.Uuid
+  trainings                        Training[]
+  createdAt                        DateTime                          @default(now())
+  updatedAt                        DateTime                          @updatedAt
+  startAt                          DateTime
+  endAt                            DateTime?
+  UserCurrentTrainingSessionStatus UserCurrentTrainingSessionStatus?
 }
 
 model UserCurrentTrainingSessionStatus {
-  id        String    @id @default(uuid())
-  userId    String    @unique @db.Uuid
-  User      User      @relation(fields: [userId], references: [id])
-  isActive  Boolean
-  startedAt DateTime
-  endedAt   DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id                String          @id @default(uuid())
+  userId            String          @unique @db.Uuid
+  User              User            @relation(fields: [userId], references: [id])
+  isActive          Boolean
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  trainingSession   TrainingSession @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId Int             @unique
 }
