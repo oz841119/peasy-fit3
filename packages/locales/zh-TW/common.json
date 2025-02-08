@@ -14,10 +14,13 @@
             "index": "首頁",
             "trainingRecord": "訓練紀錄",
             "addRecord": "添加紀錄",
-            "exercise": "訓練動作"
+            "exercise": "訓練動作",
+            "session": "Session"
         }
     },
     "setLanguage": "設置語言",
     "pages": "頁面",
-    "selectItems": "選擇 {count} 項"
+    "selectItems": "選擇 {count} 項",
+    "inTraining": "訓練中",
+    "notInTraining": "未訓練"
 }
