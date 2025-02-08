@@ -2,6 +2,7 @@ import { NextRequest } from "next/server"
 import { handleAuth } from "../../auth/[...nextauth]/auth"
 import { prisma } from "@/packages/Prisma"
 import { z } from "zod"
+import dayjs from "dayjs"
 
 export const GET = async (request: NextRequest) => {
   const user = await handleAuth(request)
@@ -30,13 +31,12 @@ export const PATCH = async (request: NextRequest) => {
   })
   if(userCurrentTrainingSessionStatus === null) {
     if(parsedBody.isActive) {
-      console.log('dddd:' + userId);
-      
       const statusAndResult = await prisma.$transaction(async (tx) => {
         const createdSession = await tx.trainingSession.create({
           data: {
             userId,
             startAt: new Date(),
+            name: dayjs().format('YYYY-MM-DD:hh:mm:ss')
           }
         })
         const _createdSessionStatus = await tx.userCurrentTrainingSessionStatus.create({
@@ -65,6 +65,7 @@ export const PATCH = async (request: NextRequest) => {
           data: {
             userId,
             startAt: new Date(),
+            name: dayjs().format('YYYY-MM-DD:hh:mm:ss')
           }
         })
         const _updatedSessionStatus = await tx.userCurrentTrainingSessionStatus.update({
