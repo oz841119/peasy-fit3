@@ -1,4 +1,7 @@
+## Tech Stack:
+Monorepo, TypeScript, Next.js, Docker, Tailwind, Shadcn UI, NextAuth, Next-intl, Recharts, Zustand, Zod, Prisma, PostgreSQL
 
+## Prerequisites
 Ensure that your system has the following tools installed:
 - [Node.js](https://nodejs.org/)
 - [pnpm](https://pnpm.io/)
