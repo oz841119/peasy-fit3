@@ -1,6 +1,7 @@
 {
     "errors": {
-        "systemError": "System error"
+        "systemError": "System error",
+        "pleaseTryAgainLater": "Please try again later."
     },
     "dialog": {
         "confirmIfDelete": "Please confirm if you want to delete?",

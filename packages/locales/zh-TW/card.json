@@ -18,5 +18,9 @@
   "removeExercise": {
     "title": "移除你的訓練動作",
     "description": "這個行為不會使紀錄被刪除，只是你無法在選擇器中選擇它而已"
+  },
+  "currentSession": {
+    "title": "當前 Session",
+    "description": "如果你正在訓練中, 那麼你添加的紀錄會被歸納到當前的 session 中"
   }
 }

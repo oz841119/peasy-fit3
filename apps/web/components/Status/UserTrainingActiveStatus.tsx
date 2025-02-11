@@ -12,16 +12,16 @@ export const UserTrainingActiveStatus = (({ size }: { size?: string | number }) 
   } = useUserTrainingSessionIsActiveQuery()
   return (
     isUserTrainingSessionIsActiveLoading
-      ? (<Loader2 className="animate-spin" size={size} />)
+      ? (<Loader2 className="animate-spin inline-block" size={size}/>)
       : isUserTrainingSessionIsActiveError 
         ? (
-          <Tooltip text={t('msg.errors.systemError')}>
-            <CircleX color="red" size={size}/>
+          <Tooltip text={t('msg.errors.systemError')} >
+            <CircleX color="red" size={size} className="inline-block"/>
           </Tooltip>
         )
         :(
           <Tooltip text={isUserTrainingSessionIsActive ? t('common.inTraining') : t('common.notInTraining')}>
-            <Dumbbell color={isUserTrainingSessionIsActive ? 'green' : 'red'} size={size} />
+            <Dumbbell color={isUserTrainingSessionIsActive ? 'green' : 'red'} size={size} className="inline-block"/>
           </Tooltip>
         )
   )
