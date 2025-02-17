@@ -10,7 +10,7 @@ export const getUserTrainingSessionStatusActive: () => Promise<boolean> = async 
   })
 }
 
-export const patchUserTrainingSessionStatusActive: (isActive: boolean) => Promise<void> = async (isActive) => {
+export const patchUserTrainingSessionStatusActive: (isActive: boolean) => Promise<boolean> = async (isActive) => {
   return fetch('/api/training-session/status', {
     method: 'PATCH',
     headers: {

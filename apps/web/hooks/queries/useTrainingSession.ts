@@ -1,5 +1,6 @@
 import { getUserTrainingSessionStatusActive, patchUserTrainingSessionStatusActive } from "@/services/trainingSession"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useToast } from "../use-toast"
 
 const USER_TRAINING_SESSION_IS_ACTIVE_QUERY_KEY = '_userTrainingSessionIsActive'
 export const useUserTrainingSessionIsActiveQuery = () => {
@@ -12,10 +13,25 @@ export const useUserTrainingSessionIsActiveQuery = () => {
 
 export const useUserTrainingSessionIsActiveMutation = () => {
   const queryClient = useQueryClient()
+  const { toast } = useToast()
   return useMutation({
-    mutationFn: (isActive: boolean) => patchUserTrainingSessionStatusActive(isActive),
-    onSuccess: () => {
+    mutationFn: async (isActive: boolean) => {
+      const status = await patchUserTrainingSessionStatusActive(isActive)
+      return status
+    },
+    onSuccess: (status: boolean) => {
       queryClient.invalidateQueries({ queryKey: [USER_TRAINING_SESSION_IS_ACTIVE_QUERY_KEY] })
+      if(status) {
+        toast({
+          title: "Success",
+          description: 'Session Start.',
+        })
+      } else {
+        toast({
+          title: "Success",
+          description: 'Session End.',
+        })
+      }
     }
   })
 }
