@@ -15,18 +15,19 @@ const sessionNameSchema = z.string().min(1).max(255)
 
 export default function SessionPage() {
   const t = useTranslations()
-  const {toast} = useToast()
+  const { toast } = useToast()
   const {
     mutate: patchUserTrainingSessionStatusActiveMutate,
     error: patchUserTrainingSessionStatusActiveMutateError
   } = useUserTrainingSessionIsActiveMutation()
   const {
     data: userTrainingSessionIsActive,
-    isLoading: userTrainingSessionIsActiveLoading
+    isLoading: userTrainingSessionIsActiveLoading,
+    error: userTrainingSessionIsActiveError
   } = useUserTrainingSessionIsActiveQuery()
   const click = async () => {
-    if(!userTrainingSessionIsActiveLoading) {
-      patchUserTrainingSessionStatusActiveMutate(!userTrainingSessionIsActive)
+    if (!userTrainingSessionIsActiveLoading) {
+      // patchUserTrainingSessionStatusActiveMutate(!userTrainingSessionIsActive)
     } else {
       toast({
         title: "Error",
@@ -36,10 +37,10 @@ export default function SessionPage() {
     }
   }
   const startSession = () => {
-    if(!sessionInputRef.current) return
+    if (!sessionInputRef.current) return
     const { value } = sessionInputRef.current
     const sessionNameParseResult = sessionNameSchema.safeParse(value)
-    if(sessionNameParseResult.error) {
+    if (sessionNameParseResult.error) {
       const errorsMsg = sessionNameParseResult.error?.issues.map(({ message }) => message).join(', ')
       toast({
         title: "Error",
@@ -48,11 +49,11 @@ export default function SessionPage() {
       })
       return
     }
-    patchUserTrainingSessionStatusActiveMutate(true)
+    patchUserTrainingSessionStatusActiveMutate({ isActive: true, name: value})
   }
 
   useEffect(() => {
-    (function handlePatchUserTrainingSessionStatusActiveMutateError () {
+    (function handlePatchUserTrainingSessionStatusActiveMutateError() {
       if (patchUserTrainingSessionStatusActiveMutateError) {
         toast({
           title: "Error",
@@ -69,11 +70,13 @@ export default function SessionPage() {
         <div className="mb-4">
           <span className="font-bold">訓練狀態</span>
           {
-            userTrainingSessionIsActive 
-              ? <span className=" text-green-500"> 訓練中 </span> 
-              : <span className=" text-red-500"> 休息中 </span> 
+            userTrainingSessionIsActiveError
+              ? (<span className=" text-red-500"> 系統錯誤 </span>)
+              : userTrainingSessionIsActive
+                ? <span className=" text-green-500"> 訓練中 </span>
+                : <span className=" text-red-500"> 休息中 </span>
           }
-          <UserTrainingActiveStatus size="16"/>
+          <UserTrainingActiveStatus size="16" />
         </div>
         {
           userTrainingSessionIsActive
@@ -82,10 +85,10 @@ export default function SessionPage() {
               <div className="w-80">
                 <div className="mb-4">
                   <Label>Session Name</Label>
-                  <Input className="w-full" placeholder={dayjs().format('YYYY-MM-DD')} ref={sessionInputRef}/>
+                  <Input className="w-full" placeholder={dayjs().format('YYYY-MM-DD')} ref={sessionInputRef} />
                 </div>
                 <div>
-                <Button className="w-full" onClick={startSession}>開始訓練</Button>
+                  <Button className="w-full" onClick={startSession}>開始訓練</Button>
                 </div>
               </div>
             )

@@ -21,6 +21,7 @@ export const GET = async (request: NextRequest) => {
 
 const patchSchema = z.object({
   isActive: z.boolean(),
+  name: z.string(),
 })
 export const PATCH = async (request: NextRequest) => {
   const [body, user] = await Promise.all([request.json(), handleAuth(request)])
@@ -36,7 +37,7 @@ export const PATCH = async (request: NextRequest) => {
           data: {
             userId,
             startAt: new Date(),
-            name: dayjs().format('YYYY-MM-DD:hh:mm:ss')
+            name: parsedBody.name
           }
         })
         const _createdSessionStatus = await tx.userCurrentTrainingSessionStatus.create({
@@ -65,7 +66,7 @@ export const PATCH = async (request: NextRequest) => {
           data: {
             userId,
             startAt: new Date(),
-            name: dayjs().format('YYYY-MM-DD:hh:mm:ss')
+            name: parsedBody.name
           }
         })
         const _updatedSessionStatus = await tx.userCurrentTrainingSessionStatus.update({
