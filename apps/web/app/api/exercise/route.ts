@@ -41,6 +41,8 @@ export const POST = async (request: NextRequest) => {
         createdCount: updatedDiff.length,
         content: updatedDiff
       }
+    }, {
+      timeout: 20000,
     })
     return NextResponse.json(createdList);
   } catch (err) {
