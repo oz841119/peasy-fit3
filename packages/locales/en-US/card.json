@@ -18,5 +18,9 @@
   "removeExercise": {
     "title": "Remove your exercise",
     "description": "Removing a training exercise will not lose its records; it just means you can no longer select it in the selector."
+  },
+  "currentSession": {
+    "title": "Current Session",
+    "description": "If you are currently training, the records you add will be grouped into the current session."
   }
 }
