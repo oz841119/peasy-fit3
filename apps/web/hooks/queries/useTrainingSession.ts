@@ -15,8 +15,8 @@ export const useUserTrainingSessionIsActiveMutation = () => {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   return useMutation({
-    mutationFn: async ({isActive, name}: {isActive: boolean, name: string}) => {
-      const status = await patchUserTrainingSessionStatusActive({isActive, name})
+    mutationFn: async (opts: { isActive: true, name: string } | { isActive: false }) => {
+      const status = await patchUserTrainingSessionStatusActive(opts)
       return status
     },
     onSuccess: (status: boolean) => {

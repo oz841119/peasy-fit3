@@ -2,7 +2,6 @@ import { NextRequest } from "next/server"
 import { handleAuth } from "../../auth/[...nextauth]/auth"
 import { prisma } from "@/packages/Prisma"
 import { z } from "zod"
-import dayjs from "dayjs"
 
 export const GET = async (request: NextRequest) => {
   const user = await handleAuth(request)
@@ -12,6 +11,7 @@ export const GET = async (request: NextRequest) => {
       userId
     }
   })
+  console.log(userCurrentTrainingSessionStatus);
   if(userCurrentTrainingSessionStatus === null) {
     return Response.json(false)
   } else {
@@ -21,8 +21,18 @@ export const GET = async (request: NextRequest) => {
 
 const patchSchema = z.object({
   isActive: z.boolean(),
-  name: z.string(),
+  name: z.string().optional(),
+}).refine(data => {
+  if (data.isActive) {
+    return !!data.name;
+  } else {
+    return data.name === undefined;
+  }
+}, {
+  message: "Invalid name field based on isActive status",
+  path: ["name"],
 })
+
 export const PATCH = async (request: NextRequest) => {
   const [body, user] = await Promise.all([request.json(), handleAuth(request)])
   const parsedBody = patchSchema.parse(body)
@@ -37,7 +47,7 @@ export const PATCH = async (request: NextRequest) => {
           data: {
             userId,
             startAt: new Date(),
-            name: parsedBody.name
+            name: parsedBody.name || ''
           }
         })
         const _createdSessionStatus = await tx.userCurrentTrainingSessionStatus.create({
@@ -66,7 +76,7 @@ export const PATCH = async (request: NextRequest) => {
           data: {
             userId,
             startAt: new Date(),
-            name: parsedBody.name
+            name: parsedBody.name || ''
           }
         })
         const _updatedSessionStatus = await tx.userCurrentTrainingSessionStatus.update({

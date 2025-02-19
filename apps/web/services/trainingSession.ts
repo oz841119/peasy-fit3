@@ -10,13 +10,13 @@ export const getUserTrainingSessionStatusActive: () => Promise<boolean> = async 
   })
 }
 
-export const patchUserTrainingSessionStatusActive = async ({isActive, name}: {isActive: boolean, name: string}) => {
+export const patchUserTrainingSessionStatusActive = async (opts: {isActive: true, name: string} | {isActive: false}) => {
   return fetch('/api/training-session/status', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ isActive, name })
+    body: JSON.stringify(opts)
   }).then(res => {
     if(res.ok) {
       return res.json() as Promise<boolean>

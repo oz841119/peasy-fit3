@@ -8,13 +8,14 @@ import { useUserTrainingSessionIsActiveMutation, useUserTrainingSessionIsActiveQ
 import { useToast } from "@/hooks/use-toast";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
-const sessionNameSchema = z.string().min(1).max(255)
+const sessionNameSchema = z.string().min(0).max(255)
 
 export default function SessionPage() {
   const t = useTranslations()
+  const [defaultSessionName] = useState<string>(dayjs().format('YYYY-MM-DD'))
   const { toast } = useToast()
   const {
     mutate: patchUserTrainingSessionStatusActiveMutate,
@@ -25,17 +26,6 @@ export default function SessionPage() {
     isLoading: userTrainingSessionIsActiveLoading,
     error: userTrainingSessionIsActiveError
   } = useUserTrainingSessionIsActiveQuery()
-  const click = async () => {
-    if (!userTrainingSessionIsActiveLoading) {
-      // patchUserTrainingSessionStatusActiveMutate(!userTrainingSessionIsActive)
-    } else {
-      toast({
-        title: "Error",
-        description: t('msg.errors.pleaseTryAgainLater'),
-        variant: "destructive"
-      })
-    }
-  }
   const startSession = () => {
     if (!sessionInputRef.current) return
     const { value } = sessionInputRef.current
@@ -49,7 +39,10 @@ export default function SessionPage() {
       })
       return
     }
-    patchUserTrainingSessionStatusActiveMutate({ isActive: true, name: value})
+    patchUserTrainingSessionStatusActiveMutate({ isActive: true, name: value === '' ? defaultSessionName : value })
+  }
+  const finishSession = () => {
+    patchUserTrainingSessionStatusActiveMutate({ isActive: false })
   }
 
   useEffect(() => {
@@ -80,8 +73,14 @@ export default function SessionPage() {
         </div>
         {
           userTrainingSessionIsActive
-            ? <div>123</div>
-            : (
+            ? 
+            (
+              <div>
+                <Button className="w-full" onClick={finishSession}>結束訓練</Button>
+              </div>
+            )
+            : 
+            (
               <div className="w-80">
                 <div className="mb-4">
                   <Label>Session Name</Label>
