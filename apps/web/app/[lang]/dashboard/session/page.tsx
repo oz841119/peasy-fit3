@@ -4,7 +4,7 @@ import { Button } from "@/components/shadcnUI/button";
 import { Input } from "@/components/shadcnUI/input";
 import { Label } from "@/components/shadcnUI/label";
 import { UserTrainingActiveStatus } from "@/components/Status/UserTrainingActiveStatus";
-import { useUserTrainingSessionIsActiveMutation, useUserTrainingSessionIsActiveQuery } from "@/hooks/queries/useTrainingSession";
+import { useUserTrainingSessionIsActiveMutation, useUserTrainingSessionStatus } from "@/hooks/queries/useTrainingSession";
 import { useToast } from "@/hooks/use-toast";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
@@ -22,10 +22,10 @@ export default function SessionPage() {
     error: patchUserTrainingSessionStatusActiveMutateError
   } = useUserTrainingSessionIsActiveMutation()
   const {
-    data: userTrainingSessionIsActive,
-    isLoading: userTrainingSessionIsActiveLoading,
-    error: userTrainingSessionIsActiveError
-  } = useUserTrainingSessionIsActiveQuery()
+    data: userTrainingSessionStatus,
+    isLoading: userTrainingSessionStatusLoading,
+    error: userTrainingSessionStatusError
+  } = useUserTrainingSessionStatus()
   const startSession = () => {
     if (!sessionInputRef.current) return
     const { value } = sessionInputRef.current
@@ -60,19 +60,19 @@ export default function SessionPage() {
   return (
     <div>
       <BaseCard title={t('card.currentSession.title')} description={t('card.currentSession.description')}>
-        <div className="mb-4">
+        <div className="mb-4 flex items-center gap-2">
           <span className="font-bold">訓練狀態</span>
           {
-            userTrainingSessionIsActiveError
+            userTrainingSessionStatusError
               ? (<span className=" text-red-500"> 系統錯誤 </span>)
-              : userTrainingSessionIsActive
+              : userTrainingSessionStatus?.isActive
                 ? <span className=" text-green-500"> 訓練中 </span>
                 : <span className=" text-red-500"> 休息中 </span>
           }
           <UserTrainingActiveStatus size="16" />
         </div>
         {
-          userTrainingSessionIsActive
+          userTrainingSessionStatus?.isActive
             ? 
             (
               <div>

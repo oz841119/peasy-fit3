@@ -24,7 +24,7 @@ export function TopBar() {
       </div>
       <div className="ml-auto flex gap-2 items-center">
           <Link href="/dashboard/session">
-            <UserTrainingActiveStatus size="18"/>
+            <UserTrainingActiveStatus size="18" showName/>
           </Link>
         {
           windowSize.width > MAX_MOBILE_SIZE

@@ -1,4 +1,4 @@
-export const getUserTrainingSessionStatusActive: () => Promise<boolean> = async () => {
+export const getUserTrainingSessionStatus: () => Promise<{isActive: boolean, trainingSession: {name: string} | null}> = async () => {
   return fetch('/api/training-session/status', {
     method: 'GET',
   }).then(res => {

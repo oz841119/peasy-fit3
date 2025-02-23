@@ -9,13 +9,26 @@ export const GET = async (request: NextRequest) => {
   const userCurrentTrainingSessionStatus = await prisma.userCurrentTrainingSessionStatus.findUnique({
     where: {
       userId
+    },
+    select: {
+      isActive: true,
+      trainingSession: {
+        select: {
+          name: true
+        }
+      }
     }
   })
-  console.log(userCurrentTrainingSessionStatus);
   if(userCurrentTrainingSessionStatus === null) {
-    return Response.json(false)
+    return Response.json({
+      isActive: false,
+      trainingSession: null
+    })
   } else {
-    return Response.json(userCurrentTrainingSessionStatus.isActive) 
+    return Response.json({
+      isActive: userCurrentTrainingSessionStatus.isActive,
+      trainingSession: userCurrentTrainingSessionStatus.trainingSession
+    }) 
   }
 }
 
@@ -38,7 +51,11 @@ export const PATCH = async (request: NextRequest) => {
   const parsedBody = patchSchema.parse(body)
   const userId = user.userId
   const userCurrentTrainingSessionStatus = await prisma.userCurrentTrainingSessionStatus.findUnique({
-    where: { userId }
+    where: { userId },
+    select: {
+      isActive: true,
+      trainingSessionId: true
+    }
   })
   if(userCurrentTrainingSessionStatus === null) {
     if(parsedBody.isActive) {
@@ -96,10 +113,13 @@ export const PATCH = async (request: NextRequest) => {
       const statusAndResult = await prisma.$transaction(async (tx) => {
         const _updatedSessionStatus = await tx.userCurrentTrainingSessionStatus.update({
           where: { userId },
-          data: { isActive: false }
+          data: {
+            isActive: false,
+            trainingSessionId: null
+          }
         })
         const updatedSession = await tx.trainingSession.update({
-          where: { id: userCurrentTrainingSessionStatus.trainingSessionId },
+          where: { id: userCurrentTrainingSessionStatus.trainingSessionId! },
           data: { endAt: new Date() }
         })
         return {

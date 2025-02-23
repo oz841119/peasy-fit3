@@ -44,7 +44,7 @@ model Training {
   exerciseId        Int
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
-  TrainingSession   TrainingSession? @relation(fields: [trainingSessionId], references: [id])
+  trainingSession   TrainingSession? @relation(fields: [trainingSessionId], references: [id])
   trainingSessionId Int?
 }
 
@@ -68,6 +68,6 @@ model UserCurrentTrainingSessionStatus {
   isActive          Boolean
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
-  trainingSession   TrainingSession @relation(fields: [trainingSessionId], references: [id])
-  trainingSessionId Int             @unique
+  trainingSession   TrainingSession? @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId Int?             @unique
 }
