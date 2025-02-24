@@ -8,6 +8,7 @@
         "deletionCannotBeUndone": "Deletion cannot be undone."
     },
     "hint": {
-        "pleaseChooseExercise": "Please choose exercise"
+        "pleaseChooseExercise": "Please choose exercise",
+        "pleaseStartSession": "Please start session"
     }
 }

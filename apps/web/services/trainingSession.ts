@@ -1,4 +1,4 @@
-export const getUserTrainingSessionStatus: () => Promise<{isActive: boolean, trainingSession: {name: string} | null}> = async () => {
+export const getUserTrainingSessionStatus: () => Promise<{isActive: boolean, trainingSession: {name: string, id: number} | null}> = async () => {
   return fetch('/api/training-session/status', {
     method: 'GET',
   }).then(res => {
@@ -23,5 +23,13 @@ export const patchUserTrainingSessionStatusActive = async (opts: {isActive: true
     } else {
       throw new Error(`Error: ${res.status} - ${res.statusText}`)
     }
+  })
+}
+
+export const getUserTrainingSessions = async () => {
+  return fetch('/api/training-session/list', {
+    method: 'GET',
+  }).then(res => {
+    return res.json() as Promise<{id: number, name: string}[]>
   })
 }

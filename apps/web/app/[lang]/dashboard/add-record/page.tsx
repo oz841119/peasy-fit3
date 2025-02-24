@@ -9,13 +9,15 @@ import { addTrainingRecordFormSchema, AddTrainingRecordFormSchema } from "@/sche
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/hooks/use-toast";
 import { parseWeightToKg } from "@/lib/parseWeightToKg";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { UploadRecordPreviewTable } from "@/components/Tables/UploadRecordPreviewTable";
 import { getExerciseByNames } from "@/services/public/exericse";
 import { addUserExercise } from "@/services/userExercise";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcnUI/select";
+import { useUserTrainingSessions, useUserTrainingSessionStatus } from "@/hooks/queries/useTrainingSession";
 export default function AddRecordPage() {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const t = useTranslations()
@@ -129,7 +131,8 @@ export default function AddRecordPage() {
           exerciseId: exerciseId,
           weight: record.weight,
           reps: record.reps,
-          comment: record.comment
+          comment: record.comment,
+          trainingSessionId: Number(trainingSessionStatus?.trainingSession?.id)
         }
       })
       const addTrainingRecordResult = await addTrainingRecord(recordList)
@@ -154,6 +157,29 @@ export default function AddRecordPage() {
       setIsSubmitLoading(false)
     }
   }
+  const { data: trainingSessionStatus } = useUserTrainingSessionStatus()
+  const onTrainingSessionChange = (value: string) => {
+    console.log(value);
+  }
+  const { data: trainingSessions } = useUserTrainingSessions()
+  const trainingSessionOptions = useMemo(() => {
+    const pastSessions = trainingSessions?.map(session => ({
+      value: session.id.toString(),
+      label: session.name
+    })) || []
+    const currentSession = trainingSessionStatus?.trainingSession
+    if(currentSession) {
+      const filteredPastSessions = pastSessions.filter(
+        session => session.value !== currentSession.id.toString()
+      )
+      return [{
+        value: currentSession.id.toString(), 
+        label: currentSession.name
+      }, ...filteredPastSessions] 
+    } else {
+      return pastSessions
+    }
+  }, [trainingSessions, trainingSessionStatus])
   return (
     <div>
       <form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
@@ -169,7 +195,24 @@ export default function AddRecordPage() {
         />
         <BaseCard title={t('card.trainingContent.title')} description={t('card.trainingContent.description')}>
           <div className="flex flex-col gap-4">
-            <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })} />
+            <Select
+              value={trainingSessionStatus?.trainingSession?.id.toString() || undefined}
+              onValueChange={onTrainingSessionChange}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={t('msg.hint.pleaseStartSession')} />
+              </SelectTrigger>
+              <SelectContent>
+                {
+                  trainingSessionOptions.map(option => (
+                    <SelectItem value={option.value} key={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))
+                }
+              </SelectContent>
+            </Select>
+            <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })}/>
             <Input type="number" placeholder="Reps" {...register('reps', { required: true, valueAsNumber: true })} />
             <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })} />
             <Input type="text" placeholder="Comment" {...register('comment')} />

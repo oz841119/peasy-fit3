@@ -8,6 +8,7 @@
         "deletionCannotBeUndone": "刪除後無法還原。"
     },
     "hint": {
-        "pleaseChooseExercise": "請選擇訓練項目"
+        "pleaseChooseExercise": "請選擇訓練項目",
+        "pleaseStartSession": "請先開始訓練"
     }
 }

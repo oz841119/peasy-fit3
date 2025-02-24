@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const addTrainingRecordFormSchema = z.object({
+  trainingSessionId: z.number(),
   date: z.date(),
   exerciseId: z.number().min(1).nullable(),
   weight: z.number().min(1),

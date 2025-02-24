@@ -14,7 +14,8 @@ export const GET = async (request: NextRequest) => {
       isActive: true,
       trainingSession: {
         select: {
-          name: true
+          name: true,
+          id: true
         }
       }
     }
