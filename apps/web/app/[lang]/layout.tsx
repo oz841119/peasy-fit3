@@ -18,7 +18,7 @@ export default async function RootLayout({
 }>) {
   const messages = await getMessages();
   return (
-    <html lang="zh-tw">
+    <html lang="zh-tw" suppressHydrationWarning>
       {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async></script> */}
       <body className="dark min-w-screen">
         <SessionProvider>

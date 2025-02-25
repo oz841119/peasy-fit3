@@ -1,12 +1,16 @@
 {
     "errors": {
-        "systemError": "系統錯誤"
+        "systemError": "系統錯誤",
+        "pleaseTryAgainLater": "請稍後再試"
     },
     "dialog": {
         "confirmIfDelete": "請確認是否要刪除?",
         "deletionCannotBeUndone": "刪除後無法還原。"
     },
     "hint": {
-        "pleaseChooseExercise": "請選擇訓練項目"
+        "pleaseChooseExercise": "請選擇訓練項目",
+        "pleaseStartSession": "請先開始訓練",
+        "notSession": "沒有找到任何訓練",
+        "pleaseSelectSession": "請選擇訓練"
     }
 }

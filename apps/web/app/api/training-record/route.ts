@@ -36,11 +36,12 @@ export const GET = async (request: NextRequest) => {
 }
 
 export const POST = async (request: NextRequest) => {
+  // TODO: Validate set count to prevent malicious record spamming
   try {
     const body = await request.json()
     const user = await handleAuth(request)
     const addTrainingRecord = await prisma.training.createMany({
-      data: body.map((item: any) => ({...item, userId: user.userId}))
+      data: body.map((item: any) => ({...item, userId: user.userId, trainingSessionId: item.trainingSessionId}))
     })
     return Response.json(addTrainingRecord)
   } catch (error) {

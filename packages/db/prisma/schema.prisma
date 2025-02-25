@@ -13,27 +13,61 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(uuid()) @db.Uuid
-  email        String?     @unique
-  password     String?
-  salt         String?
-  exerciseList Exercise[] @relation("UserExerciseList")
-  googleId     String?     @unique
-  name         String?
+  id                           String                            @id @default(uuid()) @db.Uuid
+  email                        String?                           @unique @db.VarChar(255)
+  password                     String?                           @db.VarChar(30)
+  salt                         String?
+  exerciseList                 Exercise[]                        @relation("UserExerciseList")
+  googleId                     String?                           @unique
+  name                         String?                           @db.VarChar(30)
+  createdAt                    DateTime                          @default(now())
+  updatedAt                    DateTime                          @updatedAt
+  trainingSessions             TrainingSession[]
+  currentTrainingSessionStatus UserCurrentTrainingSessionStatus?
 }
 
 model Exercise {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  users User[] @relation("UserExerciseList")
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(30)
+  users     User[]   @relation("UserExerciseList")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Training {
-  id         Int      @id @default(autoincrement())
-  userId     String
-  date       DateTime
-  reps       Int
-  weight     Float
-  comment    String   @default("")
-  exerciseId Int
+  id                Int              @id @default(autoincrement())
+  userId            String           @db.Uuid
+  date              DateTime
+  reps              Int
+  weight            Float
+  comment           String           @default("") @db.VarChar(255)
+  exerciseId        Int
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  trainingSession   TrainingSession? @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId String
+}
+
+model TrainingSession {
+  id                               String                            @id @default(uuid())
+  user                             User                              @relation(fields: [userId], references: [id])
+  userId                           String                            @db.Uuid
+  trainings                        Training[]
+  name                             String                            @db.VarChar(30)
+  createdAt                        DateTime                          @default(now())
+  updatedAt                        DateTime                          @updatedAt
+  startAt                          DateTime
+  endAt                            DateTime?
+  UserCurrentTrainingSessionStatus UserCurrentTrainingSessionStatus?
+}
+
+model UserCurrentTrainingSessionStatus {
+  id                String           @id @default(uuid())
+  userId            String           @unique @db.Uuid
+  User              User             @relation(fields: [userId], references: [id])
+  isActive          Boolean
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  trainingSession   TrainingSession? @relation(fields: [trainingSessionId], references: [id])
+  trainingSessionId String           @unique
 }
