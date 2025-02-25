@@ -4,10 +4,10 @@ const createPrisma = () => {
 }
 
 declare const globalThis: {
-  prismaGlobal: ReturnType<typeof createPrisma>;
+  prismaGlobal?: ReturnType<typeof createPrisma>;
 } & typeof global;
 
-const prisma = globalThis && createPrisma()
+const prisma = globalThis.prismaGlobal ?? createPrisma()
 if (process.env.NODE_ENV !== 'production') {
   globalThis.prismaGlobal = prisma;
 }

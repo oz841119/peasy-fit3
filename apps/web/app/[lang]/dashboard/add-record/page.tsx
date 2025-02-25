@@ -9,7 +9,7 @@ import { addTrainingRecordFormSchema, AddTrainingRecordFormSchema } from "@/sche
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/hooks/use-toast";
 import { parseWeightToKg } from "@/lib/parseWeightToKg";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { UploadRecordPreviewTable } from "@/components/Tables/UploadRecordPreviewTable";
 import { getExerciseByNames } from "@/services/public/exericse";
 import { addUserExercise } from "@/services/userExercise";
@@ -21,21 +21,23 @@ import { useUserTrainingSessions, useUserTrainingSessionStatus } from "@/hooks/q
 export default function AddRecordPage() {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const t = useTranslations()
-  const { control, register, handleSubmit } = useForm<AddTrainingRecordFormSchema>({
+  const { control, register, handleSubmit, setValue, reset } = useForm<AddTrainingRecordFormSchema>({
     resolver: zodResolver(addTrainingRecordFormSchema),
     defaultValues: {
       "date": new Date(),
+      "trainingSessionId": 0
     }
   });
 
   const onSubmit = handleSubmit(async (form) => {
     if (form.exerciseId) {
-      const record = Array(Number(form.sets)).fill({
+      const record = Array<Parameters<typeof addTrainingRecord>[0][number]>(Number(form.sets)).fill({
         date: form.date,
         exerciseId: Number(form.exerciseId),
         weight: Number(form.weight),
         reps: Number(form.reps),
         comment: form.comment,
+        trainingSessionId: Number(form.trainingSessionId)
       })
       try {
         setIsSubmitLoading(true)
@@ -62,6 +64,7 @@ export default function AddRecordPage() {
       })
     }
   }, (errors) => {
+    console.log(errors);
     const errorKeys = Object.keys(errors)
     if (errorKeys.length > 0) {
       toast({
@@ -143,7 +146,7 @@ export default function AddRecordPage() {
         variant: 'default'
       })
       setUploadCSVRecord([])
-      if(csvFileInputRef.current) {
+      if (csvFileInputRef.current) {
         csvFileInputRef.current.value = ''
       }
     } catch (err) {
@@ -158,9 +161,6 @@ export default function AddRecordPage() {
     }
   }
   const { data: trainingSessionStatus } = useUserTrainingSessionStatus()
-  const onTrainingSessionChange = (value: string) => {
-    console.log(value);
-  }
   const { data: trainingSessions } = useUserTrainingSessions()
   const trainingSessionOptions = useMemo(() => {
     const pastSessions = trainingSessions?.map(session => ({
@@ -168,18 +168,25 @@ export default function AddRecordPage() {
       label: session.name
     })) || []
     const currentSession = trainingSessionStatus?.trainingSession
-    if(currentSession) {
+    if (currentSession) {
       const filteredPastSessions = pastSessions.filter(
         session => session.value !== currentSession.id.toString()
       )
       return [{
-        value: currentSession.id.toString(), 
+        value: currentSession.id.toString(),
         label: currentSession.name
-      }, ...filteredPastSessions] 
+      }, ...filteredPastSessions]
     } else {
       return pastSessions
     }
   }, [trainingSessions, trainingSessionStatus])
+  useEffect(() => {
+    if (trainingSessionStatus?.isActive) {
+      trainingSessionOptions.length > 0 && reset({
+        trainingSessionId: Number(trainingSessionOptions[0].value)
+      })
+    }
+  }, [trainingSessionOptions, trainingSessionStatus])
   return (
     <div>
       <form className="flex flex-col gap-4 mb-4" onSubmit={onSubmit}>
@@ -195,29 +202,40 @@ export default function AddRecordPage() {
         />
         <BaseCard title={t('card.trainingContent.title')} description={t('card.trainingContent.description')}>
           <div className="flex flex-col gap-4">
-            <Select
-              value={trainingSessionStatus?.trainingSession?.id.toString() || undefined}
-              onValueChange={onTrainingSessionChange}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t('msg.hint.pleaseStartSession')} />
-              </SelectTrigger>
-              <SelectContent>
-                {
-                  trainingSessionOptions.map(option => (
-                    <SelectItem value={option.value} key={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))
-                }
-              </SelectContent>
-            </Select>
-            <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })}/>
+            <Controller
+              name="trainingSessionId"
+              control={control}
+              render={({ field: { value, onChange, } }) => {
+                console.log(value);
+                return (
+                  <Select
+                    value={value?.toString() || ''}
+                    onValueChange={(value) => onChange(Number(value))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={t('msg.hint.pleaseSelectSession')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {
+                        trainingSessionOptions.length > 0 ? trainingSessionOptions.map(option => (
+                          <SelectItem value={option.value} key={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        )) : <SelectItem value="empty" disabled>
+                          {t('msg.hint.notSession')}
+                        </SelectItem>
+                      }
+                    </SelectContent>
+                  </Select>
+                )
+              }}
+            />
+            <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })} />
             <Input type="number" placeholder="Reps" {...register('reps', { required: true, valueAsNumber: true })} />
             <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })} />
             <Input type="text" placeholder="Comment" {...register('comment')} />
             <Button type="submit" variant="secondary" disabled={isSubmitLoading}>
-              { isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span> }
+              {isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span>}
             </Button>
             <Button type="reset" variant="ghost" disabled={isSubmitLoading}>{t('common.reset')}</Button>
           </div>
@@ -235,11 +253,11 @@ export default function AddRecordPage() {
           />
           {
             uploadCSVRecord.length > 0
-              && (
-                <Button variant="secondary" onClick={onUploadCSVSubmit} disabled={isSubmitLoading}>
-                  { isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span> }
-                </Button>
-              )
+            && (
+              <Button variant="secondary" onClick={onUploadCSVSubmit} disabled={isSubmitLoading}>
+                {isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span>}
+              </Button>
+            )
           }
         </div>
         {uploadCSVRecord.length > 0 && <UploadRecordPreviewTable records={uploadCSVRecord} />}

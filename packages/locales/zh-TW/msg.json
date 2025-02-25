@@ -9,6 +9,8 @@
     },
     "hint": {
         "pleaseChooseExercise": "請選擇訓練項目",
-        "pleaseStartSession": "請先開始訓練"
+        "pleaseStartSession": "請先開始訓練",
+        "notSession": "沒有找到任何訓練",
+        "pleaseSelectSession": "請選擇訓練"
     }
 }

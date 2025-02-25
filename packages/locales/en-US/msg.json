@@ -9,6 +9,8 @@
     },
     "hint": {
         "pleaseChooseExercise": "Please choose exercise",
-        "pleaseStartSession": "Please start session"
+        "pleaseStartSession": "Please start session",
+        "notSession": "No sessions found",
+        "pleaseSelectSession": "Please select session"
     }
 }
