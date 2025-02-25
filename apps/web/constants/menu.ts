@@ -1,4 +1,4 @@
-import { BicepsFlexed, ChartSpline, House, SquarePlus } from "lucide-react";
+import { BicepsFlexed, ChartSpline, House, Play, SquarePlus } from "lucide-react";
 
 export const menu = [
   {
@@ -24,5 +24,11 @@ export const menu = [
     label: 'common.menu.label.exercise',
     route: '/dashboard/exercise',
     icon: BicepsFlexed
+  },
+  {
+    name: 'session',
+    label: 'common.menu.label.session',
+    route: '/dashboard/session',
+    icon: Play
   },
 ] as const
