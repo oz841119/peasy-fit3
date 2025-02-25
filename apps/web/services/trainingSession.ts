@@ -1,4 +1,4 @@
-export const getUserTrainingSessionStatus: () => Promise<{isActive: boolean, trainingSession: {name: string, id: number} | null}> = async () => {
+export const getUserTrainingSessionStatus: () => Promise<{isActive: boolean, trainingSession: {name: string, id: string} | null}> = async () => {
   return fetch('/api/training-session/status', {
     method: 'GET',
   }).then(res => {
@@ -30,6 +30,6 @@ export const getUserTrainingSessions = async () => {
   return fetch('/api/training-session/list', {
     method: 'GET',
   }).then(res => {
-    return res.json() as Promise<{id: number, name: string}[]>
+    return res.json() as Promise<{id: string, name: string}[]>
   })
 }

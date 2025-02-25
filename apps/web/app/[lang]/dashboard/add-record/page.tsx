@@ -25,7 +25,7 @@ export default function AddRecordPage() {
     resolver: zodResolver(addTrainingRecordFormSchema),
     defaultValues: {
       "date": new Date(),
-      "trainingSessionId": 0
+      "trainingSessionId": ''
     }
   });
 
@@ -37,7 +37,7 @@ export default function AddRecordPage() {
         weight: Number(form.weight),
         reps: Number(form.reps),
         comment: form.comment,
-        trainingSessionId: Number(form.trainingSessionId)
+        trainingSessionId: form.trainingSessionId
       })
       try {
         setIsSubmitLoading(true)
@@ -135,7 +135,7 @@ export default function AddRecordPage() {
           weight: record.weight,
           reps: record.reps,
           comment: record.comment,
-          trainingSessionId: Number(trainingSessionStatus?.trainingSession?.id)
+          trainingSessionId: null
         }
       })
       const addTrainingRecordResult = await addTrainingRecord(recordList)
@@ -183,7 +183,8 @@ export default function AddRecordPage() {
   useEffect(() => {
     if (trainingSessionStatus?.isActive) {
       trainingSessionOptions.length > 0 && reset({
-        trainingSessionId: Number(trainingSessionOptions[0].value)
+        trainingSessionId: trainingSessionOptions[0].value,
+        date: new Date(),
       })
     }
   }, [trainingSessionOptions, trainingSessionStatus])
@@ -210,7 +211,7 @@ export default function AddRecordPage() {
                 return (
                   <Select
                     value={value?.toString() || ''}
-                    onValueChange={(value) => onChange(Number(value))}
+                    onValueChange={(value) => onChange(value)}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder={t('msg.hint.pleaseSelectSession')} />

@@ -36,6 +36,7 @@ export const GET = async (request: NextRequest) => {
 }
 
 export const POST = async (request: NextRequest) => {
+  // TODO: Validate set count to prevent malicious record spamming
   try {
     const body = await request.json()
     const user = await handleAuth(request)

@@ -39,7 +39,7 @@ interface Params {
   weight: number;
   reps: number;
   comment: string;
-  trainingSessionId: number;
+  trainingSessionId: string | null;
 }
 export const addTrainingRecord = async (params: Params[]) => {
   try {
