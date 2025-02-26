@@ -116,7 +116,9 @@ export const PATCH = async (request: NextRequest) => {
           where: { userId },
           data: {
             isActive: false,
-            trainingSessionId: null
+            trainingSession: {
+              disconnect: true
+            }
           }
         })
         const updatedSession = await tx.trainingSession.update({
