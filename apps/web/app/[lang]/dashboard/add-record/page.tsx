@@ -18,6 +18,15 @@ import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcnUI/select";
 import { useUserTrainingSessions, useUserTrainingSessionStatus } from "@/hooks/queries/useTrainingSession";
+/**
+ * Renders the AddRecordPage component for creating training records.
+ *
+ * This React component offers two main functionalities:
+ * - **Manual Entry**: Users can submit a training record by filling out a form. The form leverages react-hook-form with zod-based validation, constructs multiple record entries based on the number of sets specified, and provides user feedback via toast notifications.
+ * - **CSV Upload**: Users can upload a CSV file containing multiple training records. The component reads and parses the CSV file (converting weights to kilograms), previews the records, and upon submission, adds any new exercises before uploading the training records.
+ *
+ * The component also resets form fields based on the active training session and invalidates cached queries to keep the UI up-to-date.
+ */
 export default function AddRecordPage() {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const t = useTranslations()
