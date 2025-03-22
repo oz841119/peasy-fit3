@@ -9,6 +9,7 @@
     "dev": "dotenv -e .env.dev -- docker compose up -d && pnpm w-dev",
     "down": "docker compose down",
     "migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
+    "reset-db": "dotenv -e .env.dev -- pnpm --filter db reset",
     "generate": "pnpm --filter db generate",
     "seed": "dotenv -e .env.dev -- pnpm --filter db seed"
   },

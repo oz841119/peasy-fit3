@@ -124,7 +124,12 @@ export default function AddRecordPage() {
     try {
       setIsSubmitLoading(true)
       const exerciseNames = Array.from(new Set(uploadCSVRecord.map(record => record.name)))
-      await addUserExercise({ exerciseList: exerciseNames })
+      const addUserExerciseResult = await addUserExercise({ exerciseList: exerciseNames })
+      toast({
+        title: '添加訓練動作成功',
+        description: `已添加 ${addUserExerciseResult.createdCount} 個訓練動作`,
+        variant: 'default'
+      })
       const exerciseList = await getExerciseByNames(exerciseNames)
       const recordList = uploadCSVRecord.map(record => {
         const exerciseId = exerciseList.find(exercise => exercise.name === record.name)?.id
@@ -261,6 +266,9 @@ export default function AddRecordPage() {
             )
           }
         </div>
+        <Button asChild size='sm'>
+          <a href="/static/csv/trainings_sample.csv">Download Sample CSV File.</a>
+        </Button>
         {uploadCSVRecord.length > 0 && <UploadRecordPreviewTable records={uploadCSVRecord} />}
       </BaseCard>
     </div>
