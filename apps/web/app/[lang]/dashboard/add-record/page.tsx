@@ -266,6 +266,9 @@ export default function AddRecordPage() {
             )
           }
         </div>
+        <Button asChild size='sm'>
+          <a href="/static/csv/trainings_sample.csv">Download Sample CSV File.</a>
+        </Button>
         {uploadCSVRecord.length > 0 && <UploadRecordPreviewTable records={uploadCSVRecord} />}
       </BaseCard>
     </div>
