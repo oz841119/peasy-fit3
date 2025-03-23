@@ -5,12 +5,15 @@ import {
 } from '@tanstack/react-query'
 import { PropsWithChildren } from 'react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { LoadingBar } from '@/components/LoadingBar'
 
 const queryClient = new QueryClient()
+
 export const ReactQueryProvider = ({ children }: PropsWithChildren) => {
   return (
     <QueryClientProvider client={queryClient}>
-      { children }
+      <LoadingBar />
+      {children}
       <ReactQueryDevtools initialIsOpen={false}/>
       {
         /*
