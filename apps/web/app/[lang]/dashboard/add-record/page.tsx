@@ -9,29 +9,89 @@ import { addTrainingRecordFormSchema, AddTrainingRecordFormSchema } from "@/sche
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/hooks/use-toast";
 import { parseWeightToKg } from "@/lib/parseWeightToKg";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { UploadRecordPreviewTable } from "@/components/Tables/UploadRecordPreviewTable";
 import { getExerciseByNames } from "@/services/public/exericse";
 import { addUserExercise } from "@/services/userExercise";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcnUI/select";
 import { useUserTrainingSessions, useUserTrainingSessionStatus } from "@/hooks/queries/useTrainingSession";
+import { Badge } from "@/components/shadcnUI/badge";
+import { ScrollArea } from "@/components/shadcnUI/scroll-area";
+
+function useRecentTrainingData(exerciseId: number | null) {
+  const queryClient = useQueryClient();
+  
+  const trainingRecordListQuery = useQuery({
+    queryKey: ['trainingRecordList', exerciseId],
+    queryFn: async () => {
+      if (!exerciseId) return { trainingRecordList: [], total: 0 };
+      const { getTrainingRecordList } = await import("@/services/trainingRecord");
+      return getTrainingRecordList({
+        exerciseId,
+        take: 10,
+        skip: 0
+      });
+    },
+    enabled: !!exerciseId,
+    staleTime: 1000 * 60 * 5,
+  });
+  
+  const recentWeights = useMemo(() => {
+    if (!trainingRecordListQuery.data || !trainingRecordListQuery.data.trainingRecordList.length) {
+      return [];
+    }
+    const weights = trainingRecordListQuery.data.trainingRecordList.map(record => record.weight);
+    return Array.from(new Set(weights)).sort((a, b) => b - a);
+  }, [trainingRecordListQuery.data]);
+  
+  const recentReps = useMemo(() => {
+    if (!trainingRecordListQuery.data || !trainingRecordListQuery.data.trainingRecordList.length) {
+      return [];
+    }
+    const reps = trainingRecordListQuery.data.trainingRecordList.map(record => record.reps);
+    return Array.from(new Set(reps)).sort((a, b) => b - a);
+  }, [trainingRecordListQuery.data]);
+  
+  const refreshData = useCallback(() => {
+    if (exerciseId) {
+      queryClient.invalidateQueries({ queryKey: ['trainingRecordList', exerciseId] });
+    }
+  }, [exerciseId, queryClient]);
+  
+  return { recentWeights, recentReps, refreshData };
+}
+
 export default function AddRecordPage() {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const t = useTranslations()
-  const { control, register, handleSubmit, setValue, reset } = useForm<AddTrainingRecordFormSchema>({
+  const queryClient = useQueryClient();
+  
+  const { control, watch, setValue, register, handleSubmit, formState: { errors } } = useForm<AddTrainingRecordFormSchema>({
     resolver: zodResolver(addTrainingRecordFormSchema),
     defaultValues: {
-      "date": new Date(),
-      "trainingSessionId": ''
+      date: new Date(),
+      trainingSessionId: null,
+      sets: null,
     }
   });
 
+  const selectedExerciseId = watch("exerciseId");
+  const { recentWeights, recentReps, refreshData } = useRecentTrainingData(selectedExerciseId);
+  
+  const handleWeightClick = (weight: number) => {
+    setValue("weight", weight);
+  };
+  
+  const handleRepsClick = (reps: number) => {
+    setValue("reps", reps);
+  };
+
   const onSubmit = handleSubmit(async (form) => {
     if (form.exerciseId) {
-      const record = Array<Parameters<typeof addTrainingRecord>[0][number]>(Number(form.sets)).fill({
+      const record = Array<Parameters<typeof addTrainingRecord>[0][number]>(Number(form.sets ?? 1)).fill({
         date: form.date,
         exerciseId: Number(form.exerciseId),
         weight: Number(form.weight),
@@ -47,6 +107,8 @@ export default function AddRecordPage() {
             title: 'Success',
             description: 'Record added successfully',
           })
+          
+          refreshData();
         }
       } catch (err) {
         toast({
@@ -118,7 +180,6 @@ export default function AddRecordPage() {
     }
     reader.readAsText(file)
   }
-  const queryClient = useQueryClient();
   const csvFileInputRef = useRef<null | HTMLInputElement>(null)
   const onUploadCSVSubmit = async () => {
     try {
@@ -145,6 +206,11 @@ export default function AddRecordPage() {
       })
       const addTrainingRecordResult = await addTrainingRecord(recordList)
       queryClient.invalidateQueries({ queryKey: ['exerciseList'] })
+      
+      if (selectedExerciseId && recordList.some(record => record.exerciseId === selectedExerciseId)) {
+        refreshData();
+      }
+      
       toast({
         title: '訓練紀錄上傳成功',
         description: `已上傳 ${addTrainingRecordResult.count} 筆記錄`,
@@ -187,10 +253,7 @@ export default function AddRecordPage() {
   }, [trainingSessions, trainingSessionStatus])
   useEffect(() => {
     if (trainingSessionStatus?.isActive) {
-      trainingSessionOptions.length > 0 && reset({
-        trainingSessionId: trainingSessionOptions[0].value,
-        date: new Date(),
-      })
+      trainingSessionOptions.length > 0 && setValue('trainingSessionId', trainingSessionOptions[0].value)
     }
   }, [trainingSessionOptions, trainingSessionStatus])
   return (
@@ -212,7 +275,6 @@ export default function AddRecordPage() {
               name="trainingSessionId"
               control={control}
               render={({ field: { value, onChange, } }) => {
-                console.log(value);
                 return (
                   <Select
                     value={value?.toString() || ''}
@@ -236,14 +298,52 @@ export default function AddRecordPage() {
                 )
               }}
             />
-            <Input type="number" placeholder="Weight" {...register('weight', { required: true, valueAsNumber: true })} />
-            <Input type="number" placeholder="Reps" {...register('reps', { required: true, valueAsNumber: true })} />
-            <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })} />
-            <Input type="text" placeholder="Comment" {...register('comment')} />
-            <Button type="submit" variant="secondary" disabled={isSubmitLoading}>
-              {isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span>}
-            </Button>
-            <Button type="reset" variant="ghost" disabled={isSubmitLoading}>{t('common.reset')}</Button>
+            <div className="flex flex-col gap-2">
+              <Input type="number" placeholder={t('table.weight')} {...register('weight', { required: true, valueAsNumber: true })} />
+              
+              {recentWeights.length > 0 && (
+                <ScrollArea className="h-10">
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {recentWeights.map((weight, index) => (
+                      <Badge 
+                        key={index} 
+                        variant="outline"
+                        className="cursor-pointer hover:bg-primary/20"
+                        onClick={() => handleWeightClick(weight)}
+                      >
+                        {weight}
+                      </Badge>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
+              
+              <Input type="number" placeholder={t('table.reps')} {...register('reps', { required: true, valueAsNumber: true })} />
+              
+              {recentReps.length > 0 && (
+                <ScrollArea className="h-10">
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {recentReps.map((reps, index) => (
+                      <Badge 
+                        key={index} 
+                        variant="outline"
+                        className="cursor-pointer hover:bg-primary/20"
+                        onClick={() => handleRepsClick(reps)}
+                      >
+                        {reps}
+                      </Badge>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
+              
+              <Input type="number" placeholder="Sets" {...register('sets', { required: true, valueAsNumber: true })} />
+              <Input type="text" placeholder="Comment" {...register('comment')} />
+              <Button type="submit" variant="secondary" disabled={isSubmitLoading}>
+                {isSubmitLoading ? <Loader2 className="animate-spin" /> : <span>{t('common.submit')}</span>}
+              </Button>
+              <Button type="reset" variant="ghost" disabled={isSubmitLoading}>{t('common.reset')}</Button>
+            </div>
           </div>
         </BaseCard>
       </form>
