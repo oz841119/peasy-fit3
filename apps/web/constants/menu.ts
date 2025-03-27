@@ -2,9 +2,9 @@ import { BicepsFlexed, ChartSpline, House, Play, SquarePlus } from "lucide-react
 
 export const menu = [
   {
-    name: 'index',
+    name: 'dashboard',
     label: 'common.menu.label.index',
-    route: '/',
+    route: '/dashboard',
     icon: House
   },
   {
