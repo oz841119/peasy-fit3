@@ -1,5 +1,3 @@
 export const NavSheet = () => {
-  return (
-    <div>TODO</div>
-  )
-}
+	return <div>TODO</div>;
+};

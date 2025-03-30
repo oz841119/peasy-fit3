@@ -1,22 +1,22 @@
+import type { ValueOf } from "next/dist/shared/lib/constants";
 import { create } from "zustand";
-import { COLOR_THEME } from "../constants/index";
 import { devtools, persist } from "zustand/middleware";
-import { ValueOf } from "next/dist/shared/lib/constants";
-type Theme = ValueOf<typeof COLOR_THEME>
+import { COLOR_THEME } from "../constants/index";
+type Theme = ValueOf<typeof COLOR_THEME>;
 interface ColorThemeState {
-  theme: Theme
-  setTheme: (theme: Theme) => void
+	theme: Theme;
+	setTheme: (theme: Theme) => void;
 }
 export const useColorThemeStore = create<ColorThemeState>()(
-  devtools(
-    persist(
-      (set) => ({
-        theme: COLOR_THEME.DARK,
-        setTheme: (theme: Theme) => set({ theme: theme })
-      }),
-      {
-        name: 'ColorThemeState'
-      }
-    )
-  )
+	devtools(
+		persist(
+			(set) => ({
+				theme: COLOR_THEME.DARK,
+				setTheme: (theme: Theme) => set({ theme: theme }),
+			}),
+			{
+				name: "ColorThemeState",
+			},
+		),
+	),
 );

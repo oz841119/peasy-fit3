@@ -1,6 +1,8 @@
 import { TrainingRecordContextProvider } from "@/contexts/TrainingRecordContext";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export default function TrainingRecordLayout({ children }: PropsWithChildren) {
-  return <TrainingRecordContextProvider>{children}</TrainingRecordContextProvider>
+	return (
+		<TrainingRecordContextProvider>{children}</TrainingRecordContextProvider>
+	);
 }

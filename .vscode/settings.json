@@ -1,6 +1,7 @@
 {
-  "cSpell.words": [
-    "autoincrement",
-    "immer"
-  ]
+	"cSpell.words": ["autoincrement", "immer"],
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit"
+	}
 }

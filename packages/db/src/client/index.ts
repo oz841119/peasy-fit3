@@ -1,4 +1,2 @@
-import { PrismaClient } from '@prisma/client'
-export {
-  PrismaClient
-}
+import { PrismaClient } from "@prisma/client";
+export { PrismaClient };

@@ -1,26 +1,26 @@
 {
-  "name": "@peasy-fit/db",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "pnpm dlx prisma migrate dev --name init",
-    "migrate-deploy": "pnpm dlx prisma migrate deploy",
-    "generate": "pnpm dlx prisma generate",
-    "seed": "ts-node prisma/seed.ts",
-    "reset": "pnpm dlx prisma migrate reset"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^22.13.1",
-    "prisma": "^5.20.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "@prisma/client": "5.20.0"
-  }
+	"name": "@peasy-fit/db",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"migrate": "pnpm dlx prisma migrate dev --name init",
+		"migrate-deploy": "pnpm dlx prisma migrate deploy",
+		"generate": "pnpm dlx prisma generate",
+		"seed": "ts-node prisma/seed.ts",
+		"reset": "pnpm dlx prisma migrate reset"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^22.13.1",
+		"prisma": "^5.20.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.7.3"
+	},
+	"dependencies": {
+		"@prisma/client": "5.20.0"
+	}
 }

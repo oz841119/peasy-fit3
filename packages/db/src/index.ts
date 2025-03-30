@@ -1,2 +1,2 @@
-import { PrismaClient } from './client/index'
-export { PrismaClient }
+import { PrismaClient } from "./client/index";
+export { PrismaClient };
