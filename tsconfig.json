@@ -1,11 +1,11 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "strict": true
-  },
-  "exclude": ["apps"]
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"allowJs": true,
+		"strict": true
+	},
+	"exclude": ["apps"]
 }

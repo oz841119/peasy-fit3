@@ -1,15 +1,15 @@
 {
-  "Servers": {
-      "1": {
-          "Group": "Servers",
-          "Name": "peasy_fit",
-          "Host": "peasy_fit_postgres",
-          "Port": 5432,
-          "MaintenanceDB": "postgres",
-          "Username": "admin",
-          "Password": "test",
-          "SSLMode": "prefer",
-          "Favorite": true
-      }
-  }
+	"Servers": {
+		"1": {
+			"Group": "Servers",
+			"Name": "peasy_fit",
+			"Host": "peasy_fit_postgres",
+			"Port": 5432,
+			"MaintenanceDB": "postgres",
+			"Username": "admin",
+			"Password": "test",
+			"SSLMode": "prefer",
+			"Favorite": true
+		}
+	}
 }

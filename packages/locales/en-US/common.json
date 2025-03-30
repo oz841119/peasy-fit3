@@ -1,26 +1,26 @@
 {
-    "dashboard": "Dashboard",
-    "myAccount": "My Account",
-    "selectLanguage": "Select Language",
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "continue": "Continue",
-    "signOut": "Sign Out",
-    "submit": "Submit",
-    "reset": "Reset",
-    "create": "Create",
-    "menu": {
-        "label": {
-            "index": "Index",
-            "trainingRecord": "Training Record",
-            "addRecord": "Add Record",
-            "exercise": "Exercise",
-            "session": "Session"
-        }
-    },
-    "setLanguage": "Set language",
-    "pages": "Pages",
-    "selectItems": "Select {count} items",
-    "inTraining": "In Training",
-    "notInTraining": "Not In Training"
+	"dashboard": "Dashboard",
+	"myAccount": "My Account",
+	"selectLanguage": "Select Language",
+	"cancel": "Cancel",
+	"delete": "Delete",
+	"continue": "Continue",
+	"signOut": "Sign Out",
+	"submit": "Submit",
+	"reset": "Reset",
+	"create": "Create",
+	"menu": {
+		"label": {
+			"index": "Index",
+			"trainingRecord": "Training Record",
+			"addRecord": "Add Record",
+			"exercise": "Exercise",
+			"session": "Session"
+		}
+	},
+	"setLanguage": "Set language",
+	"pages": "Pages",
+	"selectItems": "Select {count} items",
+	"inTraining": "In Training",
+	"notInTraining": "Not In Training"
 }

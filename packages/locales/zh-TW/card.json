@@ -1,26 +1,26 @@
 {
-  "existingExercise": {
-    "title": "已存在的訓練動作",
-    "description": "更容易地記住並選擇你的訓練動作"
-  },
-  "chooseExercise": {
-    "title": "選擇訓練動作",
-    "description": "相同的訓練動作將被比較"
-  },
-  "trainingContent": {
-    "title": "訓練內容",
-    "description": "訓練內容將被統計及分析"
-  },
-  "uploadCSV": {
-    "title": "上傳 CSV 文件",
-    "description": "快速地從其他地方遷移"
-  },
-  "removeExercise": {
-    "title": "移除你的訓練動作",
-    "description": "這個行為不會使紀錄被刪除，只是你無法在選擇器中選擇它而已"
-  },
-  "currentSession": {
-    "title": "當前 Session",
-    "description": "如果你正在訓練中, 那麼你添加的紀錄會被歸納到當前的 session 中"
-  }
+	"existingExercise": {
+		"title": "已存在的訓練動作",
+		"description": "更容易地記住並選擇你的訓練動作"
+	},
+	"chooseExercise": {
+		"title": "選擇訓練動作",
+		"description": "相同的訓練動作將被比較"
+	},
+	"trainingContent": {
+		"title": "訓練內容",
+		"description": "訓練內容將被統計及分析"
+	},
+	"uploadCSV": {
+		"title": "上傳 CSV 文件",
+		"description": "快速地從其他地方遷移"
+	},
+	"removeExercise": {
+		"title": "移除你的訓練動作",
+		"description": "這個行為不會使紀錄被刪除，只是你無法在選擇器中選擇它而已"
+	},
+	"currentSession": {
+		"title": "當前 Session",
+		"description": "如果你正在訓練中, 那麼你添加的紀錄會被歸納到當前的 session 中"
+	}
 }

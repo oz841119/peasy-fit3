@@ -1,16 +1,16 @@
 {
-    "errors": {
-        "systemError": "System error",
-        "pleaseTryAgainLater": "Please try again later."
-    },
-    "dialog": {
-        "confirmIfDelete": "Please confirm if you want to delete?",
-        "deletionCannotBeUndone": "Deletion cannot be undone."
-    },
-    "hint": {
-        "pleaseChooseExercise": "Please choose exercise",
-        "pleaseStartSession": "Please start session",
-        "notSession": "No sessions found",
-        "pleaseSelectSession": "Please select session"
-    }
+	"errors": {
+		"systemError": "System error",
+		"pleaseTryAgainLater": "Please try again later."
+	},
+	"dialog": {
+		"confirmIfDelete": "Please confirm if you want to delete?",
+		"deletionCannotBeUndone": "Deletion cannot be undone."
+	},
+	"hint": {
+		"pleaseChooseExercise": "Please choose exercise",
+		"pleaseStartSession": "Please start session",
+		"notSession": "No sessions found",
+		"pleaseSelectSession": "Please select session"
+	}
 }

@@ -1,5 +1,5 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 export interface PropsWithClassName {
-  className?: string
+	className?: string;
 }
 export interface PropsWithCrCn extends PropsWithClassName, PropsWithChildren {}
