@@ -2,7 +2,8 @@ import { menu } from "@/constants/menu";
 import { Link, usePathname } from "@/i18n/routing";
 import { LogOut, SettingsIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
-
+import styles from "./SideBar.module.css";
+import { cn } from "@/lib/utils";
 const Hr = () => {
 	return <hr className="w-10 border-muted-foreground my-6" />;
 };
@@ -29,11 +30,9 @@ export const SideBar_new = () => {
 							href={item.route}
 							key={item.name}
 							data-active={pathname === item.route}
-							className="
-                  cursor-pointer h-10 w-10 flex items-center justify-center rounded-lg 
-                  hover:bg-foreground
-                  data-[active=true]:bg-muted-foreground data-[active=true]:text-background
-                "
+							className={
+								cn("cursor-pointer h-10 w-10 flex items-center justify-center rounded-lg data-[active=true]:bg-muted-foreground data-[active=true]:text-background", styles['hvr-bounce-to-right'])
+							}
 						>
 							<item.icon size={26} />
 						</Link>
