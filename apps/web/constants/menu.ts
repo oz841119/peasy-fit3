@@ -1,6 +1,7 @@
 import {
 	BicepsFlexed,
 	ChartSpline,
+	Dumbbell,
 	House,
 	Play,
 	SquarePlus,
@@ -35,6 +36,6 @@ export const menu = [
 		name: "session",
 		label: "common.menu.label.session",
 		route: "/dashboard/session",
-		icon: Play,
+		icon: Dumbbell,
 	},
 ] as const;

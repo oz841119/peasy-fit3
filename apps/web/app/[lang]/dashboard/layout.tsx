@@ -24,11 +24,17 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
 					<SideBar />
 				</div>
 			)}
-			<main className="flex-1 px-6 max-w-full">
-				<div className="mb-4">
-					<TopBar />
+			<main className="flex-1 px-4 max-w-full bg-background md:py-6 md:h-screen">
+				{windowSize.width <= MAX_MOBILE_SIZE && (
+					<div className="mb-4">
+						<TopBar />
+					</div>
+				)}
+				<div className="bg-muted rounded-2xl p-2 md:h-full">
+					<div className="flex flex-col gap-4 md:h-full p-2 overflow-auto">
+						{children}
+					</div>
 				</div>
-				{children}
 			</main>
 		</div>
 	);
