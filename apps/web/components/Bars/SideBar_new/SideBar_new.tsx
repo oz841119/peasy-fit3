@@ -31,7 +31,11 @@ export const SideBar_new = () => {
 							key={item.name}
 							data-active={pathname === item.route}
 							className={
-								cn("cursor-pointer h-10 w-10 flex items-center justify-center rounded-lg data-[active=true]:bg-muted-foreground data-[active=true]:text-background", styles['hvr-bounce-to-right'])
+								cn(
+									styles['hvr-bounce-to-right'],
+									"h-10 w-10 flex items-center justify-center cursor-pointer rounded-lg",
+									"data-[active=true]:bg-muted-foreground data-[active=true]:text-background"
+								)
 							}
 						>
 							<item.icon size={26} />

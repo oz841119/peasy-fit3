@@ -1,3 +1,4 @@
+/* https://github.com/IanLunn/Hover */
 /* Bounce To Right */
 .hvr-bounce-to-right {
   /* display: inline-block; */
@@ -34,9 +35,7 @@
   transition-timing-function: ease-out;
 }
 
-.hvr-bounce-to-right:hover,
-.hvr-bounce-to-right:focus,
-.hvr-bounce-to-right:active {
+.hvr-bounce-to-right:hover {
   color: white;
 }
 
