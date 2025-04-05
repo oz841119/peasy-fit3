@@ -6,6 +6,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcnUI/card";
+import { cn } from "@/lib/utils";
 import type { PropsWithCrCn } from "@/types";
 interface Props extends PropsWithCrCn {
 	title: string;
@@ -18,7 +19,7 @@ export const BaseCard = ({
 	description,
 }: Props) => {
 	return (
-		<Card className={className}>
+		<Card className={cn(className)}>
 			<CardHeader className="px-3 py-4 sm:px-6 sm:py-6">
 				<CardTitle>{title}</CardTitle>
 				<CardDescription className="text-xs md:text-sm">
