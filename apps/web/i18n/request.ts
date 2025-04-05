@@ -15,6 +15,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
 			msg: { ...(await importLocaleFile(_locale, "msg")).default },
 			table: { ...(await importLocaleFile(_locale, "table")).default },
 			card: { ...(await importLocaleFile(_locale, "card")).default },
+			landing: { ...(await importLocaleFile(_locale, "landing")).default },
 		},
 	};
 });
