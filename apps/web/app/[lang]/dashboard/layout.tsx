@@ -1,6 +1,5 @@
 "use client";
 import { SideBar } from "@/components/Bars/SideBar/SideBar";
-import { SideBar_new } from "@/components/Bars/SideBar_new/SideBar_new";
 import { TopBar } from "@/components/Bars/TopBar/TopBar";
 import { MAX_MOBILE_SIZE } from "@/constants";
 import { useWindowSize } from "@/hooks/useWindowSize";
@@ -22,8 +21,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
 		<div className="min-h-screen bg-muted/50 flex text-muted-foreground">
 			{windowSize.width > MAX_MOBILE_SIZE && (
 				<div className="px-4 bg-black py-6">
-					{/* <SideBar /> */}
-					<SideBar_new />
+					<SideBar />
 				</div>
 			)}
 			<main className="flex-1 px-6 max-w-full">
