@@ -38,6 +38,7 @@ interface Record {
 	weight: number;
 	exercise: string;
 	comment?: string;
+	trainingSessionName: string;
 }
 
 const ClickableTile = ({
@@ -119,6 +120,11 @@ export const RecordTable = () => {
 					);
 				},
 			},
+			{
+				accessorKey: "trainingSessionName",
+				header: t("table.trainingSessionName"),
+				meta: { size: 100 },
+			},
 			{ accessorKey: "comment", header: t("table.comment") },
 			{
 				accessorKey: "action",
@@ -152,6 +158,7 @@ export const RecordTable = () => {
 				weight: record.weight,
 				reps: record.reps,
 				comment: record.comment,
+				trainingSessionName: record.trainingSession?.name || "",
 			})) || []
 		);
 	}, [trainingRecordListQuery, getExerciseNameById]);

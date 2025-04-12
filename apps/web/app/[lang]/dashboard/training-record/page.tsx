@@ -102,7 +102,7 @@ export default function TrainingRecordPage() {
 							text={`${t("table.reps")}: ${filter.reps}`}
 							onClick={() => {
 								updateFilter((draft) => {
-									draft.reps = undefined;
+									delete draft.reps;
 								});
 							}}
 							Icon={<CircleX width={14} />}
