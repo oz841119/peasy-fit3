@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
 	return (
 		<div className="min-h-screen bg-muted/50 flex text-muted-foreground">
 			{windowSize.width > MAX_MOBILE_SIZE && (
-				<div className="px-4 bg-black py-6">
+				<div className="px-4 py-6">
 					<SideBar />
 				</div>
 			)}

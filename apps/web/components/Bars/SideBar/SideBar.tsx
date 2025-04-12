@@ -46,36 +46,37 @@ export const SideBar = () => {
 	const { ref: langMenuRef } = useOutsideClick(() => setShowLangMenu(false));
 
 	return (
-		<div className="py-4 w-20 bg-muted rounded-2xl flex flex-col items-center h-full">
-			<h1 className="text-2xl font-bold">P</h1>
+		<div className="py-3 w-16 bg-muted rounded-2xl flex flex-col items-center h-full">
+			<h1 className="text-xl font-bold">P</h1>
 			<Hr />
 			<Block title="MENU">
-				<div className="flex flex-col gap-6">
+				<div className="flex flex-col gap-4">
 					{menu.map((item) => (
 						<Link
 							href={item.route}
 							key={item.name}
 							data-active={pathname === item.route}
 							className="
-                  cursor-pointer h-10 w-10 flex items-center justify-center rounded-lg 
-                  hover:bg-foreground
-                  data-[active=true]:bg-muted-foreground data-[active=true]:text-background
+                  cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg 
+                  hover:bg-primary/10 hover:text-primary transition-all duration-200
+                  data-[active=true]:bg-primary data-[active=true]:text-primary-foreground
+                  data-[active=true]:shadow-md data-[active=true]:scale-105
                 "
 						>
-							<item.icon size={26} />
+							<item.icon size={20} />
 						</Link>
 					))}
 				</div>
 			</Block>
 			<Hr />
 			<Block title="SETTINGS">
-				<div className="flex flex-col gap-6" ref={langMenuRef}>
+				<div className="flex flex-col gap-4" ref={langMenuRef}>
 					<div
-						className="cursor-pointer h-10 w-10 flex items-center justify-center rounded-lg hover:bg-foreground relative"
+						className="cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg hover:bg-foreground relative"
 						onClick={() => setShowLangMenu(!showLangMenu)}
 						title="Language"
 					>
-						<Languages size={26} />
+						<Languages size={20} />
 
 						{showLangMenu && (
 							<div className="absolute left-14 top-0 w-40 bg-background/90 backdrop-blur-sm shadow-lg rounded-xl overflow-hidden z-10 border border-border/50 animate-in slide-in-from-left-2 duration-200">
@@ -111,7 +112,7 @@ export const SideBar = () => {
 				</div>
 			</Block>
 			<LogOut
-				size={26}
+				size={20}
 				className="mt-auto cursor-pointer"
 				onClick={() => signOut()}
 			/>
