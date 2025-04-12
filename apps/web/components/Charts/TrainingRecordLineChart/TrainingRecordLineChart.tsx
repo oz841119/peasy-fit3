@@ -23,8 +23,8 @@ import {
 const DataTile = ({ label, value }: { label: string; value: string }) => {
 	return (
 		<div className="flex flex-col justify-end h-full w-16 overflow-auto whitespace-pre-line">
-			<div className="text-sm text-muted-foreground">{label}</div>
-			<div className="text-lg font-bold text-foreground">{value}</div>
+			<div className="text-xs text-gray-500 dark:text-gray-400">{label}</div>
+			<div className="text-base font-semibold text-gray-800 dark:text-gray-200">{value}</div>
 		</div>
 	);
 };
@@ -46,15 +46,15 @@ export const TrainingRecordLineChart = () => {
 	const chartConfig = {
 		weight: {
 			label: "Weight",
-			color: "hsl(var(--chart-1))",
+			color: "hsl(210, 70%, 50%)",
 		},
 		reps: {
 			label: "Reps",
-			color: "hsl(var(--chart-2))",
+			color: "hsl(120, 70%, 45%)",
 		},
 		volume: {
 			label: "Volume",
-			color: "hsl(var(--chart-3))",
+			color: "hsl(270, 70%, 50%)",
 		},
 	};
 	const metrics = useMemo(() => {
@@ -108,13 +108,13 @@ export const TrainingRecordLineChart = () => {
 								/>
 							}
 						/>
-						<Legend verticalAlign="middle" formatter={() => "Weight"} />
 						<Area
 							dataKey="weight"
 							type="natural"
-							fill="var(--color-weight)"
-							fillOpacity={0.4}
-							stroke="var(--color-weight)"
+							fill="hsl(210, 70%, 50%)"
+							fillOpacity={0.2}
+							stroke="hsl(210, 70%, 50%)"
+							strokeWidth={2}
 						/>
 					</AreaChart>
 				</ChartContainer>
@@ -142,13 +142,13 @@ export const TrainingRecordLineChart = () => {
 								/>
 							}
 						/>
-						<Legend verticalAlign="middle" formatter={() => "Reps"} />
 						<Area
 							dataKey="reps"
 							type="natural"
-							fill="var(--color-reps)"
-							fillOpacity={0.4}
-							stroke="var(--color-reps)"
+							fill="hsl(120, 70%, 45%)"
+							fillOpacity={0.2}
+							stroke="hsl(120, 70%, 45%)"
+							strokeWidth={2}
 						/>
 					</AreaChart>
 				</ChartContainer>
@@ -167,7 +167,6 @@ export const TrainingRecordLineChart = () => {
 				<ChartContainer config={chartConfig} className="h-full flex-1">
 					<AreaChart data={chartData} syncId="trainingRecordChart">
 						<YAxis domain={[zeroPNine, onePone]} type="number" hide />
-						<Legend verticalAlign="middle" formatter={() => "Volume"} />
 						<ChartTooltip
 							content={
 								<ChartTooltipContent
@@ -180,9 +179,10 @@ export const TrainingRecordLineChart = () => {
 						<Area
 							dataKey="volume"
 							type="natural"
-							fill="var(--color-volume)"
-							fillOpacity={0.4}
-							stroke="var(--color-volume)"
+							fill="hsl(270, 70%, 50%)"
+							fillOpacity={0.2}
+							stroke="hsl(270, 70%, 50%)"
+							strokeWidth={2}
 						/>
 					</AreaChart>
 				</ChartContainer>

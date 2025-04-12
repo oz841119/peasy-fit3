@@ -38,6 +38,13 @@ export const GET = async (request: NextRequest) => {
 		orderBy: {
 			date: "desc",
 		},
+		include: {
+			trainingSession: {
+				select: {
+					name: true,
+				},
+			},
+		},
 	});
 	return Response.json({ trainingRecordList, total });
 };

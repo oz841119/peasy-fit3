@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import type { Provider } from "next-auth/providers/index";
 import { type NextRequest, NextResponse } from "next/server";
+const DAY = 24 * 60 * 60;
 const getProviders = () => {
 	const _CredentialsProvider = CredentialsProvider({
 		name: "credentials",
@@ -27,7 +28,7 @@ const getProviders = () => {
 				if (!user) {
 					return null;
 				}
-					return { ...user, userId: user?.id };
+				return { ...user, userId: user?.id };
 			} catch (err) {
 				console.log(err);
 				return null;
@@ -60,6 +61,10 @@ export const authOptions: NextAuthOptions = {
 	secret: "test",
 	session: {
 		strategy: "jwt",
+		maxAge: DAY
+	},
+	jwt: {
+		maxAge: DAY
 	},
 	providers: getProviders(),
 	callbacks: {
@@ -95,32 +100,35 @@ export const authOptions: NextAuthOptions = {
 			return true;
 		},
 		async jwt(params) {
-				if (params.account?.provider === "google") {
-					const user = await prisma.user.findUnique({
-						where: {
-							googleId: params.account.providerAccountId,
-						},
-						select: {
-							id: true,
-							email: true,
-						},
-					});
-					if (user) {
-						if (params.user) {
-							params.token.userId = user.id;
-						}
-					} else {
-						throw "userId not exist";
+			console.log(params);
+			const now = Math.floor(Date.now() / 1000);
+			params.token.exp = now + DAY
+			if (params.account?.provider === "google") {
+				const user = await prisma.user.findUnique({
+					where: {
+						googleId: params.account.providerAccountId,
+					},
+					select: {
+						id: true,
+						email: true,
+					},
+				});
+				if (user) {
+					if (params.user) {
+						params.token.userId = user.id;
 					}
 				} else {
-					if (params.user) {
-						params.token.userId = params.user.userId;
-					}
+					throw "userId not exist";
 				}
+			} else {
 				if (params.user) {
-					params.token.name = params.user.name;
+					params.token.userId = params.user.userId;
 				}
-				return params.token;
+			}
+			if (params.user) {
+				params.token.name = params.user.name;
+			}
+			return params.token;
 		},
 		async session(params) {
 			if (params.session.user) {
@@ -133,9 +141,17 @@ export const authOptions: NextAuthOptions = {
 };
 
 export const handleAuth = async (req: NextRequest) => {
-	const user = await getToken({ req: req, secret: "test" });
-	if (user === null) {
-		throw NextResponse.json("Unauthorized", { status: 401 });
-	}
+	try {
+		const user = await getToken({ req: req, secret: "test" });
+		if (user === null) {
+			const response = NextResponse.json("Unauthorized", { status: 401 });
+			response.cookies.delete("next-auth.session-token");
+			throw response;
+		}
 		return user;
+	} catch (error) {
+		const response = NextResponse.json("Unauthorized", { status: 401 });
+		response.cookies.delete("next-auth.session-token");
+		throw response;
+	}
 };

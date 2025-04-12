@@ -11,7 +11,7 @@ export const Chip = ({ className, text, onClick, Icon }: Props) => {
 		<div
 			onClick={onClick}
 			className={cn(
-				"px-3 py-2 text-sm border rounded-xl   cursor-pointer select-none flex gap-2 items-center w-fit",
+				"px-3 py-1.5 text-sm rounded-full border bg-background hover:bg-accent transition-colors cursor-pointer select-none flex gap-2 items-center w-fit shadow-sm",
 				className,
 			)}
 		>

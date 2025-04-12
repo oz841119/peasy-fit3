@@ -5,6 +5,9 @@ interface TrainingRecord {
 	reps: number;
 	id: number;
 	comment: string;
+	trainingSession: {
+		name: string;
+	} | null;
 }
 interface GetTrainingRecordListResp {
 	trainingRecordList: Array<TrainingRecord>;
@@ -17,16 +20,16 @@ export const getTrainingRecordList = async (params: {
 	weight?: number;
 	reps?: number;
 }): Promise<GetTrainingRecordListResp> => {
-		const searchParams = new URLSearchParams();
-		const keyValuePairs = Object.entries(params);
-		keyValuePairs.forEach((pair) => {
-			if (pair[1] !== undefined) {
-				searchParams.append(pair[0], pair[1].toString());
-			}
-		});
-		return fetch(`/api/training-record?${searchParams}`, {
-			method: "GET",
-		}).then((res) => res.json());
+	const searchParams = new URLSearchParams();
+	const keyValuePairs = Object.entries(params);
+	keyValuePairs.forEach((pair) => {
+		if (pair[1] !== undefined) {
+			searchParams.append(pair[0], pair[1].toString());
+		}
+	});
+	return fetch(`/api/training-record?${searchParams}`, {
+		method: "GET",
+	}).then((res) => res.json());
 };
 
 interface Params {
@@ -38,22 +41,22 @@ interface Params {
 	trainingSessionId: string | null;
 }
 export const addTrainingRecord = async (params: Params[]) => {
-		return fetch("/api/training-record", {
-			method: "POST",
-			body: JSON.stringify(params),
-		}).then((res) => {
-			if (!res.ok) {
-				throw res.json();
-			}
-			return res.json() as unknown as { count: number };
-		});
+	return fetch("/api/training-record", {
+		method: "POST",
+		body: JSON.stringify(params),
+	}).then((res) => {
+		if (!res.ok) {
+			throw res.json();
+		}
+		return res.json() as unknown as { count: number };
+	});
 };
 
 export const deleteTrainingRecord = async (
 	ids: number[],
 ): Promise<{ count: number }> => {
-		return fetch("/api/training-record", {
-			method: "DELETE",
-			body: JSON.stringify({ ids }),
-		}).then((res) => res.json());
+	return fetch("/api/training-record", {
+		method: "DELETE",
+		body: JSON.stringify({ ids }),
+	}).then((res) => res.json());
 };

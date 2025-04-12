@@ -14,6 +14,7 @@
 	"totalDays": "總天數",
 	"totalSets": "總組數",
 	"action": "操作",
+	"trainingSessionName": "Session",
 	"trainingRecordTableCard": {
 		"title": "訓練紀錄表格",
 		"description": "檢視每一組訓練的詳細資料"

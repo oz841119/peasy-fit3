@@ -86,11 +86,11 @@ export default function TrainingRecordPage() {
 				<div className="flex gap-2">
 					{filter.hasOwnProperty("weight") && (
 						<Chip
-							className="text-xs py-1 px-2 border-foreground text-foreground"
+							className="text-xs py-1 px-2 border-primary/20 text-primary bg-primary/5 hover:bg-primary/10"
 							text={`${t("table.weight")}: ${filter.weight}`}
 							onClick={() => {
 								updateFilter((draft) => {
-									draft.weight = undefined;
+									delete draft.weight;
 								});
 							}}
 							Icon={<CircleX width={14} />}
@@ -98,11 +98,11 @@ export default function TrainingRecordPage() {
 					)}
 					{filter.hasOwnProperty("reps") && (
 						<Chip
-							className="text-xs py-1 px-2 border-foreground text-foreground"
+							className="text-xs py-1 px-2 border-primary/20 text-primary bg-primary/5 hover:bg-primary/10"
 							text={`${t("table.reps")}: ${filter.reps}`}
 							onClick={() => {
 								updateFilter((draft) => {
-									draft.reps = undefined;
+									delete draft.reps;
 								});
 							}}
 							Icon={<CircleX width={14} />}
