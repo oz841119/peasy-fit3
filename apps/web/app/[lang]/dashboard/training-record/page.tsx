@@ -90,7 +90,7 @@ export default function TrainingRecordPage() {
 							text={`${t("table.weight")}: ${filter.weight}`}
 							onClick={() => {
 								updateFilter((draft) => {
-									draft.weight = undefined;
+									delete draft.weight;
 								});
 							}}
 							Icon={<CircleX width={14} />}
