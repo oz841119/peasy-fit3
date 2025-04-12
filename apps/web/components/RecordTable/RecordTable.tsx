@@ -10,7 +10,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { Trash2 } from "lucide-react";
+import { ListFilter, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Fragment, useMemo, useRef, useState } from "react";
 import { useImmer } from "use-immer";
@@ -47,7 +47,7 @@ const ClickableTile = ({
 	return (
 		<span
 			onClick={onClick}
-			className="hover:underline underline-offset-4 cursor-pointer inline-block"
+			className="cursor-pointer inline-block hover:bg-primary/10 px-2 py-1 rounded-md transition-colors"
 		>
 			{children}
 		</span>
@@ -65,7 +65,11 @@ export const RecordTable = () => {
 	const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 	const columns: ColumnDef<Record>[] = useMemo(
 		() => [
-			{ accessorKey: "date", header: t("table.date"), meta: { size: 100 } },
+			{
+				accessorKey: "date",
+				header: t("table.date"),
+				meta: { size: 100 }
+			},
 			{
 				accessorKey: "exercise",
 				header: t("table.exercise"),
@@ -85,7 +89,10 @@ export const RecordTable = () => {
 								})
 							}
 						>
-							{weight}
+							<div className="flex items-center gap-1">
+								{weight}
+								<ListFilter size={12} />
+							</div>
 						</ClickableTile>
 					);
 				},
@@ -104,7 +111,10 @@ export const RecordTable = () => {
 								})
 							}
 						>
-							{reps}
+							<div className="flex items-center gap-1">
+								{reps}
+								<ListFilter size={12} />
+							</div>
 						</ClickableTile>
 					);
 				},
@@ -137,7 +147,7 @@ export const RecordTable = () => {
 		return (
 			trainingRecordListQuery.data?.trainingRecordList.map((record) => ({
 				id: record.id,
-				date: dayjs(record.date).format("YYYY-MM-DD HH:mm:ss"),
+				date: dayjs(record.date).format("YYYY-MM-DD HH mm ss"),
 				exercise: getExerciseNameById(record.exerciseId) || "",
 				weight: record.weight,
 				reps: record.reps,
