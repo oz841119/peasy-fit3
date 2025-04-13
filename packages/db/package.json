@@ -5,11 +5,11 @@
 	"main": "src/index.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"migrate": "pnpm dlx prisma migrate dev --name init",
-		"migrate-deploy": "pnpm dlx prisma migrate deploy",
-		"generate": "pnpm dlx prisma generate",
+		"migrate": "pnpm prisma migrate dev --name init",
+		"migrate-deploy": "pnpm prisma migrate deploy",
+		"generate": "pnpm prisma generate",
 		"seed": "ts-node prisma/seed.ts",
-		"reset": "pnpm dlx prisma migrate reset"
+		"reset": "pnpm prisma migrate reset"
 	},
 	"keywords": [],
 	"author": "",
