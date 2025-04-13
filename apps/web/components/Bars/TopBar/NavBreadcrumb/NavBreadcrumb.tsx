@@ -32,8 +32,8 @@ function IntermediateBreadcrumbItem({
 export function NavBreadcrumb() {
 	const pathname = usePathname();
 	const START_PATH_INDEX = 2; // Index 1 is locale
-	const breadcrumbList = pathname.split("/").slice(START_PATH_INDEX);
-	console.log(breadcrumbList);
+	const breadcrumbList = pathname?.split("/").slice(START_PATH_INDEX);
+	if (!breadcrumbList) return null;
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>
@@ -49,7 +49,7 @@ export function NavBreadcrumb() {
 							</IntermediateBreadcrumbItem>
 						);
 					}
-						return <BreadcrumbPage key={text}>{text}</BreadcrumbPage>;
+					return <BreadcrumbPage key={text}>{text}</BreadcrumbPage>;
 				})}
 			</BreadcrumbList>
 		</Breadcrumb>
