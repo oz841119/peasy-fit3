@@ -2,14 +2,24 @@
 	"name": "@peasy-fit/db",
 	"version": "1.0.0",
 	"description": "",
-	"main": "src/index.ts",
+	"main": "./dist/cjs/index.js",
+	"module": "./dist/esm/index.js",
+	"types": "./dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/esm/index.js",
+			"require": "./dist/cjs/index.js",
+			"types": "./dist/types/index.d.ts"
+		}
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"migrate": "pnpm prisma migrate dev --name init",
 		"migrate-deploy": "pnpm prisma migrate deploy",
 		"generate": "pnpm prisma generate",
 		"seed": "ts-node prisma/seed.ts",
-		"reset": "pnpm prisma migrate reset"
+		"reset": "pnpm prisma migrate reset",
+		"build": "pnpm generate && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json"
 	},
 	"keywords": [],
 	"author": "",
