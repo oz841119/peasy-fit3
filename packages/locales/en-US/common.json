@@ -9,6 +9,8 @@
 	"submit": "Submit",
 	"reset": "Reset",
 	"create": "Create",
+	"register": "Register",
+	"login": "Login",
 	"menu": {
 		"label": {
 			"index": "Index",
@@ -22,5 +24,9 @@
 	"pages": "Pages",
 	"selectItems": "Select {count} items",
 	"inTraining": "In Training",
-	"notInTraining": "Not In Training"
+	"notInTraining": "Not In Training",
+	"username": "Username",
+	"email": "Email",
+	"password": "Password",
+	"confirmPassword": "Confirm Password"
 }
