@@ -11,7 +11,8 @@
 		"migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
 		"reset-db": "dotenv -e .env.dev -- pnpm --filter db reset",
 		"build-db": "pnpm --filter db build",
-		"seed": "dotenv -e .env.dev -- pnpm --filter db seed"
+		"seed": "dotenv -e .env.dev -- pnpm --filter db seed",
+		"server-dev": "pnpm --filter server start:dev"
 	},
 	"keywords": [],
 	"author": "",
