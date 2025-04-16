@@ -10,8 +10,10 @@
 		"down": "docker compose down",
 		"migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
 		"reset-db": "dotenv -e .env.dev -- pnpm --filter db reset",
-		"build-db": "pnpm --filter db build",
-		"server-dev": "pnpm --filter server start:dev"
+		"build-prisma": "pnpm --filter db build",
+		"server-dev": "pnpm --filter server start:dev",
+		"start-db": "docker compose up -d",
+		"stop-db": "docker compose down"
 	},
 	"keywords": [],
 	"author": "",
