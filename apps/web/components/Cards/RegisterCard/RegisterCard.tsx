@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { loginWithGoogle } from "@/services/loginWithGoogle";
+import { postRegister } from "@/services/register";
 
 const registerSchema = z.object({
   name: z.string().min(2, "msg.errors.usernameTooShort"),
@@ -44,6 +45,11 @@ export const RegisterCard = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
+      const response = await postRegister({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      });
       toast({
         title: t("msg.success.registrationComplete"),
         description: t("msg.success.accountCreated"),

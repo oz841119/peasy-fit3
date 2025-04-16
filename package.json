@@ -11,7 +11,6 @@
 		"migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
 		"reset-db": "dotenv -e .env.dev -- pnpm --filter db reset",
 		"build-db": "pnpm --filter db build",
-		"seed": "dotenv -e .env.dev -- pnpm --filter db seed",
 		"server-dev": "pnpm --filter server start:dev"
 	},
 	"keywords": [],
@@ -27,5 +26,10 @@
 		"cross-env": "^7.0.3",
 		"jest": "^29.7.0",
 		"ts-jest": "^29.2.5"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"bcrypt"
+		]
 	}
 }

@@ -20,7 +20,7 @@ const nextConfig = {
 	},
 	serverExternalPackages: ["@prisma/client"],
 	env: {
-		NEST_SERVER_URL: process.env.NEST_SERVER_URL,
+		NEST_SERVER_URL: process.env.BACKEND_SERVER_URL,
 		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
 		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 	},

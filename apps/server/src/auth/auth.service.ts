@@ -1,39 +1,51 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import * as bcrypt from 'bcrypt';
-import { LoginDto } from './dto/login.dto';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
+import * as bcrypt from "bcrypt";
+import { LoginDto } from "./dto/login.dto";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
+  private readonly SALT_ROUNDS = 10;
+
   constructor(
-    private prisma: PrismaService,
-    private jwtService: JwtService,
+    private prismaService: PrismaService,
+    private jwtService: JwtService
   ) {}
 
   async isEmailExists(email: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { email },
     });
     return !!user;
   }
 
-  async register({email, password, name}: {email: string, password: string, name: string}) {
+  async register({
+    email,
+    password,
+    name,
+  }: {
+    email: string;
+    password: string;
+    name: string;
+  }) {
     const info = {
       isEmailExists: false,
       isRegisterSuccess: false,
-    }
+    };
     const isEmailExists = await this.isEmailExists(email);
-    if(isEmailExists) {
+    if (isEmailExists) {
       info.isEmailExists = true;
       return info;
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await this.prisma.user.create({
+    const salt = await bcrypt.genSalt(this.SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const user = await this.prismaService.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
+        salt,
       },
       select: {
         id: true,
@@ -42,7 +54,7 @@ export class AuthService {
         createdAt: true,
       },
     });
-    if(user) {
+    if (user) {
       info.isRegisterSuccess = true;
       return info;
     }
@@ -50,18 +62,19 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { email: loginDto.email },
     });
 
-    if (!user || !user.password) {
-      throw new UnauthorizedException('Invalid credentials');
+    if (!user || !user.password || !user.salt) {
+      throw new UnauthorizedException("Invalid credentials");
     }
 
-    const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
+    const hashedPassword = await bcrypt.hash(loginDto.password, user.salt);
+    const isPasswordValid = hashedPassword === user.password;
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     const payload = { sub: user.id, email: user.email };
@@ -76,4 +89,4 @@ export class AuthService {
       },
     };
   }
-} 
+}
