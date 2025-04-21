@@ -2,14 +2,14 @@
 	"name": "@peasy-fit/db",
 	"version": "1.0.0",
 	"description": "",
-	"main": "./dist/cjs/index.js",
-	"module": "./dist/esm/index.js",
-	"types": "./dist/types/index.d.ts",
+	"main": "./generated/client/index.js",
+	"module": "./generated/client/index.js",
+	"types": "./generated/client/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/esm/index.js",
-			"require": "./dist/cjs/index.js",
-			"types": "./dist/types/index.d.ts"
+			"import": "./generated/client/index.js",
+			"require": "./generated/client/index.js",
+			"types": "./generated/client/index.d.ts"
 		}
 	},
 	"scripts": {
@@ -19,10 +19,9 @@
 		"generate": "pnpm prisma generate",
 		"seed": "ts-node prisma/seed.ts",
 		"reset": "pnpm prisma migrate reset",
-		"build": "pnpm generate && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json"
+		"build": "pnpm generate"
 	},
 	"keywords": [],
-	"author": "",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^22.13.1",

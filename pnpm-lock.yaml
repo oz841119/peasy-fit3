@@ -430,6 +430,25 @@ importers:
 
   packages/locales: {}
 
+  server-dist/node_modules/.pnpm/@peasy-fit+db@file+packages+db_prisma@5.22.0/node_modules/@peasy-fit/db:
+    dependencies:
+      '@prisma/client':
+        specifier: ^5.22.0
+        version: 5.22.0(prisma@5.22.0)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.13.1
+        version: 22.14.1
+      prisma:
+        specifier: ^5.22.0
+        version: 5.22.0
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@swc/core@1.11.21)(@types/node@22.14.1)(typescript@5.8.3)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.3
+
 packages:
 
   '@0no-co/graphql.web@1.1.2':

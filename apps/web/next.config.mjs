@@ -1,8 +1,8 @@
 import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 import createNextIntlPlugin from "next-intl/plugin";
 import dotenv from "dotenv";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,7 +12,6 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	webpack: (config, { isServer }) => {
-		console.log(process.env.NEST_SERVER_URL);
 		if (isServer) {
 			config.plugins = [...config.plugins, new PrismaPlugin()];
 		}
