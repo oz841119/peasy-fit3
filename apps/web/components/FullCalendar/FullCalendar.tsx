@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 
 export interface CalendarEvent<T extends string | number = string | number> {
   id: T;
-  title: string;
+  text: string;
   date: Date;
 }
 
@@ -27,7 +27,6 @@ const CalendarCell = <T extends string | number>({
   date,
   events,
   isToday,
-  onDateClick,
   onEventClick,
   className = "",
 }: CalendarCellProps<T>) => {
@@ -36,7 +35,6 @@ const CalendarCell = <T extends string | number>({
       className={`h-24 flex flex-col items-start p-1
         ${isToday ? "bg-primary/10" : ""}
         hover:bg-muted/50 cursor-pointer ${className}`}
-      onClick={() => onDateClick?.(date)}
     >
       <span className="text-xs font-medium">{day}</span>
       <div className="flex flex-col gap-1 mt-1 w-full">
@@ -49,7 +47,7 @@ const CalendarCell = <T extends string | number>({
               onEventClick?.(event);
             }}
           >
-            {event.title}
+            {event.text}
           </div>
         ))}
       </div>
@@ -59,7 +57,6 @@ const CalendarCell = <T extends string | number>({
 
 interface FullCalendarProps<T extends string | number = string | number> {
   events?: CalendarEvent<T>[];
-  onDateClick?: (date: Date) => void;
   onEventClick?: (event: CalendarEvent<T>) => void;
 }
 
@@ -83,7 +80,7 @@ const useWeekDaysTranslations = () => {
   ];
 }
 
-export const FullCalendar = <T extends string | number = string | number>({ events = [], onDateClick, onEventClick }: FullCalendarProps<T>) => {
+export const FullCalendar = <T extends string | number = string | number>({ events = [], onEventClick }: FullCalendarProps<T>) => {
   const t = useTranslations("common");
   const weekDays = useWeekDaysTranslations();
   const { viewingDate, daysInMonth, startingDay, setViewingDate } = useCalendar({ initialDate: new Date() });
@@ -162,7 +159,6 @@ export const FullCalendar = <T extends string | number = string | number>({ even
                 date={date}
                 events={dayEvents}
                 isToday={isToday}
-                onDateClick={onDateClick}
                 onEventClick={onEventClick}
               />
             );
