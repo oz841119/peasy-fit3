@@ -22,5 +22,18 @@
 	"pages": "頁面",
 	"selectItems": "選擇 {count} 項",
 	"inTraining": "訓練中",
-	"notInTraining": "未訓練"
+	"notInTraining": "未訓練",
+	"username": "用戶名稱",
+	"email": "電子郵箱",
+	"password": "密碼",
+	"confirmPassword": "確認密碼",
+	"calendar": {
+		"sunday": "日",
+		"monday": "一",
+		"tuesday": "二",
+		"wednesday": "三",
+		"thursday": "四",
+		"friday": "五",
+		"saturday": "六"
+	}
 }

@@ -22,5 +22,18 @@
 	"pages": "Pages",
 	"selectItems": "Select {count} items",
 	"inTraining": "In Training",
-	"notInTraining": "Not In Training"
+	"notInTraining": "Not In Training",
+	"username": "Username",
+	"email": "Email",
+	"password": "Password",
+	"confirmPassword": "Confirm Password",
+	"calendar": {
+		"sunday": "Sun",
+		"monday": "Mon",
+		"tuesday": "Tue",
+		"wednesday": "Wed",
+		"thursday": "Thu",
+		"friday": "Fri",
+		"saturday": "Sat"
+	}
 }
