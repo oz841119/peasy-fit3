@@ -13,7 +13,8 @@
 		"build-prisma": "pnpm --filter db build",
 		"server-dev": "pnpm --filter server start:dev",
 		"start-db": "docker compose up -d",
-		"stop-db": "docker compose down"
+		"stop-db": "docker compose down", 
+		"build-server-deploy": "pnpm --filter server deploy ./deployments/server"
 	},
 	"keywords": [],
 	"author": "",
