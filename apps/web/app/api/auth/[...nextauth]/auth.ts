@@ -30,13 +30,12 @@ const getProviders = () => {
         if (!user) {
           return null;
         }
-        const isJustGoogleUser = !user.salt;
-        if (isJustGoogleUser) {
-          return null;
+        if (!user.salt) {
+          throw new Error("User salt not found");
         }
         const hashedPassword = await bcrypt.hash(
           credentials.password,
-          user.salt!
+          user.salt
         );
         const isPasswordValid = hashedPassword === user.password;
         if (!isPasswordValid) {
