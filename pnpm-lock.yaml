@@ -71,7 +71,7 @@ importers:
         version: 7.1.1(expo@53.0.0-preview.5(@babel/core@7.26.10)(@expo/metro-runtime@5.0.1(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0)))(react-native-webview@13.13.5(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       expo-router:
         specifier: ~5.0.2-preview.3
-        version: 5.0.2-preview.3(a4d2d7d108256c2d6ceb601e4db76fee)
+        version: 5.0.2-preview.3(7ds2updka46oac6b5lbbxrflp4)
       expo-splash-screen:
         specifier: ~0.30.2
         version: 0.30.2(expo@53.0.0-preview.5(@babel/core@7.26.10)(@expo/metro-runtime@5.0.1(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0)))(react-native-webview@13.13.5(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))
@@ -429,25 +429,6 @@ importers:
         version: 5.8.3
 
   packages/locales: {}
-
-  server-dist/node_modules/.pnpm/@peasy-fit+db@file+packages+db_prisma@5.22.0/node_modules/@peasy-fit/db:
-    dependencies:
-      '@prisma/client':
-        specifier: ^5.22.0
-        version: 5.22.0(prisma@5.22.0)
-    devDependencies:
-      '@types/node':
-        specifier: ^22.13.1
-        version: 22.14.1
-      prisma:
-        specifier: ^5.22.0
-        version: 5.22.0
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@swc/core@1.11.21)(@types/node@22.14.1)(typescript@5.8.3)
-      typescript:
-        specifier: ^5.7.3
-        version: 5.8.3
 
 packages:
 
@@ -11154,7 +11135,7 @@ snapshots:
     dependencies:
       invariant: 2.2.4
 
-  expo-router@5.0.2-preview.3(a4d2d7d108256c2d6ceb601e4db76fee):
+  expo-router@5.0.2-preview.3(7ds2updka46oac6b5lbbxrflp4):
     dependencies:
       '@expo/metro-runtime': 5.0.1(react-native@0.79.0(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))
       '@expo/server': 0.6.2
