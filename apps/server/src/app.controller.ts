@@ -8,10 +8,4 @@ export class AppController {
 		private readonly appService: AppService,
 		private readonly prismaService: PrismaService,
 	) {}
-	@Get()
-	async getHello(): Promise<string> {
-		const users = await this.prismaService.user.findMany();
-		console.log(users);
-		return this.appService.getHello();
-	}
 }
