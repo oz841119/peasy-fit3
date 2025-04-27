@@ -12,8 +12,8 @@
 		"reset-db": "dotenv -e .env.dev -- pnpm --filter db reset",
 		"build-prisma": "pnpm --filter db build",
 		"server-dev": "pnpm --filter server start:dev",
-		"start-db": "docker compose up -d",
-		"stop-db": "docker compose down", 
+		"start-db": "dotenv -e .env.dev -- docker compose up -d",
+		"stop-db": "docker compose down",
 		"build-server-deploy": "pnpm --filter server deploy ./deployments/server"
 	},
 	"keywords": [],
