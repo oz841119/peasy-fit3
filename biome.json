@@ -25,10 +25,16 @@
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off"
+			},
+			"style": {
+				"useImportType": "off"
 			}
 		}
 	},
 	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		},
 		"formatter": {
 			"quoteStyle": "double"
 		}

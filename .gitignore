@@ -2,3 +2,4 @@ node_modules
 /postgresql_volume/
 .env
 .env.dev
+/deployments

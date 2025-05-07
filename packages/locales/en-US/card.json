@@ -1,26 +1,38 @@
 {
 	"existingExercise": {
 		"title": "Existing Exercise",
-		"description": "Choose and remember your training names more easily."
+		"description": "You can choose and memorize more easily"
 	},
 	"chooseExercise": {
 		"title": "Choose Exercise",
-		"description": "Exercise with the same name will be compared."
+		"description": "Same exercises would be compared"
 	},
 	"trainingContent": {
 		"title": "Training Content",
-		"description": "Your training content will be analyzed"
+		"description": "The contents will be calculated and analyzed"
 	},
 	"uploadCSV": {
 		"title": "Upload CSV",
-		"description": "Quickly migrate your training records."
+		"description": "Migrate from other place more quickly"
 	},
 	"removeExercise": {
-		"title": "Remove your exercise",
-		"description": "Removing a training exercise will not lose its records; it just means you can no longer select it in the selector."
+		"title": "Remove Your Exercise",
+		"description": "This wouldn't remove your records, it just make them unavailable for the selector"
 	},
 	"currentSession": {
 		"title": "Current Session",
-		"description": "If you are currently training, the records you add will be grouped into the current session."
+		"description": "Records will be categorized to current session if you're in-training"
+	},
+	"register": {
+		"title": "Register Account",
+		"description": "Fill in the information below to create a new account",
+		"alreadyHaveAccount": "Already have an account?",
+		"loginHere": "Login"
+	},
+	"login": {
+		"title": "Login",
+		"description": "Enter your email below to login to your account",
+		"noAccount": "Don't have an account?",
+		"registerHere": "Register"
 	}
 }

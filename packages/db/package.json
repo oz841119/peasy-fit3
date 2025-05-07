@@ -2,17 +2,26 @@
 	"name": "@peasy-fit/db",
 	"version": "1.0.0",
 	"description": "",
-	"main": "src/index.ts",
+	"main": "./generated/client/index.js",
+	"module": "./generated/client/index.js",
+	"types": "./generated/client/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./generated/client/index.js",
+			"require": "./generated/client/index.js",
+			"types": "./generated/client/index.d.ts"
+		}
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"migrate": "pnpm prisma migrate dev --name init",
 		"migrate-deploy": "pnpm prisma migrate deploy",
 		"generate": "pnpm prisma generate",
 		"seed": "ts-node prisma/seed.ts",
-		"reset": "pnpm prisma migrate reset"
+		"reset": "pnpm prisma migrate reset",
+		"build": "pnpm generate"
 	},
 	"keywords": [],
-	"author": "",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/node": "^22.13.1",
@@ -22,5 +31,8 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^5.22.0"
-	}
+	},
+	"files": [
+		"generated"
+	]
 }

@@ -12,16 +12,24 @@ import {
 import { Input } from "@/components/shadcnUI/input";
 import { Label } from "@/components/shadcnUI/label";
 import { toast } from "@/hooks/use-toast";
-import { signIn, useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { ChangeEvent, FormEventHandler } from "react";
 import { useImmer } from "use-immer";
+import { loginWithGoogle } from "@/services/loginWithGoogle";
+
 export const LoginCard = () => {
+	const t = useTranslations();
+
 	const [credential, updateCredential] = useImmer({
 		email: "test@test.com",
 		password: "test",
 	});
+
 	const router = useRouter();
+
 	const handleCredentialInputChange = (
 		e: ChangeEvent<HTMLInputElement>,
 		target: "email" | "password",
@@ -39,6 +47,7 @@ export const LoginCard = () => {
 			}
 		});
 	};
+
 	const handleLogin: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 		const loginResult = await signIn("credentials", {
@@ -53,31 +62,26 @@ export const LoginCard = () => {
 			router.push("/dashboard");
 		} else {
 			toast({
-				title: "Invalid email or password",
-				description: "Please try again.",
+				title: t("msg.errors.systemError"),
+				description: t("msg.errors.pleaseTryAgainLater"),
 				variant: "destructive",
 			});
 		}
 	};
-	const loginWithGoogle = async () => {
-		await signIn("google", {
-			callbackUrl: "/",
-			popup: true,
-		});
-	};
+
 	return (
 		<Card className="max-w-96 w-11/12">
 			<CardHeader>
-				<CardTitle className="text-2xl">LOGIN</CardTitle>
+				<CardTitle className="text-2xl">{t("card.login.title")}</CardTitle>
 				<CardDescription>
-					Enter your email below to login to your account.
+					{t("card.login.description")}
 				</CardDescription>
 			</CardHeader>
 			<form onSubmit={handleLogin}>
 				<CardContent>
 					<div className="flex flex-col gap-4">
 						<div className="flex flex-col gap-2">
-							<Label htmlFor="email">Email</Label>
+							<Label htmlFor="email">{t("common.email")}</Label>
 							<Input
 								id="email"
 								type="email"
@@ -86,7 +90,7 @@ export const LoginCard = () => {
 							/>
 						</div>
 						<div className="flex flex-col gap-2">
-							<Label htmlFor="password">Password</Label>
+							<Label htmlFor="password">{t("common.password")}</Label>
 							<Input
 								id="password"
 								type="password"
@@ -99,9 +103,12 @@ export const LoginCard = () => {
 				<CardFooter>
 					<div className="flex flex-col w-full gap-4">
 						<Button className="mt-2 w-full" type="submit">
-							LOGIN
+							{t("common.login")}
 						</Button>
 						<GoogleLoginButton onLogin={loginWithGoogle} />
+						<div className="text-center text-sm">
+							{t("card.login.noAccount")} <Link href="/register" className="text-blue-500 hover:underline">{t("card.login.registerHere")}</Link>
+						</div>
 					</div>
 				</CardFooter>
 			</form>

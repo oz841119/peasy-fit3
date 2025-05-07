@@ -10,8 +10,11 @@
 		"down": "docker compose down",
 		"migrate": "dotenv -e .env.dev -- pnpm --filter db migrate",
 		"reset-db": "dotenv -e .env.dev -- pnpm --filter db reset",
-		"generate": "pnpm --filter db generate",
-		"seed": "dotenv -e .env.dev -- pnpm --filter db seed"
+		"build-prisma": "pnpm --filter db build",
+		"server-dev": "pnpm --filter server start:dev",
+		"start-db": "dotenv -e .env.dev -- docker compose up -d",
+		"stop-db": "docker compose down",
+		"build-server-deploy": "pnpm --filter server deploy ./deployments/server"
 	},
 	"keywords": [],
 	"author": "",
@@ -26,5 +29,10 @@
 		"cross-env": "^7.0.3",
 		"jest": "^29.7.0",
 		"ts-jest": "^29.2.5"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"bcrypt"
+		]
 	}
 }
