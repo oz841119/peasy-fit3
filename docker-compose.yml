@@ -6,8 +6,8 @@ services:
     container_name: peasy_fit_postgres
     environment:
       POSTGRES_DB: peasy_fit
-      POSTGRES_USER: ${DOCKER_COMPOST_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${DOCKER_COMPOST_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${DOCKER_COMPOSE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DOCKER_COMPOSE_POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:

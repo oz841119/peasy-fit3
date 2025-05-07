@@ -1,16 +1,25 @@
 {
 	"errors": {
-		"systemError": "System error",
-		"pleaseTryAgainLater": "Please try again later."
+		"systemError": "System Error",
+		"pleaseTryAgainLater": "Please try again later",
+		"passwordsMismatch": "Passwords do not match",
+		"passwordsNeedToMatch": "Please ensure both passwords are identical",
+		"usernameTooShort": "Username must be at least 2 characters",
+		"invalidEmail": "Please enter a valid email address",
+		"passwordTooShort": "Password must be at least 6 characters"
 	},
 	"dialog": {
-		"confirmIfDelete": "Please confirm if you want to delete?",
-		"deletionCannotBeUndone": "Deletion cannot be undone."
+		"confirmIfDelete": "Are you sure you want to delete?",
+		"deletionCannotBeUndone": "This action cannot be undone."
 	},
 	"hint": {
-		"pleaseChooseExercise": "Please choose exercise",
-		"pleaseStartSession": "Please start session",
+		"pleaseChooseExercise": "Please select an exercise",
+		"pleaseStartSession": "Please start a session first",
 		"notSession": "No sessions found",
-		"pleaseSelectSession": "Please select session"
+		"pleaseSelectSession": "Please select a session"
+	},
+	"success": {
+		"registrationComplete": "Registration Successful",
+		"accountCreated": "Your account has been created. Please login."
 	}
 }

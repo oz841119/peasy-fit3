@@ -32,12 +32,20 @@ export default function Index() {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <Text style={styles.headerTitle}>Peasy Fit</Text>
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={() => router.push('/login')}
-          >
-            <Text style={styles.loginButtonText}>登入</Text>
-          </TouchableOpacity>
+          <View style={styles.authButtons}>
+            <TouchableOpacity
+              style={styles.registerButton}
+              onPress={() => router.push('/register')}
+            >
+              <Text style={styles.registerButtonText}>註冊</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => router.push('/login')}
+            >
+              <Text style={styles.loginButtonText}>登入</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -137,6 +145,16 @@ const styles = StyleSheet.create({
     color: '#fff',
     letterSpacing: 1,
   },
+  authButtons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  registerButton: {
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
   loginButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     paddingHorizontal: 16,
@@ -144,6 +162,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  registerButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   loginButtonText: {
     color: '#fff',

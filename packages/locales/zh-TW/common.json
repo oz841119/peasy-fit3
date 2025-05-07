@@ -9,6 +9,8 @@
 	"submit": "提交",
 	"reset": "重設",
 	"create": "創建",
+	"register": "註冊",
+	"login": "登入",
 	"menu": {
 		"label": {
 			"index": "首頁",
@@ -22,5 +24,9 @@
 	"pages": "頁面",
 	"selectItems": "選擇 {count} 項",
 	"inTraining": "訓練中",
-	"notInTraining": "未訓練"
+	"notInTraining": "未訓練",
+	"username": "用戶名稱",
+	"email": "電子郵箱",
+	"password": "密碼",
+	"confirmPassword": "確認密碼"
 }

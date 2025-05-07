@@ -5,7 +5,8 @@
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"allowJs": true,
-		"strict": true
+		"strict": true,
+		"outDir": "dist"
 	},
-	"exclude": ["apps"]
+	"exclude": ["apps", "node_modules", "generated"]
 }

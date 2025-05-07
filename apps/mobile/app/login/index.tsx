@@ -13,20 +13,67 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as WebBrowser from 'expo-web-browser';
+import { API_URL } from '../../config';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {
+  const showAlert = async (title: string, message: string) => {
+    if (Platform.OS === 'web') {
+      alert(`${title}\n${message}`);
+    } else {
+      await WebBrowser.openAuthSessionAsync(
+        `peasyfit://alert?title=${encodeURIComponent(title)}&message=${encodeURIComponent(message)}`,
+        'peasyfit://'
+      );
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      await showAlert('錯誤', '請填寫所有欄位');
+      return;
+    }
+
     setIsLoading(true);
-    // TODO: 實現登入邏輯
-    console.log('Login with:', { email, password });
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.access_token) {
+        // 保存 token 和用戶信息
+        await AsyncStorage.setItem('token', data.access_token);
+        await AsyncStorage.setItem('user', JSON.stringify(data.user));
+
+        router.push('/');
+      } else {
+        if (response.status === 401) {
+          await showAlert('登入失敗', '電子郵件或密碼錯誤，請重新輸入');
+        } else if (response.status === 404) {
+          await showAlert('登入失敗', '找不到此用戶，請確認電子郵件是否正確');
+        } else {
+          await showAlert('登入失敗', '發生未知錯誤，請稍後再試');
+        }
+      }
+    } catch (error) {
+      await showAlert('連線錯誤', '無法連接到伺服器，請檢查您的網路連線');
+    } finally {
       setIsLoading(false);
-      router.push('/');
-    }, 1500);
+    }
   };
 
   return (
